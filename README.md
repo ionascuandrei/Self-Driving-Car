@@ -1,2 +1,2 @@
-# sdcar
+# SDCar
 Self Driving Car implemented on Zybo-z7-20
