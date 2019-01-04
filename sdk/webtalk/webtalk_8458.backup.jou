@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2017.4 (64-bit)
+# SW Build 2086221 on Fri Dec 15 20:54:30 MST 2017
+# 
+# Start of session at: Sat Dec 15 14:08:11 2018
+# Process ID: 8458
+# Current directory: /home/catabit/Zybo/project_2/project_2.sdk/webtalk
+# Command line: wbtcv -mode batch -source sdk_webtalk.tcl
+# Log file: /home/catabit/Zybo/project_2/project_2.sdk/webtalk/webtalk.log
+# Journal file: /home/catabit/Zybo/project_2/project_2.sdk/webtalk/webtalk.jou
+#-----------------------------------------------------------
+source sdk_webtalk.tcl

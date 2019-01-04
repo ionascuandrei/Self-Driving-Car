@@ -1,0 +1,6 @@
+23:51:24 **** Auto Build of configuration Debug for project testApp ****
+make all 
+make: Nothing to be done for 'all'.
+
+23:51:24 Build Finished (took 466ms)
+

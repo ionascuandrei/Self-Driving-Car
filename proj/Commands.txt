@@ -1,0 +1,10 @@
+#Create project in Vivado#  - Path to Proj folder + start command
+cd C:/Users/Dedei/Desktop/SDCar2/proj
+source ./create_project.tcl
+
+#Export Block Diagram in TCL File#
+write_project_tcl -force SDCar
+
+#Export Hardware# - Without BITSTREAM
+file mkdir C:/Users/Dedei/Desktop/SDCar2/proj/SDCar.sdk
+write_hwdef -force  -file C:/Users/Dedei/Desktop/SDCar2/proj/SDCar.sdk/design_1_wrapper.hdf
