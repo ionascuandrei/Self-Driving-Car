@@ -26,7 +26,7 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="xilinx.gnu.compiler.option.optimization.level.1512471648" name="Optimization Level" superClass="xilinx.gnu.compiler.option.optimization.level" valueType="enumerated"/>
 								<option id="xilinx.gnu.compiler.option.debugging.level.1615909843" name="Debug Level" superClass="xilinx.gnu.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="xilinx.gnu.compiler.dircategory.includes.846213109" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/ledBtnAxiTut/build/tmp/sysroots/plnx_arm/usr/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/SDCar/build/tmp/sysroots/plnx_arm/usr/include&quot;"/>
 								</option>
 								<inputType id="xilinx.gnu.armv7.linux.c.compiler.input.1086079006" name="C source files" superClass="xilinx.gnu.armv7.linux.c.compiler.input"/>
 							</tool>
@@ -37,10 +37,13 @@
 							<tool id="xilinx.gnu.armv7.linux.toolchain.archiver.1506267866" name="ARM v7 Linux archiver" superClass="xilinx.gnu.armv7.linux.toolchain.archiver"/>
 							<tool id="xilinx.gnu.armv7.linux.c.toolchain.linker.debug.1814780527" name="ARM v7 Linux gcc linker" superClass="xilinx.gnu.armv7.linux.c.toolchain.linker.debug">
 								<option id="xilinx.gnu.c.link.option.paths.923567450" name="Library search path (-L)" superClass="xilinx.gnu.c.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/ledBtnAxiTut/build/tmp/sysroots/plnx_arm/usr/lib&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/ledBtnAxiTut/build/tmp/sysroots/plnx_arm/lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/SDCar/build/tmp/sysroots/plnx_arm/usr/lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/SDCar/build/tmp/sysroots/plnx_arm/lib&quot;"/>
 								</option>
-								<option id="xilinx.gnu.c.link.option.ldflags.1469853639" superClass="xilinx.gnu.c.link.option.ldflags" value="--sysroot=&quot;/home/catabit/Zybo/ledBtnAxiTut/build/tmp/sysroots/plnx_arm&quot;" valueType="string"/>
+								<option id="xilinx.gnu.c.link.option.ldflags.1469853639" name="Linker Flags" superClass="xilinx.gnu.c.link.option.ldflags" value="--sysroot=&quot;/home/catabit/Zybo/SDCar/build/tmp/sysroots/plnx_arm&quot;" valueType="string"/>
+								<option id="xilinx.gnu.c.link.option.libs.285602022" name="Libraries (-l)" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="uiotools"/>
+								</option>
 								<inputType id="xilinx.gnu.linker.input.2050140178" superClass="xilinx.gnu.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -54,6 +57,7 @@
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="ilg.gnuarmeclipse.managedbuild.packs"/>
 		</cconfiguration>
 		<cconfiguration id="xilinx.gnu.armv7.linux.exe.release.786796383">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="xilinx.gnu.armv7.linux.exe.release.786796383" moduleId="org.eclipse.cdt.core.settings" name="Release">
@@ -129,4 +133,12 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/sonarTest"/>
+		</configuration>
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/sonarTest"/>
+		</configuration>
+	</storageModule>
 </cproject>

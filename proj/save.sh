@@ -1,1 +1,0 @@
-cp -R .\%projectName%.srcs\sources_1\bd\design_1\ip ..\src\ip\

@@ -26,7 +26,7 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="xilinx.gnu.compiler.option.optimization.level.1740444879" name="Optimization Level" superClass="xilinx.gnu.compiler.option.optimization.level" valueType="enumerated"/>
 								<option id="xilinx.gnu.compiler.option.debugging.level.1498244032" name="Debug Level" superClass="xilinx.gnu.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="xilinx.gnu.compiler.dircategory.includes.163105147" name="Include Paths" superClass="xilinx.gnu.compiler.dircategory.includes" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/ledBtnAxiTut/build/tmp/sysroots/plnx_arm/usr/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/SDCar/build/tmp/sysroots/plnx_arm/usr/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;/home/catabit/.opt/petalinux/tools/linux-i386/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;/home/catabit/.opt/petalinux/tools/linux-i386/gcc-arm-linux-gnueabi/arm-linux-gnueabihf/libc/usr/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;/home/catabit/.opt/petalinux/tools/linux-i386/gcc-arm-linux-gnueabi/lib/gcc/arm-linux-gnueabihf/6.2.1/include&quot;"/>
@@ -41,10 +41,13 @@
 							<tool id="xilinx.gnu.armv7.linux.toolchain.archiver.1202956395" name="ARM v7 Linux archiver" superClass="xilinx.gnu.armv7.linux.toolchain.archiver"/>
 							<tool id="xilinx.gnu.armv7.linux.c.toolchain.linker.debug.461631096" name="ARM v7 Linux gcc linker" superClass="xilinx.gnu.armv7.linux.c.toolchain.linker.debug">
 								<option id="xilinx.gnu.c.link.option.paths.1015780218" name="Library search path (-L)" superClass="xilinx.gnu.c.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/ledBtnAxiTut/build/tmp/sysroots/plnx_arm/usr/lib&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/ledBtnAxiTut/build/tmp/sysroots/plnx_arm/lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/SDCar/build/tmp/sysroots/plnx_arm/usr/lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/SDCar/build/tmp/sysroots/plnx_arm/lib&quot;"/>
 								</option>
-								<option id="xilinx.gnu.c.link.option.ldflags.131407259" superClass="xilinx.gnu.c.link.option.ldflags" value="--sysroot=&quot;/home/catabit/Zybo/ledBtnAxiTut/build/tmp/sysroots/plnx_arm&quot;" valueType="string"/>
+								<option id="xilinx.gnu.c.link.option.ldflags.131407259" name="Linker Flags" superClass="xilinx.gnu.c.link.option.ldflags" value="--sysroot=&quot;/home/catabit/Zybo/SDCar/build/tmp/sysroots/plnx_arm&quot;" valueType="string"/>
+								<option id="xilinx.gnu.c.link.option.libs.672950909" name="Libraries (-l)" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="uiotools"/>
+								</option>
 								<inputType id="xilinx.gnu.linker.input.1802298579" superClass="xilinx.gnu.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>

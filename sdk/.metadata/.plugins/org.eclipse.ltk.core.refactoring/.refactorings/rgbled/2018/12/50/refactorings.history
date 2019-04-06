@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;rgbled/src/helloworld.c&apos; to &apos;rgbmain.c&apos;" description="Rename resource &apos;helloworld.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/helloworld.c" name="rgbmain.c" stamp="1544910585800" updateReferences="true"/>
-</session>

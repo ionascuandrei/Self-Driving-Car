@@ -1,7 +1,7 @@
 # Run this script to create the Vivado project files NEXT TO THIS script
 # If ::create_path global variable is set, the project is created under that path instead of the working dir
 
-#set ::create_path "$origin_dir/createdProject"
+set ::create_path "/home/catabit/TestSDCar/contest_template/SDCar/"
 
 if {[info exists ::create_path]} {
 	set dest_dir $::create_path
@@ -13,13 +13,8 @@ cd $dest_dir
 
 # Set the reference directory for source file relative paths (by default the value is script directory path)
 set proj_name "SDCar"
-
-# *************************************************************
-set bd_name "design_1"       
-
-
+set bd_name "design_1"
 set part "xc7z020clg400-1"
-#Optional
 set board_part "digilentinc.com:zybo-z7-20:part0:1.0"
 
 # Set the reference directory for source file relative paths (by default the value is script directory path)
@@ -41,14 +36,13 @@ set proj_dir [get_property directory [current_project]]
 set obj [get_projects $proj_name]
 set_property "default_lib" "xil_defaultlib" $obj
 set_property "part" $part $obj
-# *****************************************************************
-set_param board.repoPaths [list $repo_dir/board_files]
+set_param board.repoPaths [list $repo_dir/vivado_boards]
 if { $board_part != "" } {
    set_property -name "board_part" -value $board_part -objects $obj
 }
 set_property "simulator_language" "Mixed" $obj
 set_property "target_language" "VHDL" $obj
-#*******************************************************************
+
 # Create 'sources_1' fileset (if not found)
 if {[string equal [get_filesets -quiet sources_1] ""]} {
   create_fileset -srcset sources_1
@@ -61,7 +55,7 @@ if {[string equal [get_filesets -quiet constrs_1] ""]} {
 
 # Set IP repository paths
 set obj [get_filesets sources_1]
-set_property "ip_repo_paths" "[file normalize $repo_dir]" $obj
+set_property "ip_repo_paths" "[file normalize "$repo_dir/ip"]" $obj
 
 # Refresh IP Repositories
 update_ip_catalog -rebuild
@@ -77,7 +71,7 @@ add_files -fileset constrs_1 -quiet $src_dir/constraints
 
 # Create 'synth_1' run (if not found)
 if {[string equal [get_runs -quiet synth_1] ""]} {
-    create_run -name synth_1 -part $part -flow {Vivado Synthesis 2017} -strategy "Vivado Synthesis Defaults" -report_strategy {No Reports} -constrset constrs_1
+    create_run -name synth_1 -part $part -flow {Vivado Synthesis 2018} -strategy "Vivado Synthesis Defaults" -report_strategy {No Reports} -constrset constrs_1
 } else {
   set_property strategy "Vivado Synthesis Defaults" [get_runs synth_1]
   set_property flow "Vivado Synthesis 2017" [get_runs synth_1]
@@ -123,9 +117,6 @@ puts "INFO: Project created:$proj_name"
 # Comment the following section, if there is no block design
 # Create block design
 source $origin_dir/src/bd/$bd_name.tcl
-
-# Upgrade all IPs to their latest version
-upgrade_ip [get_ips]
 
 # Generate the wrapper
 set design_name [current_bd_design]

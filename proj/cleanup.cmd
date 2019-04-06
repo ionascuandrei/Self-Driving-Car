@@ -21,4 +21,3 @@ del /Q /A:-R .\*
 
 rem unmark read-only
 attrib -R .\*
-

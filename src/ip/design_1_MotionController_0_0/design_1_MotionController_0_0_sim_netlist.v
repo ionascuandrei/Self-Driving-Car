@@ -1,10 +1,10 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
-// Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
-// Date        : Thu Jan  3 16:47:08 2019
-// Host        : DESKTOP-B5UCMMA running 64-bit major release  (build 9200)
+// Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
+// Date        : Sat Apr  6 11:59:39 2019
+// Host        : catabit running 64-bit Ubuntu 16.04.6 LTS
 // Command     : write_verilog -force -mode funcsim
-//               c:/Users/Dedei/Desktop/SDCar2/proj/SDCar.srcs/sources_1/bd/design_1/ip/design_1_MotionController_0_0/design_1_MotionController_0_0_sim_netlist.v
+//               /home/catabit/TestSDCar/SDCar/SDCarVivado/SDCarVivado.srcs/sources_1/bd/design_1/ip/design_1_MotionController_0_0/design_1_MotionController_0_0_sim_netlist.v
 // Design      : design_1_MotionController_0_0
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -48,7 +48,7 @@ module design_1_MotionController_0_0
   output motor_left_pwm_out;
   output motor_right_pwm_out;
   output servo_pwm_out;
-  (* x_interface_info = "xilinx.com:interface:aximm:1.0 S00_AXI AWADDR" *) (* x_interface_parameter = "XIL_INTERFACENAME S00_AXI, WIZ_DATA_WIDTH 32, WIZ_NUM_REG 4, SUPPORTS_NARROW_BURST 0, DATA_WIDTH 32, PROTOCOL AXI4LITE, FREQ_HZ 50000000, ID_WIDTH 0, ADDR_WIDTH 4, AWUSER_WIDTH 0, ARUSER_WIDTH 0, WUSER_WIDTH 0, RUSER_WIDTH 0, BUSER_WIDTH 0, READ_WRITE_MODE READ_WRITE, HAS_BURST 0, HAS_LOCK 0, HAS_PROT 1, HAS_CACHE 0, HAS_QOS 0, HAS_REGION 0, HAS_WSTRB 1, HAS_BRESP 1, HAS_RRESP 1, NUM_READ_OUTSTANDING 8, NUM_WRITE_OUTSTANDING 8, MAX_BURST_LENGTH 1, PHASE 0.000, CLK_DOMAIN design_1_processing_system7_0_0_FCLK_CLK0, NUM_READ_THREADS 1, NUM_WRITE_THREADS 1, RUSER_BITS_PER_BYTE 0, WUSER_BITS_PER_BYTE 0" *) input [3:0]s00_axi_awaddr;
+  (* x_interface_info = "xilinx.com:interface:aximm:1.0 S00_AXI AWADDR" *) (* x_interface_parameter = "XIL_INTERFACENAME S00_AXI, WIZ_DATA_WIDTH 32, WIZ_NUM_REG 4, SUPPORTS_NARROW_BURST 0, DATA_WIDTH 32, PROTOCOL AXI4LITE, FREQ_HZ 50000000, ID_WIDTH 0, ADDR_WIDTH 4, AWUSER_WIDTH 0, ARUSER_WIDTH 0, WUSER_WIDTH 0, RUSER_WIDTH 0, BUSER_WIDTH 0, READ_WRITE_MODE READ_WRITE, HAS_BURST 0, HAS_LOCK 0, HAS_PROT 1, HAS_CACHE 0, HAS_QOS 0, HAS_REGION 0, HAS_WSTRB 1, HAS_BRESP 1, HAS_RRESP 1, NUM_READ_OUTSTANDING 1, NUM_WRITE_OUTSTANDING 1, MAX_BURST_LENGTH 1, PHASE 0.000, CLK_DOMAIN design_1_processing_system7_0_0_FCLK_CLK0, NUM_READ_THREADS 1, NUM_WRITE_THREADS 1, RUSER_BITS_PER_BYTE 0, WUSER_BITS_PER_BYTE 0" *) input [3:0]s00_axi_awaddr;
   (* x_interface_info = "xilinx.com:interface:aximm:1.0 S00_AXI AWPROT" *) input [2:0]s00_axi_awprot;
   (* x_interface_info = "xilinx.com:interface:aximm:1.0 S00_AXI AWVALID" *) input s00_axi_awvalid;
   (* x_interface_info = "xilinx.com:interface:aximm:1.0 S00_AXI AWREADY" *) output s00_axi_awready;
@@ -134,9 +134,9 @@ module design_1_MotionController_0_0_MotionController_v1_0
     S_AXI_AWREADY,
     Q,
     s00_axi_rdata,
-    servo_pwm_out,
-    motor_left_pwm_out,
     motor_right_pwm_out,
+    motor_left_pwm_out,
+    servo_pwm_out,
     s00_axi_bvalid,
     s00_axi_wvalid,
     s00_axi_awvalid,
@@ -156,9 +156,9 @@ module design_1_MotionController_0_0_MotionController_v1_0
   output S_AXI_AWREADY;
   output [1:0]Q;
   output [31:0]s00_axi_rdata;
-  output servo_pwm_out;
-  output motor_left_pwm_out;
   output motor_right_pwm_out;
+  output motor_left_pwm_out;
+  output servo_pwm_out;
   output s00_axi_bvalid;
   input s00_axi_wvalid;
   input s00_axi_awvalid;
@@ -174,11 +174,8 @@ module design_1_MotionController_0_0_MotionController_v1_0
   input s00_axi_rready;
 
   wire MotionController_v1_0_S00_AXI_inst_n_42;
-  wire MotionController_v1_0_S00_AXI_inst_n_43;
   wire MotionController_v1_0_S00_AXI_inst_n_44;
-  wire MotionController_v1_0_S00_AXI_inst_n_45;
   wire MotionController_v1_0_S00_AXI_inst_n_46;
-  wire MotionController_v1_0_S00_AXI_inst_n_47;
   wire [1:0]Q;
   wire S_AXI_ARREADY;
   wire S_AXI_AWREADY;
@@ -186,11 +183,13 @@ module design_1_MotionController_0_0_MotionController_v1_0
   wire axi_bvalid_i_1_n_0;
   wire axi_rvalid_i_1_n_0;
   wire enable;
+  wire \motor_left_driver/pwm_out_buf0 ;
   wire motor_left_pwm_out;
+  wire \motor_right_driver/pwm_out_buf0 ;
   wire motor_right_pwm_out;
-  wire pwm_out_i_1__0_n_0;
-  wire pwm_out_i_1__1_n_0;
-  wire pwm_out_i_1_n_0;
+  wire pwm_out_buf_i_1__0_n_0;
+  wire pwm_out_buf_i_1__1_n_0;
+  wire pwm_out_buf_i_1_n_0;
   wire s00_axi_aclk;
   wire [1:0]s00_axi_araddr;
   wire s00_axi_aresetn;
@@ -205,6 +204,7 @@ module design_1_MotionController_0_0_MotionController_v1_0
   wire [31:0]s00_axi_wdata;
   wire [3:0]s00_axi_wstrb;
   wire s00_axi_wvalid;
+  wire \servo_driver/pwm_out_buf0 ;
   wire servo_pwm_out;
   wire \slv_reg0[2]_i_1_n_0 ;
 
@@ -217,14 +217,14 @@ module design_1_MotionController_0_0_MotionController_v1_0
         .enable(enable),
         .motor_left_pwm_out(motor_left_pwm_out),
         .motor_right_pwm_out(motor_right_pwm_out),
-        .pwm_out_reg(MotionController_v1_0_S00_AXI_inst_n_43),
-        .pwm_out_reg_0(MotionController_v1_0_S00_AXI_inst_n_44),
-        .pwm_out_reg_1(MotionController_v1_0_S00_AXI_inst_n_45),
-        .pwm_out_reg_2(MotionController_v1_0_S00_AXI_inst_n_46),
-        .pwm_out_reg_3(MotionController_v1_0_S00_AXI_inst_n_47),
-        .pwm_out_reg_4(pwm_out_i_1_n_0),
-        .pwm_out_reg_5(pwm_out_i_1__0_n_0),
-        .pwm_out_reg_6(pwm_out_i_1__1_n_0),
+        .pwm_out_buf_reg(\servo_driver/pwm_out_buf0 ),
+        .pwm_out_buf_reg_0(MotionController_v1_0_S00_AXI_inst_n_44),
+        .pwm_out_buf_reg_1(\motor_left_driver/pwm_out_buf0 ),
+        .pwm_out_buf_reg_2(MotionController_v1_0_S00_AXI_inst_n_46),
+        .pwm_out_buf_reg_3(\motor_right_driver/pwm_out_buf0 ),
+        .pwm_out_buf_reg_4(pwm_out_buf_i_1_n_0),
+        .pwm_out_buf_reg_5(pwm_out_buf_i_1__0_n_0),
+        .pwm_out_buf_reg_6(pwm_out_buf_i_1__1_n_0),
         .s00_axi_aclk(s00_axi_aclk),
         .s00_axi_araddr(s00_axi_araddr),
         .s00_axi_arready(S_AXI_ARREADY),
@@ -260,25 +260,25 @@ module design_1_MotionController_0_0_MotionController_v1_0
         .O(axi_rvalid_i_1_n_0));
   LUT3 #(
     .INIT(8'h54)) 
-    pwm_out_i_1
+    pwm_out_buf_i_1
        (.I0(MotionController_v1_0_S00_AXI_inst_n_42),
-        .I1(MotionController_v1_0_S00_AXI_inst_n_43),
+        .I1(\servo_driver/pwm_out_buf0 ),
         .I2(servo_pwm_out),
-        .O(pwm_out_i_1_n_0));
+        .O(pwm_out_buf_i_1_n_0));
   LUT3 #(
     .INIT(8'h54)) 
-    pwm_out_i_1__0
+    pwm_out_buf_i_1__0
        (.I0(MotionController_v1_0_S00_AXI_inst_n_44),
-        .I1(MotionController_v1_0_S00_AXI_inst_n_45),
+        .I1(\motor_left_driver/pwm_out_buf0 ),
         .I2(motor_left_pwm_out),
-        .O(pwm_out_i_1__0_n_0));
+        .O(pwm_out_buf_i_1__0_n_0));
   LUT3 #(
     .INIT(8'h54)) 
-    pwm_out_i_1__1
+    pwm_out_buf_i_1__1
        (.I0(MotionController_v1_0_S00_AXI_inst_n_46),
-        .I1(MotionController_v1_0_S00_AXI_inst_n_47),
+        .I1(\motor_right_driver/pwm_out_buf0 ),
         .I2(motor_right_pwm_out),
-        .O(pwm_out_i_1__1_n_0));
+        .O(pwm_out_buf_i_1__1_n_0));
   LUT1 #(
     .INIT(2'h1)) 
     \slv_reg0[2]_i_1 
@@ -299,16 +299,16 @@ module design_1_MotionController_0_0_MotionController_v1_0_S00_AXI
     Q,
     s00_axi_rdata,
     CO,
-    pwm_out_reg,
-    pwm_out_reg_0,
-    pwm_out_reg_1,
-    pwm_out_reg_2,
-    pwm_out_reg_3,
+    pwm_out_buf_reg,
+    pwm_out_buf_reg_0,
+    pwm_out_buf_reg_1,
+    pwm_out_buf_reg_2,
+    pwm_out_buf_reg_3,
     SR,
     s00_axi_aclk,
-    pwm_out_reg_4,
-    pwm_out_reg_5,
-    pwm_out_reg_6,
+    pwm_out_buf_reg_4,
+    pwm_out_buf_reg_5,
+    pwm_out_buf_reg_6,
     axi_wready_reg_0,
     axi_arready_reg_0,
     s00_axi_wvalid,
@@ -330,16 +330,16 @@ module design_1_MotionController_0_0_MotionController_v1_0_S00_AXI
   output [1:0]Q;
   output [31:0]s00_axi_rdata;
   output [0:0]CO;
-  output [0:0]pwm_out_reg;
-  output [0:0]pwm_out_reg_0;
-  output [0:0]pwm_out_reg_1;
-  output [0:0]pwm_out_reg_2;
-  output [0:0]pwm_out_reg_3;
+  output [0:0]pwm_out_buf_reg;
+  output [0:0]pwm_out_buf_reg_0;
+  output [0:0]pwm_out_buf_reg_1;
+  output [0:0]pwm_out_buf_reg_2;
+  output [0:0]pwm_out_buf_reg_3;
   input [0:0]SR;
   input s00_axi_aclk;
-  input pwm_out_reg_4;
-  input pwm_out_reg_5;
-  input pwm_out_reg_6;
+  input pwm_out_buf_reg_4;
+  input pwm_out_buf_reg_5;
+  input pwm_out_buf_reg_6;
   input axi_wready_reg_0;
   input axi_arready_reg_0;
   input s00_axi_wvalid;
@@ -377,20 +377,18 @@ module design_1_MotionController_0_0_MotionController_v1_0_S00_AXI
   wire i__carry_i_6_n_0;
   wire i__carry_i_7_n_0;
   wire i__carry_i_8_n_0;
-  wire module_enable;
   wire motor_left_pwm_out;
   wire motor_right_pwm_out;
   wire [1:0]p_0_in;
-  wire p_0_in_0;
   wire [31:2]p_1_in;
-  wire [0:0]pwm_out_reg;
-  wire [0:0]pwm_out_reg_0;
-  wire [0:0]pwm_out_reg_1;
-  wire [0:0]pwm_out_reg_2;
-  wire [0:0]pwm_out_reg_3;
-  wire pwm_out_reg_4;
-  wire pwm_out_reg_5;
-  wire pwm_out_reg_6;
+  wire [0:0]pwm_out_buf_reg;
+  wire [0:0]pwm_out_buf_reg_0;
+  wire [0:0]pwm_out_buf_reg_1;
+  wire [0:0]pwm_out_buf_reg_2;
+  wire [0:0]pwm_out_buf_reg_3;
+  wire pwm_out_buf_reg_4;
+  wire pwm_out_buf_reg_5;
+  wire pwm_out_buf_reg_6;
   wire [31:0]reg_data_out;
   wire s00_axi_aclk;
   wire [1:0]s00_axi_araddr;
@@ -1191,31 +1189,29 @@ module design_1_MotionController_0_0_MotionController_v1_0_S00_AXI
         .I1(\slv_reg1_reg_n_0_[0] ),
         .O(i__carry_i_8_n_0));
   design_1_MotionController_0_0_PWM_Driver__parameterized1 motor_left_driver
-       (.AR(p_0_in_0),
-        .E(module_enable),
-        .Q(duty),
+       (.Q(duty),
+        .enable(enable),
         .motor_left_pwm_out(motor_left_pwm_out),
-        .pwm_out_reg_0(pwm_out_reg_0),
-        .pwm_out_reg_1(pwm_out_reg_1),
-        .pwm_out_reg_2(pwm_out_reg_5),
-        .s00_axi_aclk(s00_axi_aclk));
+        .pwm_out_buf_reg_0(pwm_out_buf_reg_0),
+        .pwm_out_buf_reg_1(pwm_out_buf_reg_1),
+        .pwm_out_buf_reg_2(pwm_out_buf_reg_5),
+        .s00_axi_aclk(s00_axi_aclk),
+        .\slv_reg0_reg[0] (slv_reg0__0));
   design_1_MotionController_0_0_PWM_Driver__parameterized1_0 motor_right_driver
-       (.AR(p_0_in_0),
-        .E(module_enable),
-        .Q({\slv_reg2_reg_n_0_[15] ,\slv_reg2_reg_n_0_[14] ,\slv_reg2_reg_n_0_[13] ,\slv_reg2_reg_n_0_[12] ,\slv_reg2_reg_n_0_[11] ,\slv_reg2_reg_n_0_[10] ,\slv_reg2_reg_n_0_[9] ,\slv_reg2_reg_n_0_[8] ,\slv_reg2_reg_n_0_[7] ,\slv_reg2_reg_n_0_[6] ,\slv_reg2_reg_n_0_[5] ,\slv_reg2_reg_n_0_[4] ,\slv_reg2_reg_n_0_[3] ,\slv_reg2_reg_n_0_[2] ,\slv_reg2_reg_n_0_[1] ,\slv_reg2_reg_n_0_[0] }),
+       (.Q({\slv_reg2_reg_n_0_[15] ,\slv_reg2_reg_n_0_[14] ,\slv_reg2_reg_n_0_[13] ,\slv_reg2_reg_n_0_[12] ,\slv_reg2_reg_n_0_[11] ,\slv_reg2_reg_n_0_[10] ,\slv_reg2_reg_n_0_[9] ,\slv_reg2_reg_n_0_[8] ,\slv_reg2_reg_n_0_[7] ,\slv_reg2_reg_n_0_[6] ,\slv_reg2_reg_n_0_[5] ,\slv_reg2_reg_n_0_[4] ,\slv_reg2_reg_n_0_[3] ,\slv_reg2_reg_n_0_[2] ,\slv_reg2_reg_n_0_[1] ,\slv_reg2_reg_n_0_[0] }),
+        .enable(enable),
         .motor_right_pwm_out(motor_right_pwm_out),
-        .pwm_out_reg_0(pwm_out_reg_2),
-        .pwm_out_reg_1(pwm_out_reg_3),
-        .pwm_out_reg_2(pwm_out_reg_6),
-        .s00_axi_aclk(s00_axi_aclk));
+        .pwm_out_buf_reg_0(pwm_out_buf_reg_2),
+        .pwm_out_buf_reg_1(pwm_out_buf_reg_3),
+        .pwm_out_buf_reg_2(pwm_out_buf_reg_6),
+        .s00_axi_aclk(s00_axi_aclk),
+        .\slv_reg0_reg[0] (slv_reg0__0));
   design_1_MotionController_0_0_PWM_Driver servo_driver
-       (.AR(p_0_in_0),
-        .CO(CO),
-        .E(module_enable),
+       (.CO(CO),
         .Q(slv_reg0__0),
         .enable(enable),
-        .pwm_out_reg_0(pwm_out_reg),
-        .pwm_out_reg_1(pwm_out_reg_4),
+        .pwm_out_buf_reg_0(pwm_out_buf_reg),
+        .pwm_out_buf_reg_1(pwm_out_buf_reg_4),
         .s00_axi_aclk(s00_axi_aclk),
         .servo_pwm_out(servo_pwm_out),
         .\slv_reg1_reg[10] (servo_position1),
@@ -2295,11 +2291,9 @@ endmodule
 (* ORIG_REF_NAME = "PWM_Driver" *) 
 module design_1_MotionController_0_0_PWM_Driver
    (servo_pwm_out,
-    AR,
     CO,
-    pwm_out_reg_0,
-    E,
-    pwm_out_reg_1,
+    pwm_out_buf_reg_0,
+    pwm_out_buf_reg_1,
     s00_axi_aclk,
     Q,
     enable,
@@ -2307,11 +2301,9 @@ module design_1_MotionController_0_0_PWM_Driver
     \slv_reg1_reg[10]_0 ,
     \slv_reg1_reg[11] );
   output servo_pwm_out;
-  output [0:0]AR;
   output [0:0]CO;
-  output [0:0]pwm_out_reg_0;
-  output [0:0]E;
-  input pwm_out_reg_1;
+  output [0:0]pwm_out_buf_reg_0;
+  input pwm_out_buf_reg_1;
   input s00_axi_aclk;
   input [0:0]Q;
   input enable;
@@ -2319,9 +2311,7 @@ module design_1_MotionController_0_0_PWM_Driver
   input [0:0]\slv_reg1_reg[10]_0 ;
   input [11:0]\slv_reg1_reg[11] ;
 
-  wire [0:0]AR;
   wire [0:0]CO;
-  wire [0:0]E;
   wire [0:0]Q;
   wire [19:0]count;
   wire count0_carry__0_n_0;
@@ -2370,6 +2360,9 @@ module design_1_MotionController_0_0_PWM_Driver
   wire \count_reg_n_0_[8] ;
   wire \count_reg_n_0_[9] ;
   wire [19:1]data0;
+  wire disabled;
+  wire disabled0;
+  wire disabled02_out;
   wire enable;
   wire half_duty0;
   wire [18:0]half_duty_new;
@@ -2634,6 +2627,7 @@ module design_1_MotionController_0_0_PWM_Driver
   wire \half_duty_new[18]_i_10_n_0 ;
   wire \half_duty_new[18]_i_11_n_0 ;
   wire \half_duty_new[18]_i_12_n_0 ;
+  wire \half_duty_new[18]_i_1_n_0 ;
   wire \half_duty_new[18]_i_6_n_0 ;
   wire \half_duty_new[18]_i_7_n_0 ;
   wire \half_duty_new[18]_i_8_n_0 ;
@@ -2721,72 +2715,54 @@ module design_1_MotionController_0_0_PWM_Driver
   wire \half_duty_reg_n_0_[7] ;
   wire \half_duty_reg_n_0_[8] ;
   wire \half_duty_reg_n_0_[9] ;
+  wire [18:0]p_0_in;
   wire [18:0]p_1_in;
-  wire pwm_out0_carry__0_i_10_n_0;
-  wire pwm_out0_carry__0_i_11_n_0;
-  wire pwm_out0_carry__0_i_1_n_0;
-  wire pwm_out0_carry__0_i_2_n_0;
-  wire pwm_out0_carry__0_i_3_n_0;
-  wire pwm_out0_carry__0_i_4_n_3;
-  wire pwm_out0_carry__0_i_5_n_0;
-  wire pwm_out0_carry__0_i_5_n_1;
-  wire pwm_out0_carry__0_i_5_n_2;
-  wire pwm_out0_carry__0_i_5_n_3;
-  wire pwm_out0_carry__0_i_6_n_0;
-  wire pwm_out0_carry__0_i_7_n_0;
-  wire pwm_out0_carry__0_i_8_n_0;
-  wire pwm_out0_carry__0_i_9_n_0;
-  wire pwm_out0_carry__0_n_2;
-  wire pwm_out0_carry__0_n_3;
-  wire pwm_out0_carry_i_10_n_0;
-  wire pwm_out0_carry_i_11_n_0;
-  wire pwm_out0_carry_i_12_n_0;
-  wire pwm_out0_carry_i_13_n_0;
-  wire pwm_out0_carry_i_14_n_0;
-  wire pwm_out0_carry_i_15_n_0;
-  wire pwm_out0_carry_i_16_n_0;
-  wire pwm_out0_carry_i_17_n_0;
-  wire pwm_out0_carry_i_18_n_0;
-  wire pwm_out0_carry_i_19_n_0;
-  wire pwm_out0_carry_i_1_n_0;
-  wire pwm_out0_carry_i_20_n_0;
-  wire pwm_out0_carry_i_2_n_0;
-  wire pwm_out0_carry_i_3_n_0;
-  wire pwm_out0_carry_i_4_n_0;
-  wire pwm_out0_carry_i_5__1_n_0;
-  wire pwm_out0_carry_i_5__1_n_1;
-  wire pwm_out0_carry_i_5__1_n_2;
-  wire pwm_out0_carry_i_5__1_n_3;
-  wire pwm_out0_carry_i_6__1_n_0;
-  wire pwm_out0_carry_i_6__1_n_1;
-  wire pwm_out0_carry_i_6__1_n_2;
-  wire pwm_out0_carry_i_6__1_n_3;
-  wire pwm_out0_carry_i_7_n_0;
-  wire pwm_out0_carry_i_7_n_1;
-  wire pwm_out0_carry_i_7_n_2;
-  wire pwm_out0_carry_i_7_n_3;
-  wire pwm_out0_carry_i_8_n_0;
-  wire pwm_out0_carry_i_9_n_0;
-  wire pwm_out0_carry_n_0;
-  wire pwm_out0_carry_n_1;
-  wire pwm_out0_carry_n_2;
-  wire pwm_out0_carry_n_3;
-  wire [19:1]pwm_out1;
-  wire pwm_out1_carry__0_i_1_n_0;
-  wire pwm_out1_carry__0_i_2_n_0;
-  wire pwm_out1_carry__0_i_3_n_0;
-  wire pwm_out1_carry__0_n_2;
-  wire pwm_out1_carry__0_n_3;
-  wire pwm_out1_carry_i_1_n_0;
-  wire pwm_out1_carry_i_2_n_0;
-  wire pwm_out1_carry_i_3_n_0;
-  wire pwm_out1_carry_i_4_n_0;
-  wire pwm_out1_carry_n_0;
-  wire pwm_out1_carry_n_1;
-  wire pwm_out1_carry_n_2;
-  wire pwm_out1_carry_n_3;
-  wire [0:0]pwm_out_reg_0;
-  wire pwm_out_reg_1;
+  wire pwm_out_buf0_carry__0_i_1_n_0;
+  wire pwm_out_buf0_carry__0_i_2_n_0;
+  wire pwm_out_buf0_carry__0_i_3_n_0;
+  wire pwm_out_buf0_carry__0_i_4_n_3;
+  wire pwm_out_buf0_carry__0_i_5_n_0;
+  wire pwm_out_buf0_carry__0_i_5_n_1;
+  wire pwm_out_buf0_carry__0_i_5_n_2;
+  wire pwm_out_buf0_carry__0_i_5_n_3;
+  wire pwm_out_buf0_carry__0_n_2;
+  wire pwm_out_buf0_carry__0_n_3;
+  wire pwm_out_buf0_carry_i_1_n_0;
+  wire pwm_out_buf0_carry_i_2_n_0;
+  wire pwm_out_buf0_carry_i_3_n_0;
+  wire pwm_out_buf0_carry_i_4_n_0;
+  wire pwm_out_buf0_carry_i_5__1_n_0;
+  wire pwm_out_buf0_carry_i_5__1_n_1;
+  wire pwm_out_buf0_carry_i_5__1_n_2;
+  wire pwm_out_buf0_carry_i_5__1_n_3;
+  wire pwm_out_buf0_carry_i_6__1_n_0;
+  wire pwm_out_buf0_carry_i_6__1_n_1;
+  wire pwm_out_buf0_carry_i_6__1_n_2;
+  wire pwm_out_buf0_carry_i_6__1_n_3;
+  wire pwm_out_buf0_carry_i_7_n_0;
+  wire pwm_out_buf0_carry_i_7_n_1;
+  wire pwm_out_buf0_carry_i_7_n_2;
+  wire pwm_out_buf0_carry_i_7_n_3;
+  wire pwm_out_buf0_carry_n_0;
+  wire pwm_out_buf0_carry_n_1;
+  wire pwm_out_buf0_carry_n_2;
+  wire pwm_out_buf0_carry_n_3;
+  wire [19:1]pwm_out_buf1;
+  wire pwm_out_buf1_carry__0_i_1_n_0;
+  wire pwm_out_buf1_carry__0_i_2_n_0;
+  wire pwm_out_buf1_carry__0_i_3_n_0;
+  wire pwm_out_buf1_carry__0_n_2;
+  wire pwm_out_buf1_carry__0_n_3;
+  wire pwm_out_buf1_carry_i_1_n_0;
+  wire pwm_out_buf1_carry_i_2_n_0;
+  wire pwm_out_buf1_carry_i_3_n_0;
+  wire pwm_out_buf1_carry_i_4_n_0;
+  wire pwm_out_buf1_carry_n_0;
+  wire pwm_out_buf1_carry_n_1;
+  wire pwm_out_buf1_carry_n_2;
+  wire pwm_out_buf1_carry_n_3;
+  wire [0:0]pwm_out_buf_reg_0;
+  wire pwm_out_buf_reg_1;
   wire s00_axi_aclk;
   wire servo_pwm_out;
   wire [0:0]\slv_reg1_reg[10] ;
@@ -2824,14 +2800,14 @@ module design_1_MotionController_0_0_PWM_Driver
   wire [3:2]\NLW_half_duty_new_reg[18]_i_4_O_UNCONNECTED ;
   wire [3:2]\NLW_half_duty_new_reg[18]_i_5_CO_UNCONNECTED ;
   wire [3:3]\NLW_half_duty_new_reg[18]_i_5_O_UNCONNECTED ;
-  wire [3:0]NLW_pwm_out0_carry_O_UNCONNECTED;
-  wire [3:3]NLW_pwm_out0_carry__0_CO_UNCONNECTED;
-  wire [3:0]NLW_pwm_out0_carry__0_O_UNCONNECTED;
-  wire [3:1]NLW_pwm_out0_carry__0_i_4_CO_UNCONNECTED;
-  wire [3:2]NLW_pwm_out0_carry__0_i_4_O_UNCONNECTED;
-  wire [3:0]NLW_pwm_out1_carry_O_UNCONNECTED;
-  wire [3:3]NLW_pwm_out1_carry__0_CO_UNCONNECTED;
-  wire [3:0]NLW_pwm_out1_carry__0_O_UNCONNECTED;
+  wire [3:0]NLW_pwm_out_buf0_carry_O_UNCONNECTED;
+  wire [3:3]NLW_pwm_out_buf0_carry__0_CO_UNCONNECTED;
+  wire [3:0]NLW_pwm_out_buf0_carry__0_O_UNCONNECTED;
+  wire [3:1]NLW_pwm_out_buf0_carry__0_i_4_CO_UNCONNECTED;
+  wire [3:2]NLW_pwm_out_buf0_carry__0_i_4_O_UNCONNECTED;
+  wire [3:0]NLW_pwm_out_buf1_carry_O_UNCONNECTED;
+  wire [3:3]NLW_pwm_out_buf1_carry__0_CO_UNCONNECTED;
+  wire [3:0]NLW_pwm_out_buf1_carry__0_O_UNCONNECTED;
 
   CARRY4 count0_carry
        (.CI(1'b0),
@@ -3066,7 +3042,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[0] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[0]),
         .Q(\count_reg_n_0_[0] ));
   FDCE #(
@@ -3074,7 +3050,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[10] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[10]),
         .Q(\count_reg_n_0_[10] ));
   FDCE #(
@@ -3082,7 +3058,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[11] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[11]),
         .Q(\count_reg_n_0_[11] ));
   FDCE #(
@@ -3090,7 +3066,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[12] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[12]),
         .Q(\count_reg_n_0_[12] ));
   FDCE #(
@@ -3098,7 +3074,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[13] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[13]),
         .Q(\count_reg_n_0_[13] ));
   FDCE #(
@@ -3106,7 +3082,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[14] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[14]),
         .Q(\count_reg_n_0_[14] ));
   FDCE #(
@@ -3114,7 +3090,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[15] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[15]),
         .Q(\count_reg_n_0_[15] ));
   FDCE #(
@@ -3122,7 +3098,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[16] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[16]),
         .Q(\count_reg_n_0_[16] ));
   FDCE #(
@@ -3130,7 +3106,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[17] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[17]),
         .Q(\count_reg_n_0_[17] ));
   FDCE #(
@@ -3138,7 +3114,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[18] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[18]),
         .Q(\count_reg_n_0_[18] ));
   FDCE #(
@@ -3146,7 +3122,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[19] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[19]),
         .Q(\count_reg_n_0_[19] ));
   FDCE #(
@@ -3154,7 +3130,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[1] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[1]),
         .Q(\count_reg_n_0_[1] ));
   FDCE #(
@@ -3162,7 +3138,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[2] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[2]),
         .Q(\count_reg_n_0_[2] ));
   FDCE #(
@@ -3170,7 +3146,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[3] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[3]),
         .Q(\count_reg_n_0_[3] ));
   FDCE #(
@@ -3178,7 +3154,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[4] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[4]),
         .Q(\count_reg_n_0_[4] ));
   FDCE #(
@@ -3186,7 +3162,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[5] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[5]),
         .Q(\count_reg_n_0_[5] ));
   FDCE #(
@@ -3194,7 +3170,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[6] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[6]),
         .Q(\count_reg_n_0_[6] ));
   FDCE #(
@@ -3202,7 +3178,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[7] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[7]),
         .Q(\count_reg_n_0_[7] ));
   FDCE #(
@@ -3210,7 +3186,7 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[8] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[8]),
         .Q(\count_reg_n_0_[8] ));
   FDCE #(
@@ -3218,15 +3194,38 @@ module design_1_MotionController_0_0_PWM_Driver
     \count_reg[9] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[9]),
         .Q(\count_reg_n_0_[9] ));
+  (* XILINX_LEGACY_PRIM = "LDC" *) 
+  LDCE #(
+    .INIT(1'b1)) 
+    disabled_reg
+       (.CLR(disabled0),
+        .D(disabled02_out),
+        .G(disabled02_out),
+        .GE(1'b1),
+        .Q(disabled));
   LUT3 #(
-    .INIT(8'h08)) 
-    \half_duty[18]_i_1 
+    .INIT(8'h07)) 
+    disabled_reg_i_1__1
        (.I0(Q),
         .I1(enable),
-        .I2(\count[19]_i_2_n_0 ),
+        .I2(servo_pwm_out),
+        .O(disabled02_out));
+  LUT4 #(
+    .INIT(16'h4000)) 
+    disabled_reg_i_2__1
+       (.I0(servo_pwm_out),
+        .I1(disabled),
+        .I2(Q),
+        .I3(enable),
+        .O(disabled0));
+  LUT2 #(
+    .INIT(4'h1)) 
+    \half_duty[18]_i_1 
+       (.I0(\count[19]_i_2_n_0 ),
+        .I1(disabled),
         .O(half_duty0));
   CARRY4 half_duty_new4_carry
        (.CI(1'b0),
@@ -4523,12 +4522,11 @@ module design_1_MotionController_0_0_PWM_Driver
         .I3(half_duty_new7),
         .I4(half_duty_new6_n_74),
         .O(\half_duty_new[17]_i_2_n_0 ));
-  LUT2 #(
-    .INIT(4'h8)) 
+  LUT1 #(
+    .INIT(2'h1)) 
     \half_duty_new[18]_i_1 
-       (.I0(Q),
-        .I1(enable),
-        .O(E));
+       (.I0(disabled),
+        .O(\half_duty_new[18]_i_1_n_0 ));
   LUT2 #(
     .INIT(4'hB)) 
     \half_duty_new[18]_i_10 
@@ -4908,7 +4906,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[0] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[0]),
         .Q(half_duty_new[0]),
         .R(1'b0));
@@ -4916,7 +4914,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[10] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[10]),
         .Q(half_duty_new[10]),
         .R(1'b0));
@@ -4924,7 +4922,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[11] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[11]),
         .Q(half_duty_new[11]),
         .R(1'b0));
@@ -4939,7 +4937,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[12] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[12]),
         .Q(half_duty_new[12]),
         .R(1'b0));
@@ -4954,7 +4952,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[13] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[13]),
         .Q(half_duty_new[13]),
         .R(1'b0));
@@ -4962,7 +4960,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[14] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[14]),
         .Q(half_duty_new[14]),
         .R(1'b0));
@@ -4970,7 +4968,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[15] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[15]),
         .Q(half_duty_new[15]),
         .R(1'b0));
@@ -4985,7 +4983,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[16] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[16]),
         .Q(half_duty_new[16]),
         .R(1'b0));
@@ -5000,7 +4998,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[17] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[17]),
         .Q(half_duty_new[17]),
         .R(1'b0));
@@ -5008,7 +5006,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[18] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[18]),
         .Q(half_duty_new[18]),
         .R(1'b0));
@@ -5037,7 +5035,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[1] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[1]),
         .Q(half_duty_new[1]),
         .R(1'b0));
@@ -5045,7 +5043,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[2] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[2]),
         .Q(half_duty_new[2]),
         .R(1'b0));
@@ -5053,7 +5051,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[3] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[3]),
         .Q(half_duty_new[3]),
         .R(1'b0));
@@ -5068,7 +5066,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[4] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[4]),
         .Q(half_duty_new[4]),
         .R(1'b0));
@@ -5083,7 +5081,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[5] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[5]),
         .Q(half_duty_new[5]),
         .R(1'b0));
@@ -5091,7 +5089,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[6] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[6]),
         .Q(half_duty_new[6]),
         .R(1'b0));
@@ -5099,7 +5097,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[7] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[7]),
         .Q(half_duty_new[7]),
         .R(1'b0));
@@ -5114,7 +5112,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[8] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[8]),
         .Q(half_duty_new[8]),
         .R(1'b0));
@@ -5129,7 +5127,7 @@ module design_1_MotionController_0_0_PWM_Driver
     .INIT(1'b0)) 
     \half_duty_new_reg[9] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[18]_i_1_n_0 ),
         .D(p_1_in[9]),
         .Q(half_duty_new[9]),
         .R(1'b0));
@@ -5285,334 +5283,328 @@ module design_1_MotionController_0_0_PWM_Driver
         .D(half_duty_new[9]),
         .Q(\half_duty_reg_n_0_[9] ),
         .R(1'b0));
-  CARRY4 pwm_out0_carry
+  CARRY4 pwm_out_buf0_carry
        (.CI(1'b0),
-        .CO({pwm_out0_carry_n_0,pwm_out0_carry_n_1,pwm_out0_carry_n_2,pwm_out0_carry_n_3}),
+        .CO({pwm_out_buf0_carry_n_0,pwm_out_buf0_carry_n_1,pwm_out_buf0_carry_n_2,pwm_out_buf0_carry_n_3}),
         .CYINIT(1'b1),
         .DI({1'b0,1'b0,1'b0,1'b0}),
-        .O(NLW_pwm_out0_carry_O_UNCONNECTED[3:0]),
-        .S({pwm_out0_carry_i_1_n_0,pwm_out0_carry_i_2_n_0,pwm_out0_carry_i_3_n_0,pwm_out0_carry_i_4_n_0}));
-  CARRY4 pwm_out0_carry__0
-       (.CI(pwm_out0_carry_n_0),
-        .CO({NLW_pwm_out0_carry__0_CO_UNCONNECTED[3],pwm_out_reg_0,pwm_out0_carry__0_n_2,pwm_out0_carry__0_n_3}),
+        .O(NLW_pwm_out_buf0_carry_O_UNCONNECTED[3:0]),
+        .S({pwm_out_buf0_carry_i_1_n_0,pwm_out_buf0_carry_i_2_n_0,pwm_out_buf0_carry_i_3_n_0,pwm_out_buf0_carry_i_4_n_0}));
+  CARRY4 pwm_out_buf0_carry__0
+       (.CI(pwm_out_buf0_carry_n_0),
+        .CO({NLW_pwm_out_buf0_carry__0_CO_UNCONNECTED[3],pwm_out_buf_reg_0,pwm_out_buf0_carry__0_n_2,pwm_out_buf0_carry__0_n_3}),
         .CYINIT(1'b0),
         .DI({1'b0,1'b0,1'b0,1'b0}),
-        .O(NLW_pwm_out0_carry__0_O_UNCONNECTED[3:0]),
-        .S({1'b0,pwm_out0_carry__0_i_1_n_0,pwm_out0_carry__0_i_2_n_0,pwm_out0_carry__0_i_3_n_0}));
+        .O(NLW_pwm_out_buf0_carry__0_O_UNCONNECTED[3:0]),
+        .S({1'b0,pwm_out_buf0_carry__0_i_1_n_0,pwm_out_buf0_carry__0_i_2_n_0,pwm_out_buf0_carry__0_i_3_n_0}));
   LUT4 #(
     .INIT(16'h8421)) 
-    pwm_out0_carry__0_i_1
+    pwm_out_buf0_carry__0_i_1
        (.I0(\count_reg_n_0_[18] ),
         .I1(\count_reg_n_0_[19] ),
-        .I2(pwm_out1[18]),
-        .I3(pwm_out1[19]),
-        .O(pwm_out0_carry__0_i_1_n_0));
+        .I2(pwm_out_buf1[18]),
+        .I3(pwm_out_buf1[19]),
+        .O(pwm_out_buf0_carry__0_i_1_n_0));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry__0_i_10
+    pwm_out_buf0_carry__0_i_10
        (.I0(\half_duty_reg_n_0_[15] ),
-        .O(pwm_out0_carry__0_i_10_n_0));
+        .O(p_0_in[15]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry__0_i_11
+    pwm_out_buf0_carry__0_i_11
        (.I0(\half_duty_reg_n_0_[13] ),
-        .O(pwm_out0_carry__0_i_11_n_0));
+        .O(p_0_in[13]));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    pwm_out0_carry__0_i_2
-       (.I0(pwm_out1[17]),
+    pwm_out_buf0_carry__0_i_2
+       (.I0(pwm_out_buf1[17]),
         .I1(\count_reg_n_0_[17] ),
-        .I2(pwm_out1[16]),
+        .I2(pwm_out_buf1[16]),
         .I3(\count_reg_n_0_[16] ),
         .I4(\count_reg_n_0_[15] ),
-        .I5(pwm_out1[15]),
-        .O(pwm_out0_carry__0_i_2_n_0));
+        .I5(pwm_out_buf1[15]),
+        .O(pwm_out_buf0_carry__0_i_2_n_0));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    pwm_out0_carry__0_i_3
-       (.I0(pwm_out1[14]),
+    pwm_out_buf0_carry__0_i_3
+       (.I0(pwm_out_buf1[14]),
         .I1(\count_reg_n_0_[14] ),
-        .I2(pwm_out1[13]),
+        .I2(pwm_out_buf1[13]),
         .I3(\count_reg_n_0_[13] ),
         .I4(\count_reg_n_0_[12] ),
-        .I5(pwm_out1[12]),
-        .O(pwm_out0_carry__0_i_3_n_0));
-  CARRY4 pwm_out0_carry__0_i_4
-       (.CI(pwm_out0_carry__0_i_5_n_0),
-        .CO({NLW_pwm_out0_carry__0_i_4_CO_UNCONNECTED[3],pwm_out1[19],NLW_pwm_out0_carry__0_i_4_CO_UNCONNECTED[1],pwm_out0_carry__0_i_4_n_3}),
+        .I5(pwm_out_buf1[12]),
+        .O(pwm_out_buf0_carry__0_i_3_n_0));
+  CARRY4 pwm_out_buf0_carry__0_i_4
+       (.CI(pwm_out_buf0_carry__0_i_5_n_0),
+        .CO({NLW_pwm_out_buf0_carry__0_i_4_CO_UNCONNECTED[3],pwm_out_buf1[19],NLW_pwm_out_buf0_carry__0_i_4_CO_UNCONNECTED[1],pwm_out_buf0_carry__0_i_4_n_3}),
         .CYINIT(1'b0),
-        .DI({1'b0,1'b0,pwm_out0_carry__0_i_6_n_0,pwm_out0_carry__0_i_7_n_0}),
-        .O({NLW_pwm_out0_carry__0_i_4_O_UNCONNECTED[3:2],pwm_out1[18:17]}),
+        .DI({1'b0,1'b0,p_0_in[18:17]}),
+        .O({NLW_pwm_out_buf0_carry__0_i_4_O_UNCONNECTED[3:2],pwm_out_buf1[18:17]}),
         .S({1'b0,1'b1,\half_duty_reg_n_0_[18] ,\half_duty_reg_n_0_[17] }));
-  CARRY4 pwm_out0_carry__0_i_5
-       (.CI(pwm_out0_carry_i_5__1_n_0),
-        .CO({pwm_out0_carry__0_i_5_n_0,pwm_out0_carry__0_i_5_n_1,pwm_out0_carry__0_i_5_n_2,pwm_out0_carry__0_i_5_n_3}),
+  CARRY4 pwm_out_buf0_carry__0_i_5
+       (.CI(pwm_out_buf0_carry_i_5__1_n_0),
+        .CO({pwm_out_buf0_carry__0_i_5_n_0,pwm_out_buf0_carry__0_i_5_n_1,pwm_out_buf0_carry__0_i_5_n_2,pwm_out_buf0_carry__0_i_5_n_3}),
         .CYINIT(1'b0),
-        .DI({pwm_out0_carry__0_i_8_n_0,1'b0,pwm_out0_carry__0_i_9_n_0,1'b0}),
-        .O(pwm_out1[16:13]),
-        .S({\half_duty_reg_n_0_[16] ,pwm_out0_carry__0_i_10_n_0,\half_duty_reg_n_0_[14] ,pwm_out0_carry__0_i_11_n_0}));
+        .DI({p_0_in[16],1'b0,p_0_in[14],1'b0}),
+        .O(pwm_out_buf1[16:13]),
+        .S({\half_duty_reg_n_0_[16] ,p_0_in[15],\half_duty_reg_n_0_[14] ,p_0_in[13]}));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry__0_i_6
+    pwm_out_buf0_carry__0_i_6
        (.I0(\half_duty_reg_n_0_[18] ),
-        .O(pwm_out0_carry__0_i_6_n_0));
+        .O(p_0_in[18]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry__0_i_7
+    pwm_out_buf0_carry__0_i_7
        (.I0(\half_duty_reg_n_0_[17] ),
-        .O(pwm_out0_carry__0_i_7_n_0));
+        .O(p_0_in[17]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry__0_i_8
+    pwm_out_buf0_carry__0_i_8
        (.I0(\half_duty_reg_n_0_[16] ),
-        .O(pwm_out0_carry__0_i_8_n_0));
+        .O(p_0_in[16]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry__0_i_9
+    pwm_out_buf0_carry__0_i_9
        (.I0(\half_duty_reg_n_0_[14] ),
-        .O(pwm_out0_carry__0_i_9_n_0));
+        .O(p_0_in[14]));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    pwm_out0_carry_i_1
-       (.I0(pwm_out1[11]),
+    pwm_out_buf0_carry_i_1
+       (.I0(pwm_out_buf1[11]),
         .I1(\count_reg_n_0_[11] ),
-        .I2(pwm_out1[10]),
+        .I2(pwm_out_buf1[10]),
         .I3(\count_reg_n_0_[10] ),
         .I4(\count_reg_n_0_[9] ),
-        .I5(pwm_out1[9]),
-        .O(pwm_out0_carry_i_1_n_0));
+        .I5(pwm_out_buf1[9]),
+        .O(pwm_out_buf0_carry_i_1_n_0));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_10
+    pwm_out_buf0_carry_i_10
        (.I0(\half_duty_reg_n_0_[11] ),
-        .O(pwm_out0_carry_i_10_n_0));
+        .O(p_0_in[11]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_11
+    pwm_out_buf0_carry_i_11
        (.I0(\half_duty_reg_n_0_[10] ),
-        .O(pwm_out0_carry_i_11_n_0));
+        .O(p_0_in[10]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_12
+    pwm_out_buf0_carry_i_12
        (.I0(\half_duty_reg_n_0_[6] ),
-        .O(pwm_out0_carry_i_12_n_0));
+        .O(p_0_in[6]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_13
+    pwm_out_buf0_carry_i_13
        (.I0(\half_duty_reg_n_0_[8] ),
-        .O(pwm_out0_carry_i_13_n_0));
+        .O(p_0_in[8]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_14
+    pwm_out_buf0_carry_i_14
        (.I0(\half_duty_reg_n_0_[7] ),
-        .O(pwm_out0_carry_i_14_n_0));
+        .O(p_0_in[7]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_15
+    pwm_out_buf0_carry_i_15
        (.I0(\half_duty_reg_n_0_[5] ),
-        .O(pwm_out0_carry_i_15_n_0));
+        .O(p_0_in[5]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_16
+    pwm_out_buf0_carry_i_16
        (.I0(\half_duty_reg_n_0_[0] ),
-        .O(pwm_out0_carry_i_16_n_0));
+        .O(p_0_in[0]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_17
+    pwm_out_buf0_carry_i_17
        (.I0(\half_duty_reg_n_0_[4] ),
-        .O(pwm_out0_carry_i_17_n_0));
+        .O(p_0_in[4]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_18
+    pwm_out_buf0_carry_i_18
        (.I0(\half_duty_reg_n_0_[3] ),
-        .O(pwm_out0_carry_i_18_n_0));
+        .O(p_0_in[3]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_19
+    pwm_out_buf0_carry_i_19
        (.I0(\half_duty_reg_n_0_[2] ),
-        .O(pwm_out0_carry_i_19_n_0));
+        .O(p_0_in[2]));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    pwm_out0_carry_i_2
-       (.I0(pwm_out1[8]),
+    pwm_out_buf0_carry_i_2
+       (.I0(pwm_out_buf1[8]),
         .I1(\count_reg_n_0_[8] ),
-        .I2(pwm_out1[7]),
+        .I2(pwm_out_buf1[7]),
         .I3(\count_reg_n_0_[7] ),
         .I4(\count_reg_n_0_[6] ),
-        .I5(pwm_out1[6]),
-        .O(pwm_out0_carry_i_2_n_0));
+        .I5(pwm_out_buf1[6]),
+        .O(pwm_out_buf0_carry_i_2_n_0));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_20
+    pwm_out_buf0_carry_i_20
        (.I0(\half_duty_reg_n_0_[1] ),
-        .O(pwm_out0_carry_i_20_n_0));
+        .O(p_0_in[1]));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    pwm_out0_carry_i_3
-       (.I0(pwm_out1[5]),
+    pwm_out_buf0_carry_i_3
+       (.I0(pwm_out_buf1[5]),
         .I1(\count_reg_n_0_[5] ),
-        .I2(pwm_out1[4]),
+        .I2(pwm_out_buf1[4]),
         .I3(\count_reg_n_0_[4] ),
         .I4(\count_reg_n_0_[3] ),
-        .I5(pwm_out1[3]),
-        .O(pwm_out0_carry_i_3_n_0));
+        .I5(pwm_out_buf1[3]),
+        .O(pwm_out_buf0_carry_i_3_n_0));
   LUT6 #(
     .INIT(64'h8200008241000041)) 
-    pwm_out0_carry_i_4
+    pwm_out_buf0_carry_i_4
        (.I0(\count_reg_n_0_[1] ),
         .I1(\count_reg_n_0_[2] ),
-        .I2(pwm_out1[2]),
+        .I2(pwm_out_buf1[2]),
         .I3(\count_reg_n_0_[0] ),
         .I4(\half_duty_reg_n_0_[0] ),
-        .I5(pwm_out1[1]),
-        .O(pwm_out0_carry_i_4_n_0));
-  CARRY4 pwm_out0_carry_i_5__1
-       (.CI(pwm_out0_carry_i_6__1_n_0),
-        .CO({pwm_out0_carry_i_5__1_n_0,pwm_out0_carry_i_5__1_n_1,pwm_out0_carry_i_5__1_n_2,pwm_out0_carry_i_5__1_n_3}),
+        .I5(pwm_out_buf1[1]),
+        .O(pwm_out_buf0_carry_i_4_n_0));
+  CARRY4 pwm_out_buf0_carry_i_5__1
+       (.CI(pwm_out_buf0_carry_i_6__1_n_0),
+        .CO({pwm_out_buf0_carry_i_5__1_n_0,pwm_out_buf0_carry_i_5__1_n_1,pwm_out_buf0_carry_i_5__1_n_2,pwm_out_buf0_carry_i_5__1_n_3}),
         .CYINIT(1'b0),
-        .DI({1'b0,1'b0,1'b0,pwm_out0_carry_i_8_n_0}),
-        .O(pwm_out1[12:9]),
-        .S({pwm_out0_carry_i_9_n_0,pwm_out0_carry_i_10_n_0,pwm_out0_carry_i_11_n_0,\half_duty_reg_n_0_[9] }));
-  CARRY4 pwm_out0_carry_i_6__1
-       (.CI(pwm_out0_carry_i_7_n_0),
-        .CO({pwm_out0_carry_i_6__1_n_0,pwm_out0_carry_i_6__1_n_1,pwm_out0_carry_i_6__1_n_2,pwm_out0_carry_i_6__1_n_3}),
+        .DI({1'b0,1'b0,1'b0,p_0_in[9]}),
+        .O(pwm_out_buf1[12:9]),
+        .S({p_0_in[12:10],\half_duty_reg_n_0_[9] }));
+  CARRY4 pwm_out_buf0_carry_i_6__1
+       (.CI(pwm_out_buf0_carry_i_7_n_0),
+        .CO({pwm_out_buf0_carry_i_6__1_n_0,pwm_out_buf0_carry_i_6__1_n_1,pwm_out_buf0_carry_i_6__1_n_2,pwm_out_buf0_carry_i_6__1_n_3}),
         .CYINIT(1'b0),
-        .DI({1'b0,1'b0,pwm_out0_carry_i_12_n_0,1'b0}),
-        .O(pwm_out1[8:5]),
-        .S({pwm_out0_carry_i_13_n_0,pwm_out0_carry_i_14_n_0,\half_duty_reg_n_0_[6] ,pwm_out0_carry_i_15_n_0}));
-  CARRY4 pwm_out0_carry_i_7
+        .DI({1'b0,1'b0,p_0_in[6],1'b0}),
+        .O(pwm_out_buf1[8:5]),
+        .S({p_0_in[8:7],\half_duty_reg_n_0_[6] ,p_0_in[5]}));
+  CARRY4 pwm_out_buf0_carry_i_7
        (.CI(1'b0),
-        .CO({pwm_out0_carry_i_7_n_0,pwm_out0_carry_i_7_n_1,pwm_out0_carry_i_7_n_2,pwm_out0_carry_i_7_n_3}),
-        .CYINIT(pwm_out0_carry_i_16_n_0),
+        .CO({pwm_out_buf0_carry_i_7_n_0,pwm_out_buf0_carry_i_7_n_1,pwm_out_buf0_carry_i_7_n_2,pwm_out_buf0_carry_i_7_n_3}),
+        .CYINIT(p_0_in[0]),
         .DI({1'b0,1'b0,1'b0,1'b0}),
-        .O(pwm_out1[4:1]),
-        .S({pwm_out0_carry_i_17_n_0,pwm_out0_carry_i_18_n_0,pwm_out0_carry_i_19_n_0,pwm_out0_carry_i_20_n_0}));
+        .O(pwm_out_buf1[4:1]),
+        .S(p_0_in[4:1]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_8
+    pwm_out_buf0_carry_i_8
        (.I0(\half_duty_reg_n_0_[9] ),
-        .O(pwm_out0_carry_i_8_n_0));
+        .O(p_0_in[9]));
   LUT1 #(
     .INIT(2'h1)) 
-    pwm_out0_carry_i_9
+    pwm_out_buf0_carry_i_9
        (.I0(\half_duty_reg_n_0_[12] ),
-        .O(pwm_out0_carry_i_9_n_0));
-  CARRY4 pwm_out1_carry
+        .O(p_0_in[12]));
+  CARRY4 pwm_out_buf1_carry
        (.CI(1'b0),
-        .CO({pwm_out1_carry_n_0,pwm_out1_carry_n_1,pwm_out1_carry_n_2,pwm_out1_carry_n_3}),
+        .CO({pwm_out_buf1_carry_n_0,pwm_out_buf1_carry_n_1,pwm_out_buf1_carry_n_2,pwm_out_buf1_carry_n_3}),
         .CYINIT(1'b1),
         .DI({1'b0,1'b0,1'b0,1'b0}),
-        .O(NLW_pwm_out1_carry_O_UNCONNECTED[3:0]),
-        .S({pwm_out1_carry_i_1_n_0,pwm_out1_carry_i_2_n_0,pwm_out1_carry_i_3_n_0,pwm_out1_carry_i_4_n_0}));
-  CARRY4 pwm_out1_carry__0
-       (.CI(pwm_out1_carry_n_0),
-        .CO({NLW_pwm_out1_carry__0_CO_UNCONNECTED[3],CO,pwm_out1_carry__0_n_2,pwm_out1_carry__0_n_3}),
+        .O(NLW_pwm_out_buf1_carry_O_UNCONNECTED[3:0]),
+        .S({pwm_out_buf1_carry_i_1_n_0,pwm_out_buf1_carry_i_2_n_0,pwm_out_buf1_carry_i_3_n_0,pwm_out_buf1_carry_i_4_n_0}));
+  CARRY4 pwm_out_buf1_carry__0
+       (.CI(pwm_out_buf1_carry_n_0),
+        .CO({NLW_pwm_out_buf1_carry__0_CO_UNCONNECTED[3],CO,pwm_out_buf1_carry__0_n_2,pwm_out_buf1_carry__0_n_3}),
         .CYINIT(1'b0),
         .DI({1'b0,1'b0,1'b0,1'b0}),
-        .O(NLW_pwm_out1_carry__0_O_UNCONNECTED[3:0]),
-        .S({1'b0,pwm_out1_carry__0_i_1_n_0,pwm_out1_carry__0_i_2_n_0,pwm_out1_carry__0_i_3_n_0}));
+        .O(NLW_pwm_out_buf1_carry__0_O_UNCONNECTED[3:0]),
+        .S({1'b0,pwm_out_buf1_carry__0_i_1_n_0,pwm_out_buf1_carry__0_i_2_n_0,pwm_out_buf1_carry__0_i_3_n_0}));
   LUT3 #(
     .INIT(8'h09)) 
-    pwm_out1_carry__0_i_1
+    pwm_out_buf1_carry__0_i_1
        (.I0(\half_duty_reg_n_0_[18] ),
         .I1(\count_reg_n_0_[18] ),
         .I2(\count_reg_n_0_[19] ),
-        .O(pwm_out1_carry__0_i_1_n_0));
+        .O(pwm_out_buf1_carry__0_i_1_n_0));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    pwm_out1_carry__0_i_2
+    pwm_out_buf1_carry__0_i_2
        (.I0(\half_duty_reg_n_0_[17] ),
         .I1(\count_reg_n_0_[17] ),
         .I2(\half_duty_reg_n_0_[16] ),
         .I3(\count_reg_n_0_[16] ),
         .I4(\count_reg_n_0_[15] ),
         .I5(\half_duty_reg_n_0_[15] ),
-        .O(pwm_out1_carry__0_i_2_n_0));
+        .O(pwm_out_buf1_carry__0_i_2_n_0));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    pwm_out1_carry__0_i_3
+    pwm_out_buf1_carry__0_i_3
        (.I0(\half_duty_reg_n_0_[14] ),
         .I1(\count_reg_n_0_[14] ),
         .I2(\half_duty_reg_n_0_[13] ),
         .I3(\count_reg_n_0_[13] ),
         .I4(\count_reg_n_0_[12] ),
         .I5(\half_duty_reg_n_0_[12] ),
-        .O(pwm_out1_carry__0_i_3_n_0));
+        .O(pwm_out_buf1_carry__0_i_3_n_0));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    pwm_out1_carry_i_1
+    pwm_out_buf1_carry_i_1
        (.I0(\half_duty_reg_n_0_[11] ),
         .I1(\count_reg_n_0_[11] ),
         .I2(\half_duty_reg_n_0_[10] ),
         .I3(\count_reg_n_0_[10] ),
         .I4(\count_reg_n_0_[9] ),
         .I5(\half_duty_reg_n_0_[9] ),
-        .O(pwm_out1_carry_i_1_n_0));
+        .O(pwm_out_buf1_carry_i_1_n_0));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    pwm_out1_carry_i_2
+    pwm_out_buf1_carry_i_2
        (.I0(\half_duty_reg_n_0_[8] ),
         .I1(\count_reg_n_0_[8] ),
         .I2(\half_duty_reg_n_0_[7] ),
         .I3(\count_reg_n_0_[7] ),
         .I4(\count_reg_n_0_[6] ),
         .I5(\half_duty_reg_n_0_[6] ),
-        .O(pwm_out1_carry_i_2_n_0));
+        .O(pwm_out_buf1_carry_i_2_n_0));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    pwm_out1_carry_i_3
+    pwm_out_buf1_carry_i_3
        (.I0(\half_duty_reg_n_0_[5] ),
         .I1(\count_reg_n_0_[5] ),
         .I2(\half_duty_reg_n_0_[4] ),
         .I3(\count_reg_n_0_[4] ),
         .I4(\count_reg_n_0_[3] ),
         .I5(\half_duty_reg_n_0_[3] ),
-        .O(pwm_out1_carry_i_3_n_0));
+        .O(pwm_out_buf1_carry_i_3_n_0));
   LUT6 #(
     .INIT(64'h8200008241000041)) 
-    pwm_out1_carry_i_4
+    pwm_out_buf1_carry_i_4
        (.I0(\count_reg_n_0_[1] ),
         .I1(\count_reg_n_0_[2] ),
         .I2(\half_duty_reg_n_0_[2] ),
         .I3(\count_reg_n_0_[0] ),
         .I4(\half_duty_reg_n_0_[0] ),
         .I5(\half_duty_reg_n_0_[1] ),
-        .O(pwm_out1_carry_i_4_n_0));
-  LUT2 #(
-    .INIT(4'h7)) 
-    pwm_out_i_2
-       (.I0(enable),
-        .I1(Q),
-        .O(AR));
-  FDCE pwm_out_reg
+        .O(pwm_out_buf1_carry_i_4_n_0));
+  FDCE #(
+    .INIT(1'b0)) 
+    pwm_out_buf_reg
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
-        .D(pwm_out_reg_1),
+        .CLR(disabled),
+        .D(pwm_out_buf_reg_1),
         .Q(servo_pwm_out));
 endmodule
 
 (* ORIG_REF_NAME = "PWM_Driver" *) 
 module design_1_MotionController_0_0_PWM_Driver__parameterized1
    (motor_left_pwm_out,
-    pwm_out_reg_0,
-    pwm_out_reg_1,
+    pwm_out_buf_reg_0,
+    pwm_out_buf_reg_1,
     Q,
-    pwm_out_reg_2,
+    pwm_out_buf_reg_2,
     s00_axi_aclk,
-    AR,
-    E);
+    \slv_reg0_reg[0] ,
+    enable);
   output motor_left_pwm_out;
-  output [0:0]pwm_out_reg_0;
-  output [0:0]pwm_out_reg_1;
+  output [0:0]pwm_out_buf_reg_0;
+  output [0:0]pwm_out_buf_reg_1;
   input [15:0]Q;
-  input pwm_out_reg_2;
+  input pwm_out_buf_reg_2;
   input s00_axi_aclk;
-  input [0:0]AR;
-  input [0:0]E;
+  input [0:0]\slv_reg0_reg[0] ;
+  input enable;
 
-  wire [0:0]AR;
-  wire [0:0]E;
   wire [15:0]Q;
   wire [8:0]count;
   wire \count[5]_i_2_n_0 ;
@@ -5630,6 +5622,10 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
   wire \count_reg_n_0_[6] ;
   wire \count_reg_n_0_[7] ;
   wire \count_reg_n_0_[8] ;
+  wire disabled;
+  wire disabled0;
+  wire disabled02_out;
+  wire enable;
   wire half_duty0;
   wire [7:0]half_duty_new;
   wire [6:0]half_duty_new10_in;
@@ -5840,13 +5836,14 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
   wire \half_duty_new[5]_i_6_n_0 ;
   wire \half_duty_new[6]_i_4_n_0 ;
   wire \half_duty_new[6]_i_5_n_0 ;
-  wire \half_duty_new[7]_i_2__0_n_0 ;
+  wire \half_duty_new[7]_i_1_n_0 ;
   wire \half_duty_new[7]_i_3_n_0 ;
   wire \half_duty_new[7]_i_4__0_n_0 ;
   wire \half_duty_new[7]_i_5__0_n_0 ;
   wire \half_duty_new[7]_i_6__0_n_0 ;
   wire \half_duty_new[7]_i_7__0_n_0 ;
   wire \half_duty_new[7]_i_8_n_0 ;
+  wire \half_duty_new[7]_i_9_n_0 ;
   wire \half_duty_new_reg[6]_i_2_n_1 ;
   wire \half_duty_new_reg[6]_i_2_n_3 ;
   wire \half_duty_reg_n_0_[0] ;
@@ -5860,23 +5857,24 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
   wire motor_left_pwm_out;
   wire [7:1]p_1_in;
   wire [0:0]p_1_out0;
-  wire pwm_out0_carry_i_1__0_n_0;
-  wire pwm_out0_carry_i_2__0_n_0;
-  wire pwm_out0_carry_i_3__0_n_0;
-  wire pwm_out0_carry_i_4__0_n_0;
-  wire pwm_out0_carry_i_5_n_0;
-  wire pwm_out0_carry_i_6_n_0;
-  wire pwm_out0_carry_n_2;
-  wire pwm_out0_carry_n_3;
-  wire pwm_out1_carry_i_1__0_n_0;
-  wire pwm_out1_carry_i_2__0_n_0;
-  wire pwm_out1_carry_i_3__0_n_0;
-  wire pwm_out1_carry_n_2;
-  wire pwm_out1_carry_n_3;
-  wire [0:0]pwm_out_reg_0;
-  wire [0:0]pwm_out_reg_1;
-  wire pwm_out_reg_2;
+  wire pwm_out_buf0_carry_i_1__0_n_0;
+  wire pwm_out_buf0_carry_i_2__0_n_0;
+  wire pwm_out_buf0_carry_i_3__0_n_0;
+  wire pwm_out_buf0_carry_i_4__0_n_0;
+  wire pwm_out_buf0_carry_i_5_n_0;
+  wire pwm_out_buf0_carry_i_6_n_0;
+  wire pwm_out_buf0_carry_n_2;
+  wire pwm_out_buf0_carry_n_3;
+  wire pwm_out_buf1_carry_i_1__0_n_0;
+  wire pwm_out_buf1_carry_i_2__0_n_0;
+  wire pwm_out_buf1_carry_i_3__0_n_0;
+  wire pwm_out_buf1_carry_n_2;
+  wire pwm_out_buf1_carry_n_3;
+  wire [0:0]pwm_out_buf_reg_0;
+  wire [0:0]pwm_out_buf_reg_1;
+  wire pwm_out_buf_reg_2;
   wire s00_axi_aclk;
+  wire [0:0]\slv_reg0_reg[0] ;
   wire [3:0]NLW_half_duty_new4_carry_O_UNCONNECTED;
   wire [3:0]NLW_half_duty_new4_carry__0_O_UNCONNECTED;
   wire [3:0]NLW_half_duty_new4_carry__1_O_UNCONNECTED;
@@ -5905,10 +5903,10 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
   wire [3:0]NLW_half_duty_new7_carry__2_O_UNCONNECTED;
   wire [3:1]\NLW_half_duty_new_reg[6]_i_2_CO_UNCONNECTED ;
   wire [3:2]\NLW_half_duty_new_reg[6]_i_2_O_UNCONNECTED ;
-  wire [3:3]NLW_pwm_out0_carry_CO_UNCONNECTED;
-  wire [3:0]NLW_pwm_out0_carry_O_UNCONNECTED;
-  wire [3:3]NLW_pwm_out1_carry_CO_UNCONNECTED;
-  wire [3:0]NLW_pwm_out1_carry_O_UNCONNECTED;
+  wire [3:3]NLW_pwm_out_buf0_carry_CO_UNCONNECTED;
+  wire [3:0]NLW_pwm_out_buf0_carry_O_UNCONNECTED;
+  wire [3:3]NLW_pwm_out_buf1_carry_CO_UNCONNECTED;
+  wire [3:0]NLW_pwm_out_buf1_carry_O_UNCONNECTED;
 
   (* SOFT_HLUTNM = "soft_lutpair5" *) 
   LUT1 #(
@@ -6049,7 +6047,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     \count_reg[0] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[0]),
         .Q(\count_reg_n_0_[0] ));
   FDCE #(
@@ -6057,7 +6055,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     \count_reg[1] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[1]),
         .Q(\count_reg_n_0_[1] ));
   FDCE #(
@@ -6065,7 +6063,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     \count_reg[2] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[2]),
         .Q(\count_reg_n_0_[2] ));
   FDCE #(
@@ -6073,7 +6071,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     \count_reg[3] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[3]),
         .Q(\count_reg_n_0_[3] ));
   FDCE #(
@@ -6081,7 +6079,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     \count_reg[4] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[4]),
         .Q(\count_reg_n_0_[4] ));
   FDCE #(
@@ -6089,7 +6087,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     \count_reg[5] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[5]),
         .Q(\count_reg_n_0_[5] ));
   FDCE #(
@@ -6097,7 +6095,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     \count_reg[6] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[6]),
         .Q(\count_reg_n_0_[6] ));
   FDCE #(
@@ -6105,7 +6103,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     \count_reg[7] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[7]),
         .Q(\count_reg_n_0_[7] ));
   FDCE #(
@@ -6113,15 +6111,39 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     \count_reg[8] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[8]),
         .Q(\count_reg_n_0_[8] ));
+  (* XILINX_LEGACY_PRIM = "LDC" *) 
+  LDCE #(
+    .INIT(1'b1)) 
+    disabled_reg
+       (.CLR(disabled0),
+        .D(disabled02_out),
+        .G(disabled02_out),
+        .GE(1'b1),
+        .Q(disabled));
+  LUT3 #(
+    .INIT(8'h07)) 
+    disabled_reg_i_1__0
+       (.I0(\slv_reg0_reg[0] ),
+        .I1(enable),
+        .I2(motor_left_pwm_out),
+        .O(disabled02_out));
+  LUT4 #(
+    .INIT(16'h4000)) 
+    disabled_reg_i_2__0
+       (.I0(motor_left_pwm_out),
+        .I1(disabled),
+        .I2(\slv_reg0_reg[0] ),
+        .I3(enable),
+        .O(disabled0));
   LUT6 #(
     .INIT(64'h0000000100000000)) 
     \half_duty[7]_i_1 
        (.I0(\count[5]_i_3_n_0 ),
-        .I1(AR),
-        .I2(\count_reg_n_0_[2] ),
+        .I1(\count_reg_n_0_[2] ),
+        .I2(disabled),
         .I3(\count[8]_i_2_n_0 ),
         .I4(\count_reg_n_0_[3] ),
         .I5(\count_reg_n_0_[8] ),
@@ -6201,7 +6223,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     half_duty_new4_carry__0_i_4
        (.I0(half_duty_new6_n_80),
         .I1(half_duty_new4[9]),
-        .I2(\half_duty_new[7]_i_4__0_n_0 ),
+        .I2(\half_duty_new[7]_i_5__0_n_0 ),
         .I3(half_duty_new6__0[25]),
         .I4(half_duty_new7),
         .I5(half_duty_new6_n_79),
@@ -6240,7 +6262,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
        (.I0(half_duty_new6__0[25]),
         .I1(half_duty_new7),
         .I2(half_duty_new6_n_80),
-        .I3(\half_duty_new[7]_i_4__0_n_0 ),
+        .I3(\half_duty_new[7]_i_5__0_n_0 ),
         .I4(half_duty_new6_n_79),
         .I5(half_duty_new4[9]),
         .O(half_duty_new4_carry__0_i_8_n_0));
@@ -6971,6 +6993,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
        (.I0(half_duty_new6_n_104),
         .I1(half_duty_new6_n_105),
         .O(half_duty_new7_carry_i_8_n_0));
+  (* SOFT_HLUTNM = "soft_lutpair1" *) 
   LUT5 #(
     .INIT(32'hFF4700B8)) 
     \half_duty_new[0]_i_1__0 
@@ -6993,7 +7016,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
   LUT6 #(
     .INIT(64'h636969C9696969CC)) 
     \half_duty_new[2]_i_1 
-       (.I0(\half_duty_new[7]_i_2__0_n_0 ),
+       (.I0(\half_duty_new[7]_i_3_n_0 ),
         .I1(\half_duty_new[2]_i_2__0_n_0 ),
         .I2(half_duty_new4_carry__2_n_0),
         .I3(\half_duty_new[2]_i_3_n_0 ),
@@ -7035,7 +7058,6 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
         .I1(half_duty_new7),
         .I2(half_duty_new6__0[16]),
         .O(p_1_out0));
-  (* SOFT_HLUTNM = "soft_lutpair2" *) 
   LUT4 #(
     .INIT(16'hFD02)) 
     \half_duty_new[3]_i_1 
@@ -7088,7 +7110,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
         .I2(\half_duty_new[2]_i_2__0_n_0 ),
         .I3(half_duty_new4_carry_i_10__0_n_0),
         .I4(half_duty_new4_carry__2_n_0),
-        .I5(\half_duty_new[7]_i_8_n_0 ),
+        .I5(\half_duty_new[7]_i_9_n_0 ),
         .O(half_duty_new10_in[4]));
   LUT6 #(
     .INIT(64'hD2D2D2D2D2D22DD2)) 
@@ -7103,7 +7125,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
   LUT6 #(
     .INIT(64'hFFFFFFFFFFFFFFFE)) 
     \half_duty_new[5]_i_2__0 
-       (.I0(\half_duty_new[7]_i_8_n_0 ),
+       (.I0(\half_duty_new[7]_i_9_n_0 ),
         .I1(half_duty_new4_carry_i_10__0_n_0),
         .I2(\half_duty_new[2]_i_2__0_n_0 ),
         .I3(\half_duty_new[2]_i_3_n_0 ),
@@ -7123,7 +7145,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     .INIT(64'h0000001104000010)) 
     \half_duty_new[5]_i_4 
        (.I0(\half_duty_new[5]_i_5_n_0 ),
-        .I1(\half_duty_new[7]_i_8_n_0 ),
+        .I1(\half_duty_new[7]_i_9_n_0 ),
         .I2(half_duty_new4_carry__2_n_0),
         .I3(half_duty_new4_carry_i_10__0_n_0),
         .I4(\half_duty_new[2]_i_2__0_n_0 ),
@@ -7139,7 +7161,6 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
         .I4(half_duty_new6__0[16]),
         .I5(\half_duty_new[2]_i_4_n_0 ),
         .O(\half_duty_new[5]_i_5_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair1" *) 
   LUT5 #(
     .INIT(32'h00000047)) 
     \half_duty_new[5]_i_6 
@@ -7149,12 +7170,13 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
         .I3(\half_duty_new[2]_i_4_n_0 ),
         .I4(\half_duty_new[2]_i_3_n_0 ),
         .O(\half_duty_new[5]_i_6_n_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair2" *) 
   LUT4 #(
     .INIT(16'hDF20)) 
     \half_duty_new[6]_i_1 
        (.I0(half_duty_new6_n_79),
         .I1(\half_duty_new_reg[6]_i_2_n_1 ),
-        .I2(\half_duty_new[7]_i_3_n_0 ),
+        .I2(\half_duty_new[7]_i_4__0_n_0 ),
         .I3(half_duty_new10_in[6]),
         .O(p_1_in[6]));
   LUT4 #(
@@ -7163,7 +7185,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
        (.I0(half_duty_new4_carry__2_n_0),
         .I1(\half_duty_new[5]_i_2__0_n_0 ),
         .I2(\half_duty_new[5]_i_3_n_0 ),
-        .I3(\half_duty_new[7]_i_6__0_n_0 ),
+        .I3(\half_duty_new[7]_i_7__0_n_0 ),
         .O(half_duty_new10_in[6]));
   LUT3 #(
     .INIT(8'h3A)) 
@@ -7179,85 +7201,90 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
         .I1(half_duty_new6_n_79),
         .I2(half_duty_new7),
         .O(\half_duty_new[6]_i_5_n_0 ));
+  LUT1 #(
+    .INIT(2'h1)) 
+    \half_duty_new[7]_i_1 
+       (.I0(disabled),
+        .O(\half_duty_new[7]_i_1_n_0 ));
   LUT6 #(
     .INIT(64'h5AA55A87787878A5)) 
-    \half_duty_new[7]_i_1 
-       (.I0(\half_duty_new[7]_i_2__0_n_0 ),
-        .I1(\half_duty_new[7]_i_3_n_0 ),
-        .I2(\half_duty_new[7]_i_4__0_n_0 ),
+    \half_duty_new[7]_i_2__0 
+       (.I0(\half_duty_new[7]_i_3_n_0 ),
+        .I1(\half_duty_new[7]_i_4__0_n_0 ),
+        .I2(\half_duty_new[7]_i_5__0_n_0 ),
         .I3(half_duty_new4_carry__2_n_0),
-        .I4(\half_duty_new[7]_i_5__0_n_0 ),
-        .I5(\half_duty_new[7]_i_6__0_n_0 ),
+        .I4(\half_duty_new[7]_i_6__0_n_0 ),
+        .I5(\half_duty_new[7]_i_7__0_n_0 ),
         .O(p_1_in[7]));
   (* SOFT_HLUTNM = "soft_lutpair2" *) 
   LUT2 #(
     .INIT(4'h2)) 
-    \half_duty_new[7]_i_2__0 
+    \half_duty_new[7]_i_3 
        (.I0(half_duty_new6_n_79),
         .I1(\half_duty_new_reg[6]_i_2_n_1 ),
-        .O(\half_duty_new[7]_i_2__0_n_0 ));
+        .O(\half_duty_new[7]_i_3_n_0 ));
   LUT6 #(
     .INIT(64'hFF7FFAFEFFFFFFFF)) 
-    \half_duty_new[7]_i_3 
+    \half_duty_new[7]_i_4__0 
        (.I0(\half_duty_new[5]_i_3_n_0 ),
-        .I1(\half_duty_new[7]_i_7__0_n_0 ),
+        .I1(\half_duty_new[7]_i_8_n_0 ),
         .I2(half_duty_new4_carry_i_10__0_n_0),
         .I3(half_duty_new4_carry__2_n_0),
-        .I4(\half_duty_new[7]_i_8_n_0 ),
+        .I4(\half_duty_new[7]_i_9_n_0 ),
         .I5(\half_duty_new[3]_i_2__0_n_0 ),
-        .O(\half_duty_new[7]_i_3_n_0 ));
+        .O(\half_duty_new[7]_i_4__0_n_0 ));
   LUT5 #(
     .INIT(32'hFFE200E2)) 
-    \half_duty_new[7]_i_4__0 
+    \half_duty_new[7]_i_5__0 
        (.I0(half_duty_new6__0[24]),
         .I1(half_duty_new7),
         .I2(half_duty_new6_n_81),
         .I3(half_duty_new6_n_79),
         .I4(half_duty_new4[8]),
-        .O(\half_duty_new[7]_i_4__0_n_0 ));
+        .O(\half_duty_new[7]_i_5__0_n_0 ));
   LUT6 #(
     .INIT(64'h1015101010151515)) 
-    \half_duty_new[7]_i_5__0 
+    \half_duty_new[7]_i_6__0 
        (.I0(\half_duty_new[5]_i_2__0_n_0 ),
         .I1(half_duty_new4[6]),
         .I2(half_duty_new6_n_79),
         .I3(half_duty_new6_n_83),
         .I4(half_duty_new7),
         .I5(half_duty_new6__0[22]),
-        .O(\half_duty_new[7]_i_5__0_n_0 ));
+        .O(\half_duty_new[7]_i_6__0_n_0 ));
   LUT5 #(
     .INIT(32'hFFE200E2)) 
-    \half_duty_new[7]_i_6__0 
+    \half_duty_new[7]_i_7__0 
        (.I0(half_duty_new6__0[23]),
         .I1(half_duty_new7),
         .I2(half_duty_new6_n_82),
         .I3(half_duty_new6_n_79),
         .I4(half_duty_new4[7]),
-        .O(\half_duty_new[7]_i_6__0_n_0 ));
+        .O(\half_duty_new[7]_i_7__0_n_0 ));
   LUT6 #(
     .INIT(64'hFFFFFFFEFEFEFFFE)) 
-    \half_duty_new[7]_i_7__0 
+    \half_duty_new[7]_i_8 
        (.I0(\half_duty_new[2]_i_2__0_n_0 ),
         .I1(\half_duty_new[2]_i_3_n_0 ),
         .I2(\half_duty_new[2]_i_4_n_0 ),
         .I3(half_duty_new6__0[16]),
         .I4(half_duty_new7),
         .I5(half_duty_new6_n_89),
-        .O(\half_duty_new[7]_i_7__0_n_0 ));
+        .O(\half_duty_new[7]_i_8_n_0 ));
   LUT5 #(
     .INIT(32'hFFE200E2)) 
-    \half_duty_new[7]_i_8 
+    \half_duty_new[7]_i_9 
        (.I0(half_duty_new6__0[21]),
         .I1(half_duty_new7),
         .I2(half_duty_new6_n_84),
         .I3(half_duty_new6_n_79),
         .I4(half_duty_new4[5]),
-        .O(\half_duty_new[7]_i_8_n_0 ));
+        .O(\half_duty_new[7]_i_9_n_0 ));
   FDRE #(
     .INIT(1'b0)) 
     \half_duty_new_reg[0] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1_n_0 ),
         .D(half_duty_new10_in[0]),
         .Q(half_duty_new[0]),
         .R(1'b0));
@@ -7265,7 +7292,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     .INIT(1'b0)) 
     \half_duty_new_reg[1] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1_n_0 ),
         .D(p_1_in[1]),
         .Q(half_duty_new[1]),
         .R(1'b0));
@@ -7273,7 +7300,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     .INIT(1'b0)) 
     \half_duty_new_reg[2] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1_n_0 ),
         .D(p_1_in[2]),
         .Q(half_duty_new[2]),
         .R(1'b0));
@@ -7281,7 +7308,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     .INIT(1'b0)) 
     \half_duty_new_reg[3] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1_n_0 ),
         .D(p_1_in[3]),
         .Q(half_duty_new[3]),
         .R(1'b0));
@@ -7289,7 +7316,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     .INIT(1'b0)) 
     \half_duty_new_reg[4] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1_n_0 ),
         .D(p_1_in[4]),
         .Q(half_duty_new[4]),
         .R(1'b0));
@@ -7297,7 +7324,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     .INIT(1'b0)) 
     \half_duty_new_reg[5] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1_n_0 ),
         .D(p_1_in[5]),
         .Q(half_duty_new[5]),
         .R(1'b0));
@@ -7305,7 +7332,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     .INIT(1'b0)) 
     \half_duty_new_reg[6] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1_n_0 ),
         .D(p_1_in[6]),
         .Q(half_duty_new[6]),
         .R(1'b0));
@@ -7320,7 +7347,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
     .INIT(1'b0)) 
     \half_duty_new_reg[7] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1_n_0 ),
         .D(p_1_in[7]),
         .Q(half_duty_new[7]),
         .R(1'b0));
@@ -7388,131 +7415,131 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1
         .D(half_duty_new[7]),
         .Q(\half_duty_reg_n_0_[7] ),
         .R(1'b0));
-  CARRY4 pwm_out0_carry
+  CARRY4 pwm_out_buf0_carry
        (.CI(1'b0),
-        .CO({NLW_pwm_out0_carry_CO_UNCONNECTED[3],pwm_out_reg_1,pwm_out0_carry_n_2,pwm_out0_carry_n_3}),
+        .CO({NLW_pwm_out_buf0_carry_CO_UNCONNECTED[3],pwm_out_buf_reg_1,pwm_out_buf0_carry_n_2,pwm_out_buf0_carry_n_3}),
         .CYINIT(1'b1),
         .DI({1'b0,1'b0,1'b0,1'b0}),
-        .O(NLW_pwm_out0_carry_O_UNCONNECTED[3:0]),
-        .S({1'b0,pwm_out0_carry_i_1__0_n_0,pwm_out0_carry_i_2__0_n_0,pwm_out0_carry_i_3__0_n_0}));
+        .O(NLW_pwm_out_buf0_carry_O_UNCONNECTED[3:0]),
+        .S({1'b0,pwm_out_buf0_carry_i_1__0_n_0,pwm_out_buf0_carry_i_2__0_n_0,pwm_out_buf0_carry_i_3__0_n_0}));
   LUT6 #(
     .INIT(64'h1004088008800440)) 
-    pwm_out0_carry_i_1__0
-       (.I0(pwm_out0_carry_i_4__0_n_0),
+    pwm_out_buf0_carry_i_1__0
+       (.I0(pwm_out_buf0_carry_i_4__0_n_0),
         .I1(\count_reg_n_0_[8] ),
         .I2(\half_duty_reg_n_0_[7] ),
         .I3(\count_reg_n_0_[7] ),
         .I4(\count_reg_n_0_[6] ),
         .I5(\half_duty_reg_n_0_[6] ),
-        .O(pwm_out0_carry_i_1__0_n_0));
+        .O(pwm_out_buf0_carry_i_1__0_n_0));
   LUT6 #(
     .INIT(64'h4200002800424200)) 
-    pwm_out0_carry_i_2__0
-       (.I0(pwm_out0_carry_i_5_n_0),
+    pwm_out_buf0_carry_i_2__0
+       (.I0(pwm_out_buf0_carry_i_5_n_0),
         .I1(\half_duty_reg_n_0_[4] ),
         .I2(\count_reg_n_0_[4] ),
         .I3(\count_reg_n_0_[3] ),
         .I4(\half_duty_reg_n_0_[3] ),
-        .I5(pwm_out0_carry_i_6_n_0),
-        .O(pwm_out0_carry_i_2__0_n_0));
+        .I5(pwm_out_buf0_carry_i_6_n_0),
+        .O(pwm_out_buf0_carry_i_2__0_n_0));
   LUT6 #(
     .INIT(64'h0090090090000006)) 
-    pwm_out0_carry_i_3__0
+    pwm_out_buf0_carry_i_3__0
        (.I0(\half_duty_reg_n_0_[2] ),
         .I1(\count_reg_n_0_[2] ),
         .I2(\count_reg_n_0_[0] ),
         .I3(\half_duty_reg_n_0_[1] ),
         .I4(\half_duty_reg_n_0_[0] ),
         .I5(\count_reg_n_0_[1] ),
-        .O(pwm_out0_carry_i_3__0_n_0));
+        .O(pwm_out_buf0_carry_i_3__0_n_0));
   LUT6 #(
     .INIT(64'h77777777777FFFFF)) 
-    pwm_out0_carry_i_4__0
+    pwm_out_buf0_carry_i_4__0
        (.I0(\half_duty_reg_n_0_[5] ),
         .I1(\half_duty_reg_n_0_[4] ),
         .I2(\half_duty_reg_n_0_[1] ),
         .I3(\half_duty_reg_n_0_[0] ),
         .I4(\half_duty_reg_n_0_[2] ),
         .I5(\half_duty_reg_n_0_[3] ),
-        .O(pwm_out0_carry_i_4__0_n_0));
+        .O(pwm_out_buf0_carry_i_4__0_n_0));
   LUT2 #(
     .INIT(4'h6)) 
-    pwm_out0_carry_i_5
+    pwm_out_buf0_carry_i_5
        (.I0(\half_duty_reg_n_0_[5] ),
         .I1(\count_reg_n_0_[5] ),
-        .O(pwm_out0_carry_i_5_n_0));
+        .O(pwm_out_buf0_carry_i_5_n_0));
   LUT3 #(
     .INIT(8'h1F)) 
-    pwm_out0_carry_i_6
+    pwm_out_buf0_carry_i_6
        (.I0(\half_duty_reg_n_0_[1] ),
         .I1(\half_duty_reg_n_0_[0] ),
         .I2(\half_duty_reg_n_0_[2] ),
-        .O(pwm_out0_carry_i_6_n_0));
-  CARRY4 pwm_out1_carry
+        .O(pwm_out_buf0_carry_i_6_n_0));
+  CARRY4 pwm_out_buf1_carry
        (.CI(1'b0),
-        .CO({NLW_pwm_out1_carry_CO_UNCONNECTED[3],pwm_out_reg_0,pwm_out1_carry_n_2,pwm_out1_carry_n_3}),
+        .CO({NLW_pwm_out_buf1_carry_CO_UNCONNECTED[3],pwm_out_buf_reg_0,pwm_out_buf1_carry_n_2,pwm_out_buf1_carry_n_3}),
         .CYINIT(1'b1),
         .DI({1'b0,1'b0,1'b0,1'b0}),
-        .O(NLW_pwm_out1_carry_O_UNCONNECTED[3:0]),
-        .S({1'b0,pwm_out1_carry_i_1__0_n_0,pwm_out1_carry_i_2__0_n_0,pwm_out1_carry_i_3__0_n_0}));
+        .O(NLW_pwm_out_buf1_carry_O_UNCONNECTED[3:0]),
+        .S({1'b0,pwm_out_buf1_carry_i_1__0_n_0,pwm_out_buf1_carry_i_2__0_n_0,pwm_out_buf1_carry_i_3__0_n_0}));
   LUT5 #(
     .INIT(32'h21000021)) 
-    pwm_out1_carry_i_1__0
+    pwm_out_buf1_carry_i_1__0
        (.I0(\half_duty_reg_n_0_[6] ),
         .I1(\count_reg_n_0_[8] ),
         .I2(\count_reg_n_0_[6] ),
         .I3(\count_reg_n_0_[7] ),
         .I4(\half_duty_reg_n_0_[7] ),
-        .O(pwm_out1_carry_i_1__0_n_0));
+        .O(pwm_out_buf1_carry_i_1__0_n_0));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    pwm_out1_carry_i_2__0
+    pwm_out_buf1_carry_i_2__0
        (.I0(\half_duty_reg_n_0_[5] ),
         .I1(\count_reg_n_0_[5] ),
         .I2(\half_duty_reg_n_0_[4] ),
         .I3(\count_reg_n_0_[4] ),
         .I4(\count_reg_n_0_[3] ),
         .I5(\half_duty_reg_n_0_[3] ),
-        .O(pwm_out1_carry_i_2__0_n_0));
+        .O(pwm_out_buf1_carry_i_2__0_n_0));
   LUT6 #(
     .INIT(64'h8421000000008421)) 
-    pwm_out1_carry_i_3__0
+    pwm_out_buf1_carry_i_3__0
        (.I0(\half_duty_reg_n_0_[1] ),
         .I1(\count_reg_n_0_[0] ),
         .I2(\count_reg_n_0_[1] ),
         .I3(\half_duty_reg_n_0_[0] ),
         .I4(\half_duty_reg_n_0_[2] ),
         .I5(\count_reg_n_0_[2] ),
-        .O(pwm_out1_carry_i_3__0_n_0));
-  FDCE pwm_out_reg
+        .O(pwm_out_buf1_carry_i_3__0_n_0));
+  FDCE #(
+    .INIT(1'b0)) 
+    pwm_out_buf_reg
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
-        .D(pwm_out_reg_2),
+        .CLR(disabled),
+        .D(pwm_out_buf_reg_2),
         .Q(motor_left_pwm_out));
 endmodule
 
 (* ORIG_REF_NAME = "PWM_Driver" *) 
 module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
    (motor_right_pwm_out,
-    pwm_out_reg_0,
-    pwm_out_reg_1,
+    pwm_out_buf_reg_0,
+    pwm_out_buf_reg_1,
     Q,
-    pwm_out_reg_2,
+    pwm_out_buf_reg_2,
     s00_axi_aclk,
-    AR,
-    E);
+    \slv_reg0_reg[0] ,
+    enable);
   output motor_right_pwm_out;
-  output [0:0]pwm_out_reg_0;
-  output [0:0]pwm_out_reg_1;
+  output [0:0]pwm_out_buf_reg_0;
+  output [0:0]pwm_out_buf_reg_1;
   input [15:0]Q;
-  input pwm_out_reg_2;
+  input pwm_out_buf_reg_2;
   input s00_axi_aclk;
-  input [0:0]AR;
-  input [0:0]E;
+  input [0:0]\slv_reg0_reg[0] ;
+  input enable;
 
-  wire [0:0]AR;
-  wire [0:0]E;
   wire [15:0]Q;
   wire [8:0]count;
   wire \count[5]_i_2__0_n_0 ;
@@ -7530,6 +7557,10 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
   wire \count_reg_n_0_[6] ;
   wire \count_reg_n_0_[7] ;
   wire \count_reg_n_0_[8] ;
+  wire disabled;
+  wire disabled0;
+  wire disabled02_out;
+  wire enable;
   wire half_duty0;
   wire [7:0]half_duty_new;
   wire [6:0]half_duty_new10_in;
@@ -7740,13 +7771,14 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
   wire \half_duty_new[5]_i_6__0_n_0 ;
   wire \half_duty_new[6]_i_4__0_n_0 ;
   wire \half_duty_new[6]_i_5__0_n_0 ;
-  wire \half_duty_new[7]_i_2__1_n_0 ;
+  wire \half_duty_new[7]_i_1__0_n_0 ;
   wire \half_duty_new[7]_i_3__0_n_0 ;
   wire \half_duty_new[7]_i_4__1_n_0 ;
   wire \half_duty_new[7]_i_5__1_n_0 ;
   wire \half_duty_new[7]_i_6__1_n_0 ;
   wire \half_duty_new[7]_i_7__1_n_0 ;
   wire \half_duty_new[7]_i_8__0_n_0 ;
+  wire \half_duty_new[7]_i_9__0_n_0 ;
   wire \half_duty_new_reg[6]_i_2__0_n_1 ;
   wire \half_duty_new_reg[6]_i_2__0_n_3 ;
   wire \half_duty_reg_n_0_[0] ;
@@ -7760,23 +7792,24 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
   wire motor_right_pwm_out;
   wire [7:1]p_1_in;
   wire [0:0]p_1_out0;
-  wire pwm_out0_carry_i_1__1_n_0;
-  wire pwm_out0_carry_i_2__1_n_0;
-  wire pwm_out0_carry_i_3__1_n_0;
-  wire pwm_out0_carry_i_4__1_n_0;
-  wire pwm_out0_carry_i_5__0_n_0;
-  wire pwm_out0_carry_i_6__0_n_0;
-  wire pwm_out0_carry_n_2;
-  wire pwm_out0_carry_n_3;
-  wire pwm_out1_carry_i_1__1_n_0;
-  wire pwm_out1_carry_i_2__1_n_0;
-  wire pwm_out1_carry_i_3__1_n_0;
-  wire pwm_out1_carry_n_2;
-  wire pwm_out1_carry_n_3;
-  wire [0:0]pwm_out_reg_0;
-  wire [0:0]pwm_out_reg_1;
-  wire pwm_out_reg_2;
+  wire pwm_out_buf0_carry_i_1__1_n_0;
+  wire pwm_out_buf0_carry_i_2__1_n_0;
+  wire pwm_out_buf0_carry_i_3__1_n_0;
+  wire pwm_out_buf0_carry_i_4__1_n_0;
+  wire pwm_out_buf0_carry_i_5__0_n_0;
+  wire pwm_out_buf0_carry_i_6__0_n_0;
+  wire pwm_out_buf0_carry_n_2;
+  wire pwm_out_buf0_carry_n_3;
+  wire pwm_out_buf1_carry_i_1__1_n_0;
+  wire pwm_out_buf1_carry_i_2__1_n_0;
+  wire pwm_out_buf1_carry_i_3__1_n_0;
+  wire pwm_out_buf1_carry_n_2;
+  wire pwm_out_buf1_carry_n_3;
+  wire [0:0]pwm_out_buf_reg_0;
+  wire [0:0]pwm_out_buf_reg_1;
+  wire pwm_out_buf_reg_2;
   wire s00_axi_aclk;
+  wire [0:0]\slv_reg0_reg[0] ;
   wire [3:0]NLW_half_duty_new4_carry_O_UNCONNECTED;
   wire [3:0]NLW_half_duty_new4_carry__0_O_UNCONNECTED;
   wire [3:0]NLW_half_duty_new4_carry__1_O_UNCONNECTED;
@@ -7805,10 +7838,10 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
   wire [3:0]NLW_half_duty_new7_carry__2_O_UNCONNECTED;
   wire [3:1]\NLW_half_duty_new_reg[6]_i_2__0_CO_UNCONNECTED ;
   wire [3:2]\NLW_half_duty_new_reg[6]_i_2__0_O_UNCONNECTED ;
-  wire [3:3]NLW_pwm_out0_carry_CO_UNCONNECTED;
-  wire [3:0]NLW_pwm_out0_carry_O_UNCONNECTED;
-  wire [3:3]NLW_pwm_out1_carry_CO_UNCONNECTED;
-  wire [3:0]NLW_pwm_out1_carry_O_UNCONNECTED;
+  wire [3:3]NLW_pwm_out_buf0_carry_CO_UNCONNECTED;
+  wire [3:0]NLW_pwm_out_buf0_carry_O_UNCONNECTED;
+  wire [3:3]NLW_pwm_out_buf1_carry_CO_UNCONNECTED;
+  wire [3:0]NLW_pwm_out_buf1_carry_O_UNCONNECTED;
 
   (* SOFT_HLUTNM = "soft_lutpair11" *) 
   LUT1 #(
@@ -7949,7 +7982,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     \count_reg[0] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[0]),
         .Q(\count_reg_n_0_[0] ));
   FDCE #(
@@ -7957,7 +7990,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     \count_reg[1] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[1]),
         .Q(\count_reg_n_0_[1] ));
   FDCE #(
@@ -7965,7 +7998,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     \count_reg[2] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[2]),
         .Q(\count_reg_n_0_[2] ));
   FDCE #(
@@ -7973,7 +8006,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     \count_reg[3] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[3]),
         .Q(\count_reg_n_0_[3] ));
   FDCE #(
@@ -7981,7 +8014,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     \count_reg[4] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[4]),
         .Q(\count_reg_n_0_[4] ));
   FDCE #(
@@ -7989,7 +8022,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     \count_reg[5] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[5]),
         .Q(\count_reg_n_0_[5] ));
   FDCE #(
@@ -7997,7 +8030,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     \count_reg[6] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[6]),
         .Q(\count_reg_n_0_[6] ));
   FDCE #(
@@ -8005,7 +8038,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     \count_reg[7] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[7]),
         .Q(\count_reg_n_0_[7] ));
   FDCE #(
@@ -8013,15 +8046,39 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     \count_reg[8] 
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
+        .CLR(disabled),
         .D(count[8]),
         .Q(\count_reg_n_0_[8] ));
+  (* XILINX_LEGACY_PRIM = "LDC" *) 
+  LDCE #(
+    .INIT(1'b1)) 
+    disabled_reg
+       (.CLR(disabled0),
+        .D(disabled02_out),
+        .G(disabled02_out),
+        .GE(1'b1),
+        .Q(disabled));
+  LUT3 #(
+    .INIT(8'h07)) 
+    disabled_reg_i_1
+       (.I0(\slv_reg0_reg[0] ),
+        .I1(enable),
+        .I2(motor_right_pwm_out),
+        .O(disabled02_out));
+  LUT4 #(
+    .INIT(16'h4000)) 
+    disabled_reg_i_2
+       (.I0(motor_right_pwm_out),
+        .I1(disabled),
+        .I2(\slv_reg0_reg[0] ),
+        .I3(enable),
+        .O(disabled0));
   LUT6 #(
     .INIT(64'h0000000100000000)) 
     \half_duty[7]_i_1__0 
        (.I0(\count[5]_i_3__0_n_0 ),
-        .I1(AR),
-        .I2(\count_reg_n_0_[2] ),
+        .I1(\count_reg_n_0_[2] ),
+        .I2(disabled),
         .I3(\count[8]_i_2__0_n_0 ),
         .I4(\count_reg_n_0_[3] ),
         .I5(\count_reg_n_0_[8] ),
@@ -8101,7 +8158,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     half_duty_new4_carry__0_i_4__0
        (.I0(half_duty_new6_n_80),
         .I1(half_duty_new4[9]),
-        .I2(\half_duty_new[7]_i_4__1_n_0 ),
+        .I2(\half_duty_new[7]_i_5__1_n_0 ),
         .I3(half_duty_new6__0[25]),
         .I4(half_duty_new7),
         .I5(half_duty_new6_n_79),
@@ -8140,7 +8197,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
        (.I0(half_duty_new6__0[25]),
         .I1(half_duty_new7),
         .I2(half_duty_new6_n_80),
-        .I3(\half_duty_new[7]_i_4__1_n_0 ),
+        .I3(\half_duty_new[7]_i_5__1_n_0 ),
         .I4(half_duty_new6_n_79),
         .I5(half_duty_new4[9]),
         .O(half_duty_new4_carry__0_i_8__0_n_0));
@@ -8871,6 +8928,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
        (.I0(half_duty_new6_n_104),
         .I1(half_duty_new6_n_105),
         .O(half_duty_new7_carry_i_8__0_n_0));
+  (* SOFT_HLUTNM = "soft_lutpair7" *) 
   LUT5 #(
     .INIT(32'hFF4700B8)) 
     \half_duty_new[0]_i_1__1 
@@ -8893,7 +8951,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
   LUT6 #(
     .INIT(64'h636969C9696969CC)) 
     \half_duty_new[2]_i_1__0 
-       (.I0(\half_duty_new[7]_i_2__1_n_0 ),
+       (.I0(\half_duty_new[7]_i_3__0_n_0 ),
         .I1(\half_duty_new[2]_i_2__1_n_0 ),
         .I2(half_duty_new4_carry__2_n_0),
         .I3(\half_duty_new[2]_i_3__0_n_0 ),
@@ -8935,7 +8993,6 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
         .I1(half_duty_new7),
         .I2(half_duty_new6__0[16]),
         .O(p_1_out0));
-  (* SOFT_HLUTNM = "soft_lutpair8" *) 
   LUT4 #(
     .INIT(16'hFD02)) 
     \half_duty_new[3]_i_1__0 
@@ -8988,7 +9045,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
         .I2(\half_duty_new[2]_i_2__1_n_0 ),
         .I3(half_duty_new4_carry_i_10__1_n_0),
         .I4(half_duty_new4_carry__2_n_0),
-        .I5(\half_duty_new[7]_i_8__0_n_0 ),
+        .I5(\half_duty_new[7]_i_9__0_n_0 ),
         .O(half_duty_new10_in[4]));
   LUT6 #(
     .INIT(64'hD2D2D2D2D2D22DD2)) 
@@ -9003,7 +9060,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
   LUT6 #(
     .INIT(64'hFFFFFFFFFFFFFFFE)) 
     \half_duty_new[5]_i_2__1 
-       (.I0(\half_duty_new[7]_i_8__0_n_0 ),
+       (.I0(\half_duty_new[7]_i_9__0_n_0 ),
         .I1(half_duty_new4_carry_i_10__1_n_0),
         .I2(\half_duty_new[2]_i_2__1_n_0 ),
         .I3(\half_duty_new[2]_i_3__0_n_0 ),
@@ -9023,7 +9080,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     .INIT(64'h0000001104000010)) 
     \half_duty_new[5]_i_4__0 
        (.I0(\half_duty_new[5]_i_5__0_n_0 ),
-        .I1(\half_duty_new[7]_i_8__0_n_0 ),
+        .I1(\half_duty_new[7]_i_9__0_n_0 ),
         .I2(half_duty_new4_carry__2_n_0),
         .I3(half_duty_new4_carry_i_10__1_n_0),
         .I4(\half_duty_new[2]_i_2__1_n_0 ),
@@ -9039,7 +9096,6 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
         .I4(half_duty_new6__0[16]),
         .I5(\half_duty_new[2]_i_4__0_n_0 ),
         .O(\half_duty_new[5]_i_5__0_n_0 ));
-  (* SOFT_HLUTNM = "soft_lutpair7" *) 
   LUT5 #(
     .INIT(32'h00000047)) 
     \half_duty_new[5]_i_6__0 
@@ -9049,12 +9105,13 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
         .I3(\half_duty_new[2]_i_4__0_n_0 ),
         .I4(\half_duty_new[2]_i_3__0_n_0 ),
         .O(\half_duty_new[5]_i_6__0_n_0 ));
+  (* SOFT_HLUTNM = "soft_lutpair8" *) 
   LUT4 #(
     .INIT(16'hDF20)) 
     \half_duty_new[6]_i_1__0 
        (.I0(half_duty_new6_n_79),
         .I1(\half_duty_new_reg[6]_i_2__0_n_1 ),
-        .I2(\half_duty_new[7]_i_3__0_n_0 ),
+        .I2(\half_duty_new[7]_i_4__1_n_0 ),
         .I3(half_duty_new10_in[6]),
         .O(p_1_in[6]));
   LUT4 #(
@@ -9063,7 +9120,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
        (.I0(half_duty_new4_carry__2_n_0),
         .I1(\half_duty_new[5]_i_2__1_n_0 ),
         .I2(\half_duty_new[5]_i_3__0_n_0 ),
-        .I3(\half_duty_new[7]_i_6__1_n_0 ),
+        .I3(\half_duty_new[7]_i_7__1_n_0 ),
         .O(half_duty_new10_in[6]));
   LUT3 #(
     .INIT(8'h3A)) 
@@ -9079,85 +9136,90 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
         .I1(half_duty_new6_n_79),
         .I2(half_duty_new7),
         .O(\half_duty_new[6]_i_5__0_n_0 ));
+  LUT1 #(
+    .INIT(2'h1)) 
+    \half_duty_new[7]_i_1__0 
+       (.I0(disabled),
+        .O(\half_duty_new[7]_i_1__0_n_0 ));
   LUT6 #(
     .INIT(64'h5AA55A87787878A5)) 
-    \half_duty_new[7]_i_1__0 
-       (.I0(\half_duty_new[7]_i_2__1_n_0 ),
-        .I1(\half_duty_new[7]_i_3__0_n_0 ),
-        .I2(\half_duty_new[7]_i_4__1_n_0 ),
+    \half_duty_new[7]_i_2__1 
+       (.I0(\half_duty_new[7]_i_3__0_n_0 ),
+        .I1(\half_duty_new[7]_i_4__1_n_0 ),
+        .I2(\half_duty_new[7]_i_5__1_n_0 ),
         .I3(half_duty_new4_carry__2_n_0),
-        .I4(\half_duty_new[7]_i_5__1_n_0 ),
-        .I5(\half_duty_new[7]_i_6__1_n_0 ),
+        .I4(\half_duty_new[7]_i_6__1_n_0 ),
+        .I5(\half_duty_new[7]_i_7__1_n_0 ),
         .O(p_1_in[7]));
   (* SOFT_HLUTNM = "soft_lutpair8" *) 
   LUT2 #(
     .INIT(4'h2)) 
-    \half_duty_new[7]_i_2__1 
+    \half_duty_new[7]_i_3__0 
        (.I0(half_duty_new6_n_79),
         .I1(\half_duty_new_reg[6]_i_2__0_n_1 ),
-        .O(\half_duty_new[7]_i_2__1_n_0 ));
+        .O(\half_duty_new[7]_i_3__0_n_0 ));
   LUT6 #(
     .INIT(64'hFF7FFAFEFFFFFFFF)) 
-    \half_duty_new[7]_i_3__0 
+    \half_duty_new[7]_i_4__1 
        (.I0(\half_duty_new[5]_i_3__0_n_0 ),
-        .I1(\half_duty_new[7]_i_7__1_n_0 ),
+        .I1(\half_duty_new[7]_i_8__0_n_0 ),
         .I2(half_duty_new4_carry_i_10__1_n_0),
         .I3(half_duty_new4_carry__2_n_0),
-        .I4(\half_duty_new[7]_i_8__0_n_0 ),
+        .I4(\half_duty_new[7]_i_9__0_n_0 ),
         .I5(\half_duty_new[3]_i_2__1_n_0 ),
-        .O(\half_duty_new[7]_i_3__0_n_0 ));
+        .O(\half_duty_new[7]_i_4__1_n_0 ));
   LUT5 #(
     .INIT(32'hFFE200E2)) 
-    \half_duty_new[7]_i_4__1 
+    \half_duty_new[7]_i_5__1 
        (.I0(half_duty_new6__0[24]),
         .I1(half_duty_new7),
         .I2(half_duty_new6_n_81),
         .I3(half_duty_new6_n_79),
         .I4(half_duty_new4[8]),
-        .O(\half_duty_new[7]_i_4__1_n_0 ));
+        .O(\half_duty_new[7]_i_5__1_n_0 ));
   LUT6 #(
     .INIT(64'h1015101010151515)) 
-    \half_duty_new[7]_i_5__1 
+    \half_duty_new[7]_i_6__1 
        (.I0(\half_duty_new[5]_i_2__1_n_0 ),
         .I1(half_duty_new4[6]),
         .I2(half_duty_new6_n_79),
         .I3(half_duty_new6_n_83),
         .I4(half_duty_new7),
         .I5(half_duty_new6__0[22]),
-        .O(\half_duty_new[7]_i_5__1_n_0 ));
+        .O(\half_duty_new[7]_i_6__1_n_0 ));
   LUT5 #(
     .INIT(32'hFFE200E2)) 
-    \half_duty_new[7]_i_6__1 
+    \half_duty_new[7]_i_7__1 
        (.I0(half_duty_new6__0[23]),
         .I1(half_duty_new7),
         .I2(half_duty_new6_n_82),
         .I3(half_duty_new6_n_79),
         .I4(half_duty_new4[7]),
-        .O(\half_duty_new[7]_i_6__1_n_0 ));
+        .O(\half_duty_new[7]_i_7__1_n_0 ));
   LUT6 #(
     .INIT(64'hFFFFFFFEFEFEFFFE)) 
-    \half_duty_new[7]_i_7__1 
+    \half_duty_new[7]_i_8__0 
        (.I0(\half_duty_new[2]_i_2__1_n_0 ),
         .I1(\half_duty_new[2]_i_3__0_n_0 ),
         .I2(\half_duty_new[2]_i_4__0_n_0 ),
         .I3(half_duty_new6__0[16]),
         .I4(half_duty_new7),
         .I5(half_duty_new6_n_89),
-        .O(\half_duty_new[7]_i_7__1_n_0 ));
+        .O(\half_duty_new[7]_i_8__0_n_0 ));
   LUT5 #(
     .INIT(32'hFFE200E2)) 
-    \half_duty_new[7]_i_8__0 
+    \half_duty_new[7]_i_9__0 
        (.I0(half_duty_new6__0[21]),
         .I1(half_duty_new7),
         .I2(half_duty_new6_n_84),
         .I3(half_duty_new6_n_79),
         .I4(half_duty_new4[5]),
-        .O(\half_duty_new[7]_i_8__0_n_0 ));
+        .O(\half_duty_new[7]_i_9__0_n_0 ));
   FDRE #(
     .INIT(1'b0)) 
     \half_duty_new_reg[0] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1__0_n_0 ),
         .D(half_duty_new10_in[0]),
         .Q(half_duty_new[0]),
         .R(1'b0));
@@ -9165,7 +9227,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     .INIT(1'b0)) 
     \half_duty_new_reg[1] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1__0_n_0 ),
         .D(p_1_in[1]),
         .Q(half_duty_new[1]),
         .R(1'b0));
@@ -9173,7 +9235,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     .INIT(1'b0)) 
     \half_duty_new_reg[2] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1__0_n_0 ),
         .D(p_1_in[2]),
         .Q(half_duty_new[2]),
         .R(1'b0));
@@ -9181,7 +9243,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     .INIT(1'b0)) 
     \half_duty_new_reg[3] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1__0_n_0 ),
         .D(p_1_in[3]),
         .Q(half_duty_new[3]),
         .R(1'b0));
@@ -9189,7 +9251,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     .INIT(1'b0)) 
     \half_duty_new_reg[4] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1__0_n_0 ),
         .D(p_1_in[4]),
         .Q(half_duty_new[4]),
         .R(1'b0));
@@ -9197,7 +9259,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     .INIT(1'b0)) 
     \half_duty_new_reg[5] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1__0_n_0 ),
         .D(p_1_in[5]),
         .Q(half_duty_new[5]),
         .R(1'b0));
@@ -9205,7 +9267,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     .INIT(1'b0)) 
     \half_duty_new_reg[6] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1__0_n_0 ),
         .D(p_1_in[6]),
         .Q(half_duty_new[6]),
         .R(1'b0));
@@ -9220,7 +9282,7 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
     .INIT(1'b0)) 
     \half_duty_new_reg[7] 
        (.C(s00_axi_aclk),
-        .CE(E),
+        .CE(\half_duty_new[7]_i_1__0_n_0 ),
         .D(p_1_in[7]),
         .Q(half_duty_new[7]),
         .R(1'b0));
@@ -9288,107 +9350,109 @@ module design_1_MotionController_0_0_PWM_Driver__parameterized1_0
         .D(half_duty_new[7]),
         .Q(\half_duty_reg_n_0_[7] ),
         .R(1'b0));
-  CARRY4 pwm_out0_carry
+  CARRY4 pwm_out_buf0_carry
        (.CI(1'b0),
-        .CO({NLW_pwm_out0_carry_CO_UNCONNECTED[3],pwm_out_reg_1,pwm_out0_carry_n_2,pwm_out0_carry_n_3}),
+        .CO({NLW_pwm_out_buf0_carry_CO_UNCONNECTED[3],pwm_out_buf_reg_1,pwm_out_buf0_carry_n_2,pwm_out_buf0_carry_n_3}),
         .CYINIT(1'b1),
         .DI({1'b0,1'b0,1'b0,1'b0}),
-        .O(NLW_pwm_out0_carry_O_UNCONNECTED[3:0]),
-        .S({1'b0,pwm_out0_carry_i_1__1_n_0,pwm_out0_carry_i_2__1_n_0,pwm_out0_carry_i_3__1_n_0}));
+        .O(NLW_pwm_out_buf0_carry_O_UNCONNECTED[3:0]),
+        .S({1'b0,pwm_out_buf0_carry_i_1__1_n_0,pwm_out_buf0_carry_i_2__1_n_0,pwm_out_buf0_carry_i_3__1_n_0}));
   LUT6 #(
     .INIT(64'h1004088008800440)) 
-    pwm_out0_carry_i_1__1
-       (.I0(pwm_out0_carry_i_4__1_n_0),
+    pwm_out_buf0_carry_i_1__1
+       (.I0(pwm_out_buf0_carry_i_4__1_n_0),
         .I1(\count_reg_n_0_[8] ),
         .I2(\half_duty_reg_n_0_[7] ),
         .I3(\count_reg_n_0_[7] ),
         .I4(\count_reg_n_0_[6] ),
         .I5(\half_duty_reg_n_0_[6] ),
-        .O(pwm_out0_carry_i_1__1_n_0));
+        .O(pwm_out_buf0_carry_i_1__1_n_0));
   LUT6 #(
     .INIT(64'h4200002800424200)) 
-    pwm_out0_carry_i_2__1
-       (.I0(pwm_out0_carry_i_5__0_n_0),
+    pwm_out_buf0_carry_i_2__1
+       (.I0(pwm_out_buf0_carry_i_5__0_n_0),
         .I1(\half_duty_reg_n_0_[4] ),
         .I2(\count_reg_n_0_[4] ),
         .I3(\count_reg_n_0_[3] ),
         .I4(\half_duty_reg_n_0_[3] ),
-        .I5(pwm_out0_carry_i_6__0_n_0),
-        .O(pwm_out0_carry_i_2__1_n_0));
+        .I5(pwm_out_buf0_carry_i_6__0_n_0),
+        .O(pwm_out_buf0_carry_i_2__1_n_0));
   LUT6 #(
     .INIT(64'h0090090090000006)) 
-    pwm_out0_carry_i_3__1
+    pwm_out_buf0_carry_i_3__1
        (.I0(\half_duty_reg_n_0_[2] ),
         .I1(\count_reg_n_0_[2] ),
         .I2(\count_reg_n_0_[0] ),
         .I3(\half_duty_reg_n_0_[1] ),
         .I4(\half_duty_reg_n_0_[0] ),
         .I5(\count_reg_n_0_[1] ),
-        .O(pwm_out0_carry_i_3__1_n_0));
+        .O(pwm_out_buf0_carry_i_3__1_n_0));
   LUT6 #(
     .INIT(64'h77777777777FFFFF)) 
-    pwm_out0_carry_i_4__1
+    pwm_out_buf0_carry_i_4__1
        (.I0(\half_duty_reg_n_0_[5] ),
         .I1(\half_duty_reg_n_0_[4] ),
         .I2(\half_duty_reg_n_0_[1] ),
         .I3(\half_duty_reg_n_0_[0] ),
         .I4(\half_duty_reg_n_0_[2] ),
         .I5(\half_duty_reg_n_0_[3] ),
-        .O(pwm_out0_carry_i_4__1_n_0));
+        .O(pwm_out_buf0_carry_i_4__1_n_0));
   LUT2 #(
     .INIT(4'h6)) 
-    pwm_out0_carry_i_5__0
+    pwm_out_buf0_carry_i_5__0
        (.I0(\half_duty_reg_n_0_[5] ),
         .I1(\count_reg_n_0_[5] ),
-        .O(pwm_out0_carry_i_5__0_n_0));
+        .O(pwm_out_buf0_carry_i_5__0_n_0));
   LUT3 #(
     .INIT(8'h1F)) 
-    pwm_out0_carry_i_6__0
+    pwm_out_buf0_carry_i_6__0
        (.I0(\half_duty_reg_n_0_[1] ),
         .I1(\half_duty_reg_n_0_[0] ),
         .I2(\half_duty_reg_n_0_[2] ),
-        .O(pwm_out0_carry_i_6__0_n_0));
-  CARRY4 pwm_out1_carry
+        .O(pwm_out_buf0_carry_i_6__0_n_0));
+  CARRY4 pwm_out_buf1_carry
        (.CI(1'b0),
-        .CO({NLW_pwm_out1_carry_CO_UNCONNECTED[3],pwm_out_reg_0,pwm_out1_carry_n_2,pwm_out1_carry_n_3}),
+        .CO({NLW_pwm_out_buf1_carry_CO_UNCONNECTED[3],pwm_out_buf_reg_0,pwm_out_buf1_carry_n_2,pwm_out_buf1_carry_n_3}),
         .CYINIT(1'b1),
         .DI({1'b0,1'b0,1'b0,1'b0}),
-        .O(NLW_pwm_out1_carry_O_UNCONNECTED[3:0]),
-        .S({1'b0,pwm_out1_carry_i_1__1_n_0,pwm_out1_carry_i_2__1_n_0,pwm_out1_carry_i_3__1_n_0}));
+        .O(NLW_pwm_out_buf1_carry_O_UNCONNECTED[3:0]),
+        .S({1'b0,pwm_out_buf1_carry_i_1__1_n_0,pwm_out_buf1_carry_i_2__1_n_0,pwm_out_buf1_carry_i_3__1_n_0}));
   LUT5 #(
     .INIT(32'h21000021)) 
-    pwm_out1_carry_i_1__1
+    pwm_out_buf1_carry_i_1__1
        (.I0(\half_duty_reg_n_0_[6] ),
         .I1(\count_reg_n_0_[8] ),
         .I2(\count_reg_n_0_[6] ),
         .I3(\count_reg_n_0_[7] ),
         .I4(\half_duty_reg_n_0_[7] ),
-        .O(pwm_out1_carry_i_1__1_n_0));
+        .O(pwm_out_buf1_carry_i_1__1_n_0));
   LUT6 #(
     .INIT(64'h9009000000009009)) 
-    pwm_out1_carry_i_2__1
+    pwm_out_buf1_carry_i_2__1
        (.I0(\half_duty_reg_n_0_[5] ),
         .I1(\count_reg_n_0_[5] ),
         .I2(\half_duty_reg_n_0_[4] ),
         .I3(\count_reg_n_0_[4] ),
         .I4(\count_reg_n_0_[3] ),
         .I5(\half_duty_reg_n_0_[3] ),
-        .O(pwm_out1_carry_i_2__1_n_0));
+        .O(pwm_out_buf1_carry_i_2__1_n_0));
   LUT6 #(
     .INIT(64'h8421000000008421)) 
-    pwm_out1_carry_i_3__1
+    pwm_out_buf1_carry_i_3__1
        (.I0(\half_duty_reg_n_0_[1] ),
         .I1(\count_reg_n_0_[0] ),
         .I2(\count_reg_n_0_[1] ),
         .I3(\half_duty_reg_n_0_[0] ),
         .I4(\half_duty_reg_n_0_[2] ),
         .I5(\count_reg_n_0_[2] ),
-        .O(pwm_out1_carry_i_3__1_n_0));
-  FDCE pwm_out_reg
+        .O(pwm_out_buf1_carry_i_3__1_n_0));
+  FDCE #(
+    .INIT(1'b0)) 
+    pwm_out_buf_reg
        (.C(s00_axi_aclk),
         .CE(1'b1),
-        .CLR(AR),
-        .D(pwm_out_reg_2),
+        .CLR(disabled),
+        .D(pwm_out_buf_reg_2),
         .Q(motor_right_pwm_out));
 endmodule
 `ifndef GLBL
