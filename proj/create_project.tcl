@@ -1,9 +1,8 @@
 # Run this script to create the Vivado project files NEXT TO THIS script
 # If ::create_path global variable is set, the project is created under that path instead of the working dir
 
-path=$(pwd)/..
-
-set ::create_path "$(path)/SDCar/"
+#TODO: MODIFY ABSOLUTE PATH
+set ::create_path "/home/catabit/ContestRepo/SDCar/"
 
 if {[info exists ::create_path]} {
 	set dest_dir $::create_path

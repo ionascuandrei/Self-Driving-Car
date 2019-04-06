@@ -7,14 +7,14 @@
 ###
 
 # Remove folders
-# rm -rf ../sdk/*
-# rm -rf ../src/ip
-# rm -rf ../SDCar
-# rm -rf ../hw_handoff/*
-# rm -rf ../src/bd/*
-# rm -rf ../constraints/*
-# rm -rf ../hdl/*
-# rm -rf ../ip/*
-# rm -rf ../petalinux/*
+ rm -rf ../sdk/*
+ rm -rf ../src/ip
+ rm -rf ../SDCar/*
+ rm -rf ../hw_handoff/*
+ rm -rf ../src/bd/*
+ rm -rf ../src/constraints/*
+ rm -rf ../hdl/*
+ rm -rf ../ip/*
+ rm -rf ../petalinux/*
 
 
