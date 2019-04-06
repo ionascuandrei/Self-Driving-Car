@@ -13,9 +13,18 @@
 ## Set Project Path
  - Change create_path in create_project.tcl with desired path for Vivado build
 
-## Start Vivado Project
+## Create Vivado Project
  - Open Vivado 2017.4
- - Tools > Run TCL Script > /proj/create_project.tcl
+ - Tools > Run TCL Script : select /proj/create_project.tcl
+ - Generate Bitstream
+ - Export Hardware
+ 
+## Create Petalinux Project
+ - Make sure you use Petalinux 2017.4
+ - Move in /petalinux/ directory
+ - Use bash command: petalinux-build
+ - Set in Makefile BOOT_PARTITION and ROOTFS_PARTITION with the corresponding path to the SD Card
+   Note: SD Card should have a partition for boot and one for root's files system
 
 ## Folder Tree
 For illustrative purposes the current organization of the repository is shown below.
@@ -27,8 +36,7 @@ For illustrative purposes the current organization of the repository is shown be
 |--petalinux
 |  |--project-spec
 |  |--.petalinux
-|  |--config.project
-|  `--Makefile
+|  `--config.project
 |--proj
 |  |--cleanup.cmd
 |  |--cleanup.sh
