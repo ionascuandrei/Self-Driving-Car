@@ -25,6 +25,7 @@
  - Use bash command: petalinux-build
  - Set in Makefile BOOT_PARTITION and ROOTFS_PARTITION with the corresponding path to the SD Card
  - Note: SD Card should have a partition for boot and one for root's files system
+ - Use the Makefile to generate Boot Image and copy it on SD Card
 
 ## Folder Tree
 For illustrative purposes the current organization of the repository is shown below.
@@ -36,6 +37,7 @@ For illustrative purposes the current organization of the repository is shown be
 |--petalinux
 |  |--project-spec
 |  |--.petalinux
+|  |--Makefile
 |  `--config.project
 |--proj
 |  |--cleanup.cmd
