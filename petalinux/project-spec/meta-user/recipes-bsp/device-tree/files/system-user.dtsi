@@ -1,0 +1,86 @@
+/include/ "system-conf.dtsi"
+/ {
+	chosen {
+    		bootargs = "console=ttyPS0,115200 earlyprintk root=/dev/mmcblk0p2 rw rootfstype=ext4 rootwait uio_pdrv_genirq.of_id=generic-uio";
+    	};
+	
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		camera_reserved: buffer@0 {
+			compatible = "shared-dma-pool";
+			no-map;
+			size = <0x04000000>;
+		};
+	};
+
+	sdhci0 {
+		status = "okay";
+		xlnx,has-cd = <0x1>;
+		xlnx,has-power = <0x0>;
+		xlnx,has-wp = <0x1>;
+		disable-wp;
+	};
+
+	usb_phy0: usb_phy@0{
+		compatible = "usb-nop-xceiv";
+		#phy-cells = <0>;
+		//reg = <0xe0002000 0x1000>;
+		//view-port=<0x0170>;
+		//drv-vbus;
+	};
+
+	amba_pl: amba_pl {
+		MIPI_CSI_2_RX_0: MIPI_CSI_2_RX@43c10000 {
+			compatible = "generic-uio";
+			reg = <0x43c10000 0x10000>;
+			xlnx,m-max-samples-per-clock = <0x4>;
+		};
+		MIPI_D_PHY_RX_0: MIPI_D_PHY_RX@43c00000 {
+			compatible = "generic-uio";
+			reg = <0x43c00000 0x10000>;
+		};
+		axi_vdma_0: dma@43000000 {
+			#dma-cells = <1>;
+			clock-names = "s_axi_lite_aclk", "m_axi_s2mm_aclk", "m_axi_s2mm_aclk";
+			clocks = <&clkc 15>, <&clkc 15>, <&clkc 15>;
+			compatible = "ctbt,vdmadriver";
+			memory-region = <&camera_reserved>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 29 4>;
+			reg = <0x43000000 0x10000>;
+			xlnx,addrwidth = <0x20>;
+			xlnx,flush-fsync = <0x1>;
+			xlnx,num-fstores = <0x3>;
+			dma-channel@43000030 {
+				compatible = "ctbt,vdmadriver";
+				memory-region = <&camera_reserved>;
+				interrupts = <0 29 4>;
+				xlnx,datawidth = <0x20>;
+				xlnx,device-id = <0x0>;
+				xlnx,genlock-mode ;
+			};
+		};
+		MotionController_0: MotionController@43c20000 {
+			compatible = "ctbt,motiondriver";
+			reg = <0x43c20000 0x10000>;
+			xlnx,s00-axi-addr-width = <0x4>;
+			xlnx,s00-axi-data-width = <0x20>;
+		};
+		sonarDriver_0: sonarDriver@43c30000 {
+			compatible = "ctbt,sonardriver";
+			reg = <0x43c30000 0x10000>;
+			xlnx,s00-axi-addr-width = <0x4>;
+			xlnx,s00-axi-data-width = <0x20>;
+		};
+	};
+};
+
+	&usb0 {
+		dr_mode = "host";
+		status = "okay";
+		usb-phy = <&usb_phy0>;
+	};
+

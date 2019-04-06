@@ -1,0 +1,1 @@
+../../../../../SDCarVivado/SDCarVivado.sdk/initcamera/src/cameraiic.h

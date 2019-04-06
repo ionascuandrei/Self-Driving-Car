@@ -1,0 +1,20 @@
+# /etc/network/interfaces
+
+# loopback interface
+auto lo
+iface lo inet loopback
+
+# wired ethernet interface
+auto eth0
+iface eth0 inet static
+	address 1.1.1.2
+	netmask 255.255.255.0
+
+# wifi interface
+auto wlan0
+iface wlan0 inet dhcp
+##AndroidAP92EF
+#pre-up wpa_supplicant -Dnl80211,wext -B -i wlan0 -c /etc/wpa_supplicant_AP92EF.conf
+#Any open WiFi
+pre-up wpa_supplicant -Dnl80211,wext -B -i wlan0 -c /etc/wpa_supplicant.conf
+pre-down killall -q wpa_supplicant

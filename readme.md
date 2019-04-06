@@ -39,37 +39,24 @@ For illustrative purposes the current organization of the repository is shown be
 <project_name>
 |--hw_handoff
 |  `--<top_level>.hdf
+|--petalinux
+|  |--project-spec
+|  |--.petalinux
+|  |--config.project
+|  `--Makefile
 |--proj
 |  |--cleanup.cmd
 |  |--cleanup.sh
 |  `--create_project.tcl
 |--repo
-|  |--if
-|  |  `--<interface_v1_1>
-|  |     |--<interface>.xml
-|  |     `--<interface_rtl>.xml
-|  `--ip
-|     `--<ip_v3_8>
-|        |--docs
-|        |  `--<ip_v3_8>.pdf
-|        |--src
-|        |  |--ip
-|	     |  |  `--<fifo>
-|        |  |     `--<fifo>.xci
-|        |  |--<source>.vhd
-|        |  `--<edid>.txt
-|        |--xgui
-|        |  `--<ip_v3_8>.tcl
-|        `--component.xml
+|  |--ip
+|  `--vivado-boards
 |--sdk
 |  |--<hw_platform>
-|  |--<project_bsp>
 |  |  |--.cproject
 |  |  |--.project
-|  |  |--.sdkproject
-|  |  |--Makefile
-|  |  `--system.mss
-|  `--<project>
+|  |  `--.sdkproject
+|  `--<Every SDK Project>
 |     |--src
 |     |  |--<whatever>
 |     |  |  `--<whatever>.c
@@ -81,13 +68,9 @@ For illustrative purposes the current organization of the repository is shown be
 |  |--bd
 |  |  `--<bd_name>.tcl
 |  |--hdl
-|  |  `--<iic_slave>.vhd
 |  |--constraints
 |  |  `--<board>.xdc
 |  |--ip
-|  `--others
-|     `--<mig>.prj
 |--.gitignore
-|--depedences.txt
-`--readme.txt
-```
+|--.git
+`--readme.md
