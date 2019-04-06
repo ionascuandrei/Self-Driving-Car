@@ -1,7 +1,4 @@
-# Vivado project template
-
-This directory structure serves as a template for versioning Vivado project with minimum set of sources. This is one of the approaches recommended by Xilinx in [UG892](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_2/ug892-vivado-design-flows-overview.pdf). Here is a quick run-down of how different project parts are versioned in this approach:
-
+# Self Driving Car
 | Parts      | Approach |
 | ----------- | ----------- |
 | Project, runs      | All project-related content like xpr file, run results, run settings, source sets are (re)created by proj/create_project.tcl. All generated content will be placed into proj/, but only create_project.tcl is versioned. An example is provided in the template and must be manually updated whenever there are changes that must be versioned.      |
@@ -94,45 +91,3 @@ For illustrative purposes the current organization of the repository is shown be
 |--depedences.txt
 `--readme.txt
 ```
-
-## Process for setting up a new project
-1.Initialize a new global repository
-* Within the appropriate folder initialize a bare git repository:
-* git –bare init
-
-2.Initialize a new local repository
-* a.Within your working directory clone a new git repository
-* git clone
-* b.Go to your cloned local repository and when inside proj folder make sure the directory does not contain a project with the same name. You may run cleanup.cmd (linux: cleanup.sh) to delete everything except the utility files
-* c.Either source proj/create_project.tcl in Vivado Tcl shell or use Run Script in the GUI
-
-3.Now you can work on your newly created project and modify/populate your local repository with the files you wish to add to the project and hence submit to version control
-
-4.Once project editing completed, to make sure the changes are checked into Git:
-* a. Export block design, if there is one, to src/bd/. By having the block design opened in Vivado GUI go to File->Export->Export Block Design
-* b. If there are changes to the Vivado project settings (e.g. Implementation strategy changed to PerformanceExplore) go to File->Write Project TCL and export it anywhere. Copy relevant Tcl commands to proj/create_project.tcl.
-Note: this is the only project-relevant file checked into Git
-* c. Make sure all the new sources have been created in the src/ folder and that the existing ones have been modified and saved to the src/ folder
-    * i. Any IPs instantiated OUTSIDE BLOCK DESIGNS need to be created in src/ip/
-    * ii. Use the IP Location button in the IP customization wizard to specify a target directory
-    * iii. Only *.xci and *.prj files are checked in from src/ip/
-    * iv. Design files go into src/hdl/, constraint files into src/constraints
-    * v. If using MIG outside block designs, manually move the MIG IP to the src/ip/ folder
-* d. Stage all the modifications and new files. With the git bash inside your local repository type:
-git add –all 
-* e. Commit the staged modifications:
-git commit –m “Your world-saving modification” –m “Your uber-cool file added” –m “This is a comment”
-* f. Last you need to push the local repository changes to the global repository
-git push
-
-It is strongly advised to commit and push your design efforts often. This provides as a backup method as well as gives the developer the ability to revert to previous changes with higher resolution.
-
-## Tutorial
-* https://www.atlassian.com/git/tutorials 
-
-## Platforms
-* https://www.atlassian.com/git
-* https://www.sourcetreeapp.com/
-* https://desktop.github.com/
-
- 
