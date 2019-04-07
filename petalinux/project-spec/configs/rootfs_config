@@ -4128,10 +4128,12 @@ CONFIG_init-wpa-supplicant-conf=y
 CONFIG_initcamera=y
 CONFIG_motion=y
 # CONFIG_motionselftest is not set
+CONFIG_opencv-control=y
 CONFIG_peekpoke=y
 CONFIG_rfidtest=y
 CONFIG_rtl8188eufw=y
 # CONFIG_sonarTest is not set
+CONFIG_stop-xml=y
 
 #
 # modules 

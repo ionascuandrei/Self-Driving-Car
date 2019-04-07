@@ -20,12 +20,18 @@
  - Export Hardware
  
 ## Create Petalinux Project
+Reference manual: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2017_4/ug1144-petalinux-tools-reference-guide.pdf
  - Make sure you use Petalinux 2017.4
  - Move in /petalinux/ directory
  - Use bash command: petalinux-build
  - Set in Makefile BOOT_PARTITION and ROOTFS_PARTITION with the corresponding path to the SD Card
- - Note: SD Card should have a partition for boot and one for root's files system
+ - Note: SD Card should have a partition for boot and one for root file system (check the referenced manual)
  - Use the Makefile to generate Boot Image and copy it on SD Card
+
+## Running the project
+ - Insert the SD Card in the Zybo board
+ - Connect to it via UART over USB or Ethernet/WiFi (if configured) over SSH
+ - Run the command 'opencv-control'
 
 ## Folder Tree
 For illustrative purposes the current organization of the repository is shown below.

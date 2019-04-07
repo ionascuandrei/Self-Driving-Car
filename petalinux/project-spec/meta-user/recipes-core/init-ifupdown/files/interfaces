@@ -13,8 +13,6 @@ iface eth0 inet static
 # wifi interface
 auto wlan0
 iface wlan0 inet dhcp
-##AndroidAP92EF
-#pre-up wpa_supplicant -Dnl80211,wext -B -i wlan0 -c /etc/wpa_supplicant_AP92EF.conf
 #Any open WiFi
 pre-up wpa_supplicant -Dnl80211,wext -B -i wlan0 -c /etc/wpa_supplicant.conf
 pre-down killall -q wpa_supplicant
