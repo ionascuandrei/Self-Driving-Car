@@ -20,7 +20,7 @@
 Reference manual: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2017_4/ug1144-petalinux-tools-reference-guide.pdf
  - Make sure you use Petalinux 2017.4
  - Move in /petalinux/ directory
- - Use bash command: petalinux-build
+ - Use the "make build" command to build the petalinux project
  - Set in Makefile BOOT_PARTITION and ROOTFS_PARTITION with the corresponding path to the SD Card
  - Note: SD Card should have a partition for boot and one for root file system (check the referenced manual)
  - Use the Makefile to generate Boot Image and copy it on SD Card
