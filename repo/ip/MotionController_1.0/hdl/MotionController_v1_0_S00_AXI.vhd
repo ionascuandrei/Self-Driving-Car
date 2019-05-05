@@ -1,3 +1,24 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: Catalin Bitire
+-- 
+-- Create Date: 12/24/2018 01:00:00 PM
+-- Design Name: 
+-- Module Name: 
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: AXI module that controls a dual-motor driver and a servo motor
+-- 		using 3 PWM drivers
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.all;
 --use ieee.numeric_std.all;
@@ -428,15 +449,23 @@ begin
 
 
 	-- Add user logic here
+
+	-- slv_reg0 = control register
+	-- slv_reg1 = servo register
+	-- slv_reg2 = motor speed register
 	
-	software_enable <= slv_reg0(0);
-	module_enable <= software_enable and enable;
+	software_enable <= slv_reg0(0); -- least significat bit of 'control' register
+	-- both the software enable and the physical switch must be on to enable the module. Safety feature
+	module_enable <= software_enable and enable; 
 	
+	--bits 1 and 2 of the 'control' register set the motor directions
 	motor_right_dir_out <= slv_reg0(1);
 	motor_left_dir_out <= slv_reg0(2);
 	
 	servo_input <= slv_reg1(servo_bits_resolution-1 downto 0);
 	
+	-- force the servo output to be in the acceptable range for a servo motor
+	-- pulse time between 500us and 2500us
 	servo_position <= conv_std_logic_vector(minServoDuty, servo_bits_resolution) when conv_integer(servo_input)<minServoDuty else
 	                  conv_std_logic_vector(maxServoDuty, servo_bits_resolution) when conv_integer(servo_input)>maxServoDuty else
 	                  servo_input;
@@ -444,6 +473,8 @@ begin
 	motor_right_speed <= slv_reg2(motor_bits_resolution-1 downto 0);
 	motor_left_speed <= slv_reg2((2*motor_bits_resolution)-1 downto motor_bits_resolution);
 	
+	--define the three PWM_Drivers used in the design
+
 	servo_driver : PWM_Driver
 	generic map(
 	    sys_clk => sys_clk_frequency,

@@ -56,6 +56,20 @@
 --  
 -------------------------------------------------------------------------------
 
+-------------------------------------------------------------------------------
+-- Revision: 1
+-- Project: Zybo Autonomous Car
+-- Author: Catalin Bitire
+-- Changes: Modified the output format to be inline with the Digilent Pcam 5C
+--          output format (which is 3 color channels, 8 bit color depth), new
+--          format is BGR 24 bits (8 bits per color). Using the original
+--          design for a 3x8bit stream would mean that 8 bits are always unused,
+--          accounting for a 25% useless data transfers overhead.
+--
+-- Depends on your choice of camera/input video data parameters. This setup works
+-- on our project's implementation.
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.NUMERIC_STD.ALL;
@@ -417,6 +431,9 @@ end process AssignValid;
 -- Assign AXI stream output interface signals.
 m_axis_video_tuser  <= sStrobesShiftReg(3).User;
 m_axis_video_tlast  <= sStrobesShiftReg(3).Last;
+
+-- Revision 1
+-- Changed below line to modify the output format size and color depth
 m_axis_video_tdata  <= std_logic_vector(sAXIMasterRed(9 downto 2)) &
     std_logic_vector(sAXIMasterGreen(10 downto 3)) &
     std_logic_vector(sAXIMasterBlue(9 downto 2));

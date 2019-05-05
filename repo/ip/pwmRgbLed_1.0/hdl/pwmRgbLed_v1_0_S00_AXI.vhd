@@ -1,3 +1,27 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: Catalin Bitire
+-- 
+-- Create Date: 01/13/2019 04:25:00 PM
+-- Design Name: 
+-- Module Name:
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: AXI module that controls up to 4 PWM channels with
+--				slave register 0 being split into up to 4 duty values:
+-- 					slv_reg[0]->slv_reg[bits_resolution-1] = 1st channel duty cycle
+--					slv_reg[bits_resolution]->slv_reg[2*bits_resolution-1] = 2nd channel duty cycle
+--					etc for up to 4 channels
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.all;
 --use ieee.numeric_std.all;
@@ -400,7 +424,11 @@ begin
 
 
 	-- Add user logic here
-	
+
+	-- slv_reg0 defines the 4 duty cycles for the different pwm outputs as follows
+	-- slv_reg[0]->slv_reg[bits_resolution-1] = 1st channel duty cycle
+	-- slv_reg[bits_resolution]->slv_reg[2*bits_resolution-1] = 2nd channel duty cycle
+	-- etc for up to 4 channels
 	
     PROCESS(S_AXI_ACLK, reset_n)
       BEGIN

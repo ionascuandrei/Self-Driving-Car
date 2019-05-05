@@ -1,3 +1,25 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: Catalin Bitire
+-- 
+-- Create Date: 24/01/2019 11:01:23 PM
+-- Design Name: 
+-- Module Name:
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: Sonar driver based on Digilent's sonar pmod datasheet
+--				It counts PWM pulse widths as elapsed clock ticks and
+--				reports the value to AXI via slave_reg0
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.all;
 --use ieee.std_logic_unsigned.all;
@@ -405,14 +427,14 @@ begin
     begin
         if (rising_edge( S_AXI_ACLK)) then
             if (pwm_in = '0' and clk_count > 0) then
-                old_clk_count <= clk_count;
-                clk_count <= 0;
+                old_clk_count <= clk_count; -- latches the last counted value to the output AXI register
+                clk_count <= 0;	-- resets the counter
             elsif (pwm_in ='0' and clk_count=0) then
-                clk_count <= 0;
+                clk_count <= 0; -- resets the counter
             end if;
             
             if (pwm_in = '1') then
-                clk_count <= clk_count + 1;
+                clk_count <= clk_count + 1; -- counts up
             end if;
         end if;
     end process;

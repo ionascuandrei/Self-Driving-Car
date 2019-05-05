@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Company: 
--- Engineer: 
+-- Engineer: Catalin Bitire
 -- 
 -- Create Date: 12/24/2018 01:23:59 PM
 -- Design Name: 
