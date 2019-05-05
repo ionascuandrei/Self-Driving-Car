@@ -10,9 +10,6 @@
  
 
 # Workflows
-## Set Project Path
- - Change create_path in create_project.tcl with desired path for Vivado build
-
 ## Create Vivado Project
  - Open Vivado 2017.4
  - Tools > Run TCL Script : select /proj/create_project.tcl

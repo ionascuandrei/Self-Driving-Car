@@ -2,7 +2,7 @@
 # If ::create_path global variable is set, the project is created under that path instead of the working dir
 
 #TODO: MODIFY ABSOLUTE PATH
-set ::create_path "/home/catabit/ContestRepo/SDCar/"
+#set ::create_path ""
 
 if {[info exists ::create_path]} {
 	set dest_dir $::create_path
