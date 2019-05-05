@@ -3328,14 +3328,14 @@ CONFIG_tcf-agent=y
 #
 # v4l-utils 
 #
-# CONFIG_v4l-utils is not set
-# CONFIG_libv4l is not set
+CONFIG_v4l-utils=y
+CONFIG_libv4l=y
 # CONFIG_ir-keytable is not set
-# CONFIG_v4l-utils-dev is not set
+CONFIG_v4l-utils-dev=y
 # CONFIG_media-ctl is not set
 # CONFIG_rc-keymaps is not set
 # CONFIG_v4l-utils-dbg is not set
-# CONFIG_libv4l-dev is not set
+CONFIG_libv4l-dev=y
 
 #
 # valgrind 
@@ -4126,20 +4126,26 @@ CONFIG_wpa-supplicant-passphrase=y
 CONFIG_init-camera-boot=y
 CONFIG_init-wpa-supplicant-conf=y
 CONFIG_initcamera=y
+CONFIG_mjpg-streamer=y
 CONFIG_motion=y
 # CONFIG_motionselftest is not set
 CONFIG_opencv-control=y
+CONFIG_opencv-control-config=y
 CONFIG_peekpoke=y
 CONFIG_rfidtest=y
+CONFIG_rgbledtest=y
 CONFIG_rtl8188eufw=y
 # CONFIG_sonarTest is not set
 CONFIG_stop-xml=y
+CONFIG_videotest=y
 
 #
 # modules 
 #
 CONFIG_8188eu=y
+CONFIG_hlsvdmadriver=y
 CONFIG_motiondriver=y
+CONFIG_rgbleddriver=y
 CONFIG_sonardriver=y
 CONFIG_vdmadriver=y
 

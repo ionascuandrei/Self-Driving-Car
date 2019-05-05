@@ -18,3 +18,12 @@ S = "${WORKDIR}"
 
 # The inherit of module.bbclass will automatically name module packages with
 # "kernel-module-" prefix as required by the oe-core build environment.
+
+
+do_install_append() {
+	install -d ${D}/usr/include/motiondriver/linux/
+	install -m 0755 ${S}/motion_ioctl.h ${D}/usr/include/motiondriver/linux/
+}
+
+
+FILES_${PN}-dev = "/usr/include/motiondriver/*"

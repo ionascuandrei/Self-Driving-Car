@@ -45,7 +45,9 @@
 									<listOptionValue builtIn="false" value="&quot;/home/catabit/Zybo/SDCar/build/tmp/sysroots/plnx_arm/lib&quot;"/>
 								</option>
 								<option id="xilinx.gnu.c.link.option.ldflags.608401198" name="Linker Flags" superClass="xilinx.gnu.c.link.option.ldflags" value="--sysroot=&quot;/home/catabit/Zybo/SDCar/build/tmp/sysroots/plnx_arm&quot;" valueType="string"/>
-								<option id="xilinx.gnu.c.link.option.libs.1773278457" name="Libraries (-l)" superClass="xilinx.gnu.c.link.option.libs"/>
+								<option id="xilinx.gnu.c.link.option.libs.1773278457" name="Libraries (-l)" superClass="xilinx.gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="uiotools"/>
+								</option>
 								<inputType id="xilinx.gnu.linker.input.130740224" superClass="xilinx.gnu.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>

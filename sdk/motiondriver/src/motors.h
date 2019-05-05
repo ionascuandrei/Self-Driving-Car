@@ -4,8 +4,6 @@
 #include "motion_ioctl.h"
 #include "motiondriver.h"
 
-
-
 struct motors_dev {
 	int dev_major;
 	struct motiondriver_local *lp;
@@ -16,10 +14,10 @@ struct motors_dev {
 
 
 /**
- * TODO: write() will be used to directly adjust the motor's speed via a uint32_t (reg[31-16] left motor, reg[15-0] right motor)
- * 		ioctl() will be used to enable/disable the motors and to change the direction, as it will not be used often
+ * Handles writes to the file descriptors managed by this device node.
+ * It verifies the input and then writes the value to the physical device's
+ * register.
  */
-
 ssize_t motors_write(struct file *filp, const char __user *buf, size_t count,
                 loff_t *f_pos)
 {
@@ -44,7 +42,11 @@ ssize_t motors_write(struct file *filp, const char __user *buf, size_t count,
 	return count;
 }
 
-
+/**
+ * Handles ioctl calls on the files managed by this device node.
+ * Can be used to set the direction of the motors and the software
+ * enable bit.
+ */
 long motors_ioctl(struct file *fp, unsigned int cmd, unsigned long arg) {
 	struct motors_dev *dev = fp->private_data;
 	void __iomem *base_addr = dev->lp->base_addr;
@@ -95,18 +97,22 @@ long motors_ioctl(struct file *fp, unsigned int cmd, unsigned long arg) {
 
 }
 
+/**
+ * Opens a new file associated with this device node
+ */
 int motors_open(struct inode *in, struct file *fp)
 {
 	struct motors_dev *dev;
 	//printk(KERN_NOTICE "Opened a file\n");
 
+	//Reference itself in the file's private data field, to be
+	//usable in reads/writes
 	dev = container_of(in->i_cdev, struct motors_dev, cdev);
 	fp->private_data = dev;
 
 
 	return 0;
 }
-
 
 struct file_operations motors_fops = {
 	.owner =    THIS_MODULE,
@@ -115,8 +121,9 @@ struct file_operations motors_fops = {
 	.write = motors_write,
 };
 
-
-
+/**
+ * Free registered structures and memory
+ */
 void motors_delete(struct motors_dev *dev)
 {
 	dev_t devno = MKDEV(dev->dev_major, 0);
@@ -133,7 +140,9 @@ void motors_delete(struct motors_dev *dev)
 	printk(KERN_NOTICE "Unregistered motors char device.\n");
 }
 
-
+/**
+ * Register the required structures, device nodes, classes and such
+ */
 static int motors_setup_cdev(struct motors_dev *dev)
 {
 	int err, devno = MKDEV(dev->dev_major, 0);

@@ -11,8 +11,11 @@ struct sonar_dev {
 	struct device *node;
 };
 
-
-
+/**
+ * Manages read calls on the files associated with this device node
+ * It returns a 4 byte value coresponding to the physical register
+ * that stores the clock ticks measured by the VHDL component
+ */
 ssize_t sonar_read(struct file *fp, char __user *buf, size_t count, loff_t *f_pos)
 {
 	struct sonar_dev *dev = fp->private_data;

@@ -14,6 +14,7 @@ SRC_URI = "file://motion.c \
 S = "${WORKDIR}"
 
 DEPENDS += " uiotools"
+DEPENDS += "motiondriver"
 
 do_compile() {
 	     oe_runmake

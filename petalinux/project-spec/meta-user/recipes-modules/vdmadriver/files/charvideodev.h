@@ -14,7 +14,11 @@ struct charvideo_dev {
 	struct device *node;
 };
 
-
+/**
+ * Receives and manages ioctl calls, getting VDMA configuration parameters
+ * like the video feed sizes, or forces the VDMA to start/stop or print
+ * its status.
+ */
 ssize_t charvideo_read(struct file *fp, char __user *buf, size_t count, loff_t *f_pos)
 {
 	struct charvideo_dev *dev = fp->private_data;
@@ -39,6 +43,11 @@ ssize_t charvideo_read(struct file *fp, char __user *buf, size_t count, loff_t *
 
 }
 
+/**
+ * Receives and manages ioctl calls, getting VDMA configuration parameters
+ * like the video feed sizes, or forces the VDMA to start/stop or print
+ * its status.
+ */
 long charvideo_ioctl(struct file *fp, unsigned int cmd, unsigned long arg) {
 	struct charvideo_dev *dev = fp->private_data;
 	struct vdmaController *v = dev->lp->vdmactrl;
@@ -92,11 +101,16 @@ long charvideo_ioctl(struct file *fp, unsigned int cmd, unsigned long arg) {
 
 }
 
+/**
+ * Open a new file descriptor of this device node.
+ */
 int charvideo_open(struct inode *in, struct file *fp)
 {
 	struct charvideo_dev *dev;
-	printk(KERN_NOTICE "Opened a file\n");
+	//printk(KERN_NOTICE "Opened a file\n");
 
+	//Reference itself in the file's private data field, to be
+	//usable in reads/writes
 	dev = container_of(in->i_cdev, struct charvideo_dev, cdev);
 	fp->private_data = dev;
 
@@ -113,7 +127,9 @@ struct file_operations charvideo_fops = {
 };
 
 
-
+/**
+ * Free registered structures and memory
+ */
 void charvideo_delete(struct charvideo_dev *dev)
 {
 	dev_t devno = MKDEV(dev->dev_major, 0);
@@ -130,6 +146,9 @@ void charvideo_delete(struct charvideo_dev *dev)
 	printk(KERN_NOTICE "Unregistered charvideo char device.\n");
 }
 
+/**
+ * Register the required structures, device nodes, classes and such
+ */
 static int charvideo_setup_cdev(struct charvideo_dev *dev)
 {
 	int err, devno = MKDEV(dev->dev_major, 0);

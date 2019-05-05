@@ -9,7 +9,13 @@
 		#size-cells = <1>;
 		ranges;
 
-		camera_reserved: buffer@0 {
+		camera_reserved: buffer_camera@0 {
+			compatible = "shared-dma-pool";
+			no-map;
+			size = <0x04000000>;
+		};
+
+		hls_reserved: buffer_hls@0 {
 			compatible = "shared-dma-pool";
 			no-map;
 			size = <0x04000000>;
@@ -42,6 +48,46 @@
 			compatible = "generic-uio";
 			reg = <0x43c00000 0x10000>;
 		};
+		axi_gpio_camera_enable: gpio@41200000 {
+			#gpio-cells = <2>;
+			compatible = "generic-uio";
+			gpio-controller ;
+			reg = <0x41200000 0x10000>;
+			xlnx,all-inputs = <0x0>;
+			xlnx,all-inputs-2 = <0x0>;
+			xlnx,all-outputs = <0x1>;
+			xlnx,all-outputs-2 = <0x0>;
+			xlnx,dout-default = <0xFFFFFFFF>;
+			xlnx,dout-default-2 = <0x00000000>;
+			xlnx,gpio-width = <0x1>;
+			xlnx,gpio2-width = <0x20>;
+			xlnx,interrupt-present = <0x0>;
+			xlnx,is-dual = <0x0>;
+			xlnx,tri-default = <0xFFFFFFFF>;
+			xlnx,tri-default-2 = <0xFFFFFFFF>;
+		};
+		axi_gpio_rfid_intr: gpio@41210000 {
+			#gpio-cells = <2>;
+			#interrupt-cells = <2>;
+			compatible = "generic-uio";
+			gpio-controller ;
+			interrupt-controller ;
+			interrupt-parent = <&intc>;
+			interrupts = <0 31 4>;
+			reg = <0x41210000 0x10000>;
+			xlnx,all-inputs = <0x1>;
+			xlnx,all-inputs-2 = <0x0>;
+			xlnx,all-outputs = <0x0>;
+			xlnx,all-outputs-2 = <0x0>;
+			xlnx,dout-default = <0x00000000>;
+			xlnx,dout-default-2 = <0x00000000>;
+			xlnx,gpio-width = <0x1>;
+			xlnx,gpio2-width = <0x20>;
+			xlnx,interrupt-present = <0x1>;
+			xlnx,is-dual = <0x0>;
+			xlnx,tri-default = <0xFFFFFFFF>;
+			xlnx,tri-default-2 = <0xFFFFFFFF>;
+		};
 		axi_vdma_0: dma@43000000 {
 			#dma-cells = <1>;
 			clock-names = "s_axi_lite_aclk", "m_axi_s2mm_aclk", "m_axi_s2mm_aclk";
@@ -62,6 +108,33 @@
 				xlnx,device-id = <0x0>;
 				xlnx,genlock-mode ;
 			};
+		};
+		axi_vdma_1: dma@43010000 {
+			#dma-cells = <1>;
+			clock-names = "s_axi_lite_aclk", "m_axi_s2mm_aclk", "m_axi_s2mm_aclk";
+			clocks = <&clkc 15>, <&clkc 15>, <&clkc 15>;
+			compatible = "ctbt,HLSvdmadriver";
+			memory-region = <&hls_reserved>;
+			interrupt-parent = <&intc>;
+			interrupts = <0 30 4>;
+			reg = <0x43010000 0x10000>;
+			xlnx,addrwidth = <0x20>;
+			xlnx,flush-fsync = <0x1>;
+			xlnx,num-fstores = <0x3>;
+			dma-channel@43010030 {
+				compatible = "ctbt,HLSvdmadriver";
+				memory-region = <&hls_reserved>;
+				interrupts = <0 30 4>;
+				xlnx,datawidth = <0x18>;
+				xlnx,device-id = <0x1>;
+				xlnx,genlock-mode ;
+			};
+		};
+		axi_rgb_led: pwmDriverAXI@43c40000 {
+			compatible = "ctbt,rgbleddriver";
+			reg = <0x43c40000 0x10000>;
+			xlnx,s00-axi-addr-width = <0x4>;
+			xlnx,s00-axi-data-width = <0x20>;
 		};
 		MotionController_0: MotionController@43c20000 {
 			compatible = "ctbt,motiondriver";

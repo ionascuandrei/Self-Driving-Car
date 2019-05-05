@@ -36,9 +36,9 @@ set_property -dict { PACKAGE_PIN D18   IOSTANDARD LVCMOS33 } [get_ports { motion
 #set_property -dict { PACKAGE_PIN Y12   IOSTANDARD LVCMOS33 } [get_ports { led5_b }]; #IO_L20P_T3_13 Sch=led5_b
 
 ##RGB LED 6
-#set_property -dict { PACKAGE_PIN V16   IOSTANDARD LVCMOS33 } [get_ports { rgb_led[0] }]; #IO_L18P_T2_34 Sch=led6_r
-#set_property -dict { PACKAGE_PIN F17   IOSTANDARD LVCMOS33 } [get_ports { rgb_led[1]}]; #IO_L6N_T0_VREF_35 Sch=led6_g
-#set_property -dict { PACKAGE_PIN M17   IOSTANDARD LVCMOS33 } [get_ports { rgb_led[2] }]; #IO_L8P_T1_AD10P_35 Sch=led6_b
+set_property -dict { PACKAGE_PIN V16   IOSTANDARD LVCMOS33 } [get_ports { rgb_led[0] }]; #IO_L18P_T2_34 Sch=led6_r
+set_property -dict { PACKAGE_PIN F17   IOSTANDARD LVCMOS33 } [get_ports { rgb_led[1]}]; #IO_L6N_T0_VREF_35 Sch=led6_g
+set_property -dict { PACKAGE_PIN M17   IOSTANDARD LVCMOS33 } [get_ports { rgb_led[2] }]; #IO_L8P_T1_AD10P_35 Sch=led6_b
 
 
 ##Audio Codec
@@ -134,7 +134,7 @@ set_property -dict { PACKAGE_PIN W14   IOSTANDARD LVCMOS33     } [get_ports { se
                                                                                                                                  
                                                                                                                                  
 ##Pmod Header JD                                                                                                                  
-#set_property -dict { PACKAGE_PIN T14   IOSTANDARD LVCMOS33     } [get_ports { jd[0] }]; #IO_L5P_T0_34 Sch=jd_p[1]                  
+set_property -dict { PACKAGE_PIN T14   IOSTANDARD LVCMOS33     } [get_ports { rfid_intr }]; #IO_L5P_T0_34 Sch=jd_p[1]                  
 #set_property -dict { PACKAGE_PIN T15   IOSTANDARD LVCMOS33     } [get_ports { jd[1] }]; #IO_L5N_T0_34 Sch=jd_n[1]				 
 set_property -dict { PACKAGE_PIN P14   IOSTANDARD LVCMOS33     } [get_ports { ps_iic_scl_io }]; #IO_L6P_T0_34 Sch=jd_p[2]   
 set_property PULLUP true [get_ports {ps_iic_scl_io}];               

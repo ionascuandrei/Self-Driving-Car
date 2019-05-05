@@ -10,5 +10,8 @@ all: build
 build: $(APP)
 
 $(APP): $(APP_OBJS)
-	$(CXX) -O1 $(LDFLAGS) -o $@ $(APP_OBJS) $(LDLIBS) -lm -lpthread $(OPENCV_LIBS)
+	$(CXX) -O1 $(LDFLAGS) -o $@ $(APP_OBJS) $(LDLIBS) -lm -lpthread $(OPENCV_LIBS) -luiotools
+
+clean:
+	rm -rf *.o
 

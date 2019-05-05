@@ -6,13 +6,14 @@ iface lo inet loopback
 
 # wired ethernet interface
 auto eth0
-iface eth0 inet static
-	address 1.1.1.2
-	netmask 255.255.255.0
+iface eth0 inet dhcp
 
 # wifi interface
 auto wlan0
 iface wlan0 inet dhcp
+##WiFi defined in wpa_supplicant_WIFI0.conf
+#pre-up wpa_supplicant -Dnl80211,wext -B -i wlan0 -c /etc/wpa_supplicant_WIFI0.conf
+#pre-down killall -q wpa_supplicant
 #Any open WiFi
 pre-up wpa_supplicant -Dnl80211,wext -B -i wlan0 -c /etc/wpa_supplicant.conf
 pre-down killall -q wpa_supplicant

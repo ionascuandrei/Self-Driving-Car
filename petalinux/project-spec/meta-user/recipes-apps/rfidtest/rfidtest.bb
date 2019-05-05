@@ -16,6 +16,8 @@ SRC_URI = "file://rfidtest.c \
 
 S = "${WORKDIR}"
 
+DEPENDS += " uiotools"
+
 do_compile() {
 	     oe_runmake
 }

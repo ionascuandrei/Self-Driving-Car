@@ -1,21 +1,3 @@
-/*  vdmadriver.c - The simplest kernel module.
-
-* Copyright (C) 2013 - 2016 Xilinx, Inc
-*
-*   This program is free software; you can redistribute it and/or modify
-*   it under the terms of the GNU General Public License as published by
-*   the Free Software Foundation; either version 2 of the License, or
-*   (at your option) any later version.
-
-*   This program is distributed in the hope that it will be useful,
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*   GNU General Public License for more details.
-*
-*   You should have received a copy of the GNU General Public License along
-*   with this program. If not, see <http://www.gnu.org/licenses/>.
-
-*/
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/module.h>
@@ -51,7 +33,7 @@ MODULE_DESCRIPTION
     ("vdmadriver - loadable module that manages the vdma-camera pipeline and exposes a framebuffer via read()");
 
 #define DRIVER_NAME "vdmadriver"
-#define ALLOC_SIZE 64*1000*1000 //128mb
+#define ALLOC_SIZE 64*1000*1000 // reserved memory size
 
 
 

@@ -96,7 +96,7 @@ wire clk_in2_design_1_clk_wiz_0_0;
 
   wire        clk_out1_design_1_clk_wiz_0_0;
   wire        clk_out2_design_1_clk_wiz_0_0;
-  wire        clk_out3_design_1_clk_wiz_0_0;
+  wire        passthrough_design_1_clk_wiz_0_0;
   wire        clk_out4_design_1_clk_wiz_0_0;
   wire        clk_out5_design_1_clk_wiz_0_0;
   wire        clk_out6_design_1_clk_wiz_0_0;

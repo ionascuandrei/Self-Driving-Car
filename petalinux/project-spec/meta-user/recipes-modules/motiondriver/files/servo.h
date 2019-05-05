@@ -18,7 +18,9 @@ struct servo_dev {
 
 
 /**
- * TODO: write() will be used to directly adjust the servo's position via a 12 bit uint
+ * Handles writes to the file descriptors managed by this device node.
+ * It verifies the input and then writes the value to the physical device's
+ * register.
  */
 ssize_t servo_write(struct file *filp, const char __user *buf, size_t count,
                 loff_t *f_pos)
@@ -43,8 +45,10 @@ ssize_t servo_write(struct file *filp, const char __user *buf, size_t count,
 
 	//limit the value to the current steering config
 	//TODO: add ioctl to get the defaults
-	if(value<SERVO_LEFT || value>SERVO_RIGHT)
+	if(value<SERVO_LEFT || value>SERVO_RIGHT) {
+		printk(KERN_WARNING "Requested servo value %d is not in the accepted range of [%d, %d]\n", value, SERVO_LEFT, SERVO_RIGHT);
 		return -1;
+	}
 
 
 
@@ -54,7 +58,11 @@ ssize_t servo_write(struct file *filp, const char __user *buf, size_t count,
 	return count;
 }
 
-
+/**
+ * Handles ioctl calls on the files managed by this device node.
+ * Can be used to get the maximum and minimum servo values accepted
+ * by the physical driver (defined at the start of this source file)
+ */
 long servo_ioctl(struct file *fp, unsigned int cmd, unsigned long arg) {
 	struct servo_dev *dev = fp->private_data;
 	void __iomem *base_addr = dev->lp->base_addr;
@@ -90,8 +98,9 @@ long servo_ioctl(struct file *fp, unsigned int cmd, unsigned long arg) {
 
 }
 
-
-
+/**
+ * Opens a new file associated with this device node
+ */
 int servo_open(struct inode *in, struct file *fp)
 {
 	struct servo_dev *dev;
@@ -113,7 +122,9 @@ struct file_operations servo_fops = {
 };
 
 
-
+/**
+ * Free registered structures and memory
+ */
 void servo_delete(struct servo_dev *dev)
 {
 	dev_t devno = MKDEV(dev->dev_major, 0);
@@ -130,7 +141,9 @@ void servo_delete(struct servo_dev *dev)
 	printk(KERN_NOTICE "Unregistered servo char device.\n");
 }
 
-
+/**
+ * Register the required structures, device nodes, classes and such
+ */
 static int servo_setup_cdev(struct servo_dev *dev)
 {
 	int err, devno = MKDEV(dev->dev_major, 0);

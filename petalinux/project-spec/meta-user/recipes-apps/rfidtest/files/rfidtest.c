@@ -78,10 +78,10 @@ void writeRFID(int fd, uint8_t *data) {
 			if (success) {
 				success = mifareclassic_WriteDataBlock(fd, block, data);
 				if (success) {
-					printf("Successfully wrote data!\n");
+					printf("Success!\n");
 				}
 			} else {
-				printf("Read block failed.\n");
+				printf("Write block failed.\n");
 			}
 		} else {
 			printf("Block auth failed.\n");
@@ -89,6 +89,17 @@ void writeRFID(int fd, uint8_t *data) {
 	}
 }
 
+/**
+ * Usage:
+ *
+ * Normal usage, reads up to MAXCARDS unique cards and then prints them
+ * ./rfidtest
+ *
+ * Write data mode
+ * ./rfidtest <TYPE>
+ * Where TYPE is a 0-255 value to be written on the card. An optional
+ * 11 character string can be written too, see console messages.
+ */
 int main(int argc, char *argv[]) {
 	int fd = initRFID();
 	if (fd < 0)
@@ -100,7 +111,7 @@ int main(int argc, char *argv[]) {
 		memset(str, 0, 12);
 		printf("Enter the string you want written. Max 11 chars\n");
 		fgets((char *) str, 12, stdin);
-		printf("Writing card with type %d and string %s\n", cardType, str);
+		printf("Writing card with type %d and string %s\s", cardType, str);
 
 		uint8_t data[16];
 		memset(data, 0, 16);
@@ -121,7 +132,7 @@ int main(int argc, char *argv[]) {
 		free(queue);
 	}
 
-	close(fd);
+	closeRFID(fd);
 	return 0;
 }
 

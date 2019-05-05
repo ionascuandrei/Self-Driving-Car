@@ -7,12 +7,10 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/ioctl.h>
-//#include <linux/i2c.h>
-//#include <linux/i2c-dev.h>
-#include <linux/i2c-dev-user.h>
+#include <linux/i2c-dev.h>
+#include <uiotools/uiotools.h>
 
 //#define RFID_DEBUG
-
 
 #define PN532_PREAMBLE                (0x00)
 #define PN532_STARTCODE1              (0x00)
@@ -67,7 +65,6 @@
 #define PN532_RESPONSE_INDATAEXCHANGE       (0x41)
 #define PN532_RESPONSE_INLISTPASSIVETARGET  (0x4B)
 
-
 #define PN532_MIFARE_ISO14443A              (0x00)
 
 // Mifare Commands
@@ -81,39 +78,94 @@
 #define MIFARE_CMD_INCREMENT                (0xC1)
 #define MIFARE_CMD_STORE                    (0xC2)
 
+#define GPIO_NAME "gpio"
+#define GPIO_RFID_ADDRESS 0x41210000
+#define GPIO_MAP_SIZE 0x10000
 
-uint8_t command; //last command sent
+#define GPIO_DATA_OFFSET 0x00
+#define GPIO_TRI_OFFSET 0x04
+#define GPIO_GLOBAL_IRQ 0x11C
+#define GPIO_IRQ_CONTROL 0x128
+#define GPIO_IRQ_STATUS 0x120
 
+#define USE_INTERRUPTS //comment this to enable timeout based polling
+//#define RFID_DEBUG //uncomment this to enable debug messages
 
+static uint8_t command; //last command sent
+static int irq_fd = -1;
+static void *irq_ptr;
+static uint8_t disable_irq = 0;
 
-void PrintHex(const uint8_t *data, const uint32_t numBytes)
-{
-    for (uint8_t i = 0; i < numBytes; i++) {
-        printf(" %2X", data[i]);
-    }
-    printf("\n");
+void PrintHex(const uint8_t *data, const uint32_t numBytes) {
+	for (uint8_t i = 0; i < numBytes; i++) {
+		printf(" %2X", data[i]);
+	}
+	printf("\n");
 }
 
-void PrintHexChar(const uint8_t *data, const uint32_t numBytes)
-{
-    for (uint8_t i = 0; i < numBytes; i++) {
-        printf(" %2X", data[i]);
-    }
-    printf("    ");
-    for (uint8_t i = 0; i < numBytes; i++) {
-        char c = data[i];
-        if (c <= 0x1f || c > 0x7f) {
-            printf(".");
-        } else {
-            printf("%c", c);
-        }
+void PrintHexChar(const uint8_t *data, const uint32_t numBytes) {
+	for (uint8_t i = 0; i < numBytes; i++) {
+		printf(" %2X", data[i]);
+	}
+	printf("    ");
+	for (uint8_t i = 0; i < numBytes; i++) {
+		char c = data[i];
+		if (c <= 0x1f || c > 0x7f) {
+			printf(".");
+		} else {
+			printf("%c", c);
+		}
 
-    }
-    printf("\n");
+	}
+	printf("\n");
 }
 
-int requestData(int fd, int8_t address, uint8_t *output, uint8_t length){
-	int result = read(fd,output,length);
+/**
+ * Uses the GPIO Interrupt controller to wait (blocking read)
+ * for an interrupt to arrive from the PN532 chip.
+ */
+void wait_for_interrupt() {
+	if(disable_irq==1)
+		return;
+	int reenable = 1;
+	unsigned int reg;
+	unsigned int value;
+
+	//blocking read
+	read(irq_fd, (void *) &reenable, sizeof(int));   // &reenable -> &pending
+	// channel 1 reading
+	value = *((unsigned *) (irq_ptr + GPIO_DATA_OFFSET));
+	if ((value & 0x00000001) != 0) {
+#ifdef RFID_DEBUG
+		printf("RFID interrupt on channel 1\n");
+#endif
+	}
+	//usleep(50000); // anti rebond
+	// the interrupt occurred for the 1st GPIO channel so clear it
+	reg = *((unsigned *) (irq_ptr + GPIO_IRQ_STATUS));
+	if (reg != 0)
+		*((unsigned *) (irq_ptr + GPIO_IRQ_STATUS)) = 1;
+	// re-enable the interrupt in the interrupt controller thru the
+	// the UIO subsystem now that it's been handled
+	write(irq_fd, (void *) &reenable, sizeof(int));
+}
+
+/**
+ * Sends a fake interrupt to the GPIO controller
+ * to break out of the blocking read and to enable
+ * gracious termination of the program otherwise
+ * stuck in a loop.
+ */
+void fake_interrupt(){
+	disable_irq=1;
+	*((unsigned *) (irq_ptr + GPIO_IRQ_STATUS)) = 1;
+}
+
+/**
+ * Wrapper over system call read()
+ */
+int requestData(int fd, int8_t address, uint8_t *output, uint8_t length) {
+	int result = read(fd, output, length);
 
 	//i2c_smbus_read_block_data(fd, 1, output);
 
@@ -125,26 +177,21 @@ int requestData(int fd, int8_t address, uint8_t *output, uint8_t length){
 	}
 }
 
-
 int8_t readAckFrame(int fd) {
-	const uint8_t PN532_ACK[] = {0, 0, 0xFF, 0, 0xFF, 0};
-	uint8_t ackBuf[sizeof(PN532_ACK)+1];
+	const uint8_t PN532_ACK[] = { 0, 0, 0xFF, 0, 0xFF, 0 };
+	uint8_t ackBuf[sizeof(PN532_ACK) + 1];
 
 	uint16_t time = 0;
 	do {
-		if (requestData(fd, PN532_I2C_ADDRESS, ackBuf, 7)==7) {
+#ifdef USE_INTERRUPTS
+		wait_for_interrupt();
+#endif
+		if (requestData(fd, PN532_I2C_ADDRESS, ackBuf, 7) == 7) {
 			if (ackBuf[0] & 1) {  // check first byte --- status
 				break;         // PN532 is ready
 			}
 		}
-		/*printf("ACK: ");
-		for (int i=0; i<7; i++){
-			printf(" 0x%x", ackBuf[i]);
-		}
-		printf("\n");
-		*/
-
-		usleep(1000);
+		usleep(100);
 		time++;
 		if (time > PN532_ACK_WAIT_TIME) {
 			printf("TIMEOUT ACK\n");
@@ -152,17 +199,13 @@ int8_t readAckFrame(int fd) {
 		}
 	} while (1);
 
-	//requestData(fd, PN532_I2C_ADDRESS, ackBuf+1, 6);
-
-	int ok=1;
-	for (int i=0; i<sizeof(PN532_ACK); i++){
-		if (ackBuf[1+i]!=PN532_ACK[i])
-			ok=0;
+	int ok = 1;
+	for (int i = 0; i < sizeof(PN532_ACK); i++) {
+		if (ackBuf[1 + i] != PN532_ACK[i])
+			ok = 0;
 	}
 
-
-	//if (memcmp(ackBuf+1, PN532_ACK, sizeof(PN532_ACK))) {
-	if (ok==0){
+	if (ok == 0) {
 		printf("Invalid ACK\n");
 		return PN532_INVALID_ACK;
 	}
@@ -171,16 +214,17 @@ int8_t readAckFrame(int fd) {
 }
 
 /**
-    * @brief    write a command and check ack
-    * @param    header  packet header
-    * @param    hlen    length of header
-    * @param    body    packet body
-    * @param    blen    length of body
-    * @return   0       success
-    *           not 0   failed
-    */
+ * @brief    write a command and check ack
+ * @param    header  packet header
+ * @param    hlen    length of header
+ * @param    body    packet body
+ * @param    blen    length of body
+ * @return   0       success
+ *           not 0   failed
+ */
 
-int8_t writeCommand(int fd, const uint8_t *header, uint8_t hlen, const uint8_t *body, uint8_t blen) {
+int8_t writeCommand(int fd, const uint8_t *header, uint8_t hlen,
+		const uint8_t *body, uint8_t blen) {
 	uint8_t iicbuf[10];
 	command = header[0];
 
@@ -191,14 +235,14 @@ int8_t writeCommand(int fd, const uint8_t *header, uint8_t hlen, const uint8_t *
 	int8_t length = hlen + blen + 1;   // length of data field: TFI + DATA
 
 	iicbuf[3] = length;
-	iicbuf[4] = ~length +1;
+	iicbuf[4] = ~length + 1;
 	iicbuf[5] = PN532_HOSTTOPN532;
 
 	// WRITE THE HEADER
-	memcpy(iicbuf+6, header, hlen);
+	memcpy(iicbuf + 6, header, hlen);
 
 	// WRITE THE BODY
-	if (body!=NULL && blen >0) {
+	if (body != NULL && blen > 0) {
 		//memcpy(iicbuf, body, blen);
 		//write(fd, iicbuf, blen);
 		printf("BODY NOT SUPPORTED YET");
@@ -206,15 +250,17 @@ int8_t writeCommand(int fd, const uint8_t *header, uint8_t hlen, const uint8_t *
 	}
 
 	uint8_t sum = PN532_HOSTTOPN532;    // sum of TFI + DATA
-	for (int i=0; i<hlen; i++) sum += header[i];
+	for (int i = 0; i < hlen; i++)
+		sum += header[i];
 
-	if (body!=NULL && blen >0)
-		for (int i=0; i<blen; i++) sum += body[i];
+	if (body != NULL && blen > 0)
+		for (int i = 0; i < blen; i++)
+			sum += body[i];
 
-	iicbuf[6+hlen]= ~sum +1; //checksum
-	iicbuf[7+hlen]=PN532_POSTAMBLE;
+	iicbuf[6 + hlen] = ~sum + 1; //checksum
+	iicbuf[7 + hlen] = PN532_POSTAMBLE;
 
-	if(write(fd, iicbuf, 8+hlen)!=8+hlen)
+	if (write(fd, iicbuf, 8 + hlen) != 8 + hlen)
 		return -1;
 
 	return readAckFrame(fd);
@@ -222,12 +268,14 @@ int8_t writeCommand(int fd, const uint8_t *header, uint8_t hlen, const uint8_t *
 }
 
 int16_t getResponseLength(int fd, uint16_t timeout) {
-	const uint8_t PN532_NACK[] = {0, 0, 0xFF, 0xFF, 0, 0};
+	const uint8_t PN532_NACK[] = { 0, 0, 0xFF, 0xFF, 0, 0 };
 	uint16_t time = 0;
 	uint8_t iicbuf[7];
 
-
 	do {
+#ifdef USE_INTERRUPTS
+		wait_for_interrupt();
+#endif
 		if (requestData(fd, PN532_I2C_ADDRESS, iicbuf, 7)) {
 			if (iicbuf[0] & 1) {  // check first byte --- status
 				break;         // PN532 is ready
@@ -243,11 +291,10 @@ int16_t getResponseLength(int fd, uint16_t timeout) {
 		}
 	} while (1);
 
-
-	if (0x00 != iicbuf[1]      ||       // PREAMBLE
-			0x00 != iicbuf[2]  ||       // STARTCODE1
+	if (0x00 != iicbuf[1] ||       // PREAMBLE
+			0x00 != iicbuf[2] ||       // STARTCODE1
 			0xFF != iicbuf[3]           // STARTCODE2
-		) {
+					) {
 
 		return PN532_INVALID_FRAME;
 	}
@@ -262,30 +309,31 @@ int16_t getResponseLength(int fd, uint16_t timeout) {
 }
 
 /**
-    * @brief    read the response of a command, strip prefix and suffix
-    * @param    buf     to contain the response data
-    * @param    len     lenght to read
-    * @param    timeout max time to wait, 0 means no timeout
-    * @return   >=0     length of response without prefix and suffix
-    *           <0      failed to read response
-    */
+ * @brief    read the response of a command, strip prefix and suffix
+ * @param    buf     to contain the response data
+ * @param    len     lenght to read
+ * @param    timeout max time to wait, 0 means no timeout
+ * @return   >=0     length of response without prefix and suffix
+ *           <0      failed to read response
+ */
 int16_t readResponse(int fd, uint8_t* buf, uint8_t len, uint16_t timeout) {
 	uint16_t time = 0;
 	int8_t length;
 	uint8_t iicbuf[64];
 
-	//requestData(fd, PN532_I2C_ADDRESS, iicbuf, sizeof(iicbuf));
-	//length = iicbuf[3];
 
 	// [RDY] 00 00 FF LEN LCS (TFI PD0 ... PDn) DCS 00
 	do {
+#ifdef USE_INTERRUPTS
+		wait_for_interrupt();
+#endif
 		if (requestData(fd, PN532_I2C_ADDRESS, iicbuf, sizeof(iicbuf))) {
 			if (iicbuf[0] & 1) {  // check first byte --- status
 				break;         // PN532 is ready
 			}
 		}
 
-		usleep(1000);
+		usleep(100);
 		time++;
 		if ((0 != timeout) && (time > timeout)) {
 			printf("TIMEOUT RESPONSE\n");
@@ -293,34 +341,22 @@ int16_t readResponse(int fd, uint8_t* buf, uint8_t len, uint16_t timeout) {
 		}
 	} while (1);
 
-	//###############################
-
-	/*for (int i=0; i<30; i++){
-		printf(" 0x%x", iicbuf[i]);
-	}
-	printf("\n");
-	*/
-
-	//###############################
-
-
-	if (0x00 != iicbuf[1]      ||       // PREAMBLE
-			0x00 != iicbuf[2]  ||       // STARTCODE1
+	if (0x00 != iicbuf[1] ||       // PREAMBLE
+			0x00 != iicbuf[2] ||       // STARTCODE1
 			0xFF != iicbuf[3]           // STARTCODE2
-		) {
+					) {
 
 		return PN532_INVALID_FRAME;
 	}
 
 	length = iicbuf[4];
 
-	if (length<1){
+	if (length < 1) {
 		printf("Could not get response length. %d\n", length);
 		return -1;
 	}
 
-
-	if (0 != (uint8_t)(length + iicbuf[5])) {   // checksum of length
+	if (0 != (uint8_t) (length + iicbuf[5])) {   // checksum of length
 		return PN532_INVALID_FRAME;
 	}
 
@@ -336,12 +372,12 @@ int16_t readResponse(int fd, uint8_t* buf, uint8_t len, uint16_t timeout) {
 
 	uint8_t sum = PN532_PN532TOHOST + cmd;
 	for (uint8_t i = 0; i < length; i++) {
-		buf[i] = iicbuf[8+i];
+		buf[i] = iicbuf[8 + i];
 		sum += buf[i];
 	}
 
-	uint8_t checksum = iicbuf[8+length];
-	if (0 != (uint8_t)(sum + checksum)) {
+	uint8_t checksum = iicbuf[8 + length];
+	if (0 != (uint8_t) (sum + checksum)) {
 		printf("Checksum invalid!\n");
 		return PN532_INVALID_FRAME;
 	}
@@ -349,358 +385,353 @@ int16_t readResponse(int fd, uint8_t* buf, uint8_t len, uint16_t timeout) {
 	return length;
 }
 
-
 //#############################################################################
 
-
 /**************************************************************************/
 /*!
-    @brief  Checks the firmware version of the PN5xx chip
+ @brief  Checks the firmware version of the PN5xx chip
 
-    @returns  The chip's firmware version and ID
-*/
+ @returns  The chip's firmware version and ID
+ */
 /**************************************************************************/
-uint32_t getFirmwareVersion(int fd)
-{
-    uint32_t response;
-    uint8_t pn532_packetbuffer[64];
-
-    pn532_packetbuffer[0] = PN532_COMMAND_GETFIRMWAREVERSION;
-
-    if (writeCommand(fd, pn532_packetbuffer, 1, NULL, 0)<0) {
-        return 0;
-    }
-
-
-    // read data packet
-    int16_t status = readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer), 1000);
-    if (0 > status) {
-        return 0;
-    }
-
-
-    response = pn532_packetbuffer[0];
-    response <<= 8;
-    response |= pn532_packetbuffer[1];
-    response <<= 8;
-    response |= pn532_packetbuffer[2];
-    response <<= 8;
-    response |= pn532_packetbuffer[3];
-
-    return response;
-}
-
-/**************************************************************************/
-/*!
-    @brief  Configures the SAM (Secure Access Module)
-*/
-/**************************************************************************/
-uint8_t SAMConfig(int fd)
-{
+uint32_t getFirmwareVersion(int fd) {
+	uint32_t response;
 	uint8_t pn532_packetbuffer[64];
-    pn532_packetbuffer[0] = PN532_COMMAND_SAMCONFIGURATION;
-    pn532_packetbuffer[1] = 0x01; // normal mode;
-    pn532_packetbuffer[2] = 0x14; // timeout 50ms * 20 = 1 second
-    pn532_packetbuffer[3] = 0x01; // use IRQ pin!
 
-    if (writeCommand(fd, pn532_packetbuffer, 4, NULL, 0))
-        return 0;
+	pn532_packetbuffer[0] = PN532_COMMAND_GETFIRMWAREVERSION;
 
-    int success =  readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer), 1000);
-
-    if (0 > success) {
+	if (writeCommand(fd, pn532_packetbuffer, 1, NULL, 0) < 0) {
 		return 0;
 	}
 
-    return 0 < success;
+	// read data packet
+	int16_t status = readResponse(fd, pn532_packetbuffer,
+			sizeof(pn532_packetbuffer), 1000);
+	if (0 > status) {
+		return 0;
+	}
+
+	response = pn532_packetbuffer[0];
+	response <<= 8;
+	response |= pn532_packetbuffer[1];
+	response <<= 8;
+	response |= pn532_packetbuffer[2];
+	response <<= 8;
+	response |= pn532_packetbuffer[3];
+
+	return response;
 }
 
 /**************************************************************************/
 /*!
-    Sets the MxRtyPassiveActivation uint8_t of the RFConfiguration register
-
-    @param  maxRetries    0xFF to wait forever, 0x00..0xFE to timeout
-                          after mxRetries
-
-    @returns 1 if everything executed properly, 0 for an error
-*/
+ @brief  Configures the SAM (Secure Access Module)
+ */
 /**************************************************************************/
-uint8_t setPassiveActivationRetries(int fd, uint8_t maxRetries)
-{
+uint8_t SAMConfig(int fd) {
 	uint8_t pn532_packetbuffer[64];
-    pn532_packetbuffer[0] = PN532_COMMAND_RFCONFIGURATION;
-    pn532_packetbuffer[1] = 5;    // Config item 5 (MaxRetries)
-    pn532_packetbuffer[2] = 0xFF; // MxRtyATR (default = 0xFF)
-    pn532_packetbuffer[3] = 0x01; // MxRtyPSL (default = 0x01)
-    pn532_packetbuffer[4] = maxRetries;
+	pn532_packetbuffer[0] = PN532_COMMAND_SAMCONFIGURATION;
+	pn532_packetbuffer[1] = 0x01; // normal mode;
+	pn532_packetbuffer[2] = 0x14; // timeout 50ms * 20 = 1 second
+	pn532_packetbuffer[3] = 0x01; // use IRQ pin!
 
-    if (writeCommand(fd, pn532_packetbuffer, 5, NULL, 0))
+	if (writeCommand(fd, pn532_packetbuffer, 4, NULL, 0))
 		return 0;
 
-	return (0 < readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer), 1000));
+	int success = readResponse(fd, pn532_packetbuffer,
+			sizeof(pn532_packetbuffer), 1000);
+
+	if (0 > success) {
+		return 0;
+	}
+
+	return 0 < success;
 }
 
 /**************************************************************************/
 /*!
-    Sets the RFon/off uint8_t of the RFConfiguration register
+ Sets the MxRtyPassiveActivation uint8_t of the RFConfiguration register
 
-    @param  autoRFCA    0x00 No check of the external field before
-                        activation
+ @param  maxRetries    0xFF to wait forever, 0x00..0xFE to timeout
+ after mxRetries
 
-                        0x02 Check the external field before
-                        activation
-
-    @param  rFOnOff     0x00 Switch the RF field off, 0x01 switch the RF
-                        field on
-
-    @returns    1 if everything executed properly, 0 for an error
-*/
+ @returns 1 if everything executed properly, 0 for an error
+ */
 /**************************************************************************/
-uint8_t setRFField(int fd, uint8_t autoRFCA, uint8_t rFOnOff)
-{
+uint8_t setPassiveActivationRetries(int fd, uint8_t maxRetries) {
 	uint8_t pn532_packetbuffer[64];
-    pn532_packetbuffer[0] = PN532_COMMAND_RFCONFIGURATION;
-    pn532_packetbuffer[1] = 1;
-    pn532_packetbuffer[2] = 0x00 | autoRFCA | rFOnOff;
+	pn532_packetbuffer[0] = PN532_COMMAND_RFCONFIGURATION;
+	pn532_packetbuffer[1] = 5;    // Config item 5 (MaxRetries)
+	pn532_packetbuffer[2] = 0xFF; // MxRtyATR (default = 0xFF)
+	pn532_packetbuffer[3] = 0x01; // MxRtyPSL (default = 0x01)
+	pn532_packetbuffer[4] = maxRetries;
 
-    if (writeCommand(fd, pn532_packetbuffer, 3, NULL, 0))
+	if (writeCommand(fd, pn532_packetbuffer, 5, NULL, 0))
 		return 0;
 
-	return (0 < readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer), 1000));
+	return (0
+			< readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer),
+					1000));
+}
+
+/**************************************************************************/
+/*!
+ Sets the RFon/off uint8_t of the RFConfiguration register
+
+ @param  autoRFCA    0x00 No check of the external field before
+ activation
+
+ 0x02 Check the external field before
+ activation
+
+ @param  rFOnOff     0x00 Switch the RF field off, 0x01 switch the RF
+ field on
+
+ @returns    1 if everything executed properly, 0 for an error
+ */
+/**************************************************************************/
+uint8_t setRFField(int fd, uint8_t autoRFCA, uint8_t rFOnOff) {
+	uint8_t pn532_packetbuffer[64];
+	pn532_packetbuffer[0] = PN532_COMMAND_RFCONFIGURATION;
+	pn532_packetbuffer[1] = 1;
+	pn532_packetbuffer[2] = 0x00 | autoRFCA | rFOnOff;
+
+	if (writeCommand(fd, pn532_packetbuffer, 3, NULL, 0))
+		return 0;
+
+	return (0
+			< readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer),
+					1000));
 }
 
 /***** ISO14443A Commands ******/
 
 /**************************************************************************/
 /*!
-    Waits for an ISO14443A target to enter the field
+ Waits for an ISO14443A target to enter the field
 
-    @param  cardBaudRate  Baud rate of the card
-    @param  uid           Pointer to the array that will be populated
-                          with the card's UID (up to 7 bytes)
-    @param  uidLength     Pointer to the variable that will hold the
-                          length of the card's UID.
+ @param  cardBaudRate  Baud rate of the card
+ @param  uid           Pointer to the array that will be populated
+ with the card's UID (up to 7 bytes)
+ @param  uidLength     Pointer to the variable that will hold the
+ length of the card's UID.
 
-    @returns 1 if everything executed properly, 0 for an error
-*/
+ @returns 1 if everything executed properly, 0 for an error
+ */
 /**************************************************************************/
-uint8_t readPassiveTargetID(int fd, uint8_t cardbaudrate, uint8_t *uid, uint8_t *uidLength, uint16_t timeout)
-{
+uint8_t readPassiveTargetID(int fd, uint8_t cardbaudrate, uint8_t *uid,
+		uint8_t *uidLength, uint16_t timeout) {
 	uint8_t pn532_packetbuffer[64];
-    pn532_packetbuffer[0] = PN532_COMMAND_INLISTPASSIVETARGET;
-    pn532_packetbuffer[1] = 1;  // max 1 cards at once (we can set this to 2 later)
-    pn532_packetbuffer[2] = cardbaudrate;
+	pn532_packetbuffer[0] = PN532_COMMAND_INLISTPASSIVETARGET;
+	pn532_packetbuffer[1] = 1; // max 1 cards at once (we can set this to 2 later)
+	pn532_packetbuffer[2] = cardbaudrate;
 
-
-    if (writeCommand(fd, pn532_packetbuffer, 3, NULL, 0))
+	if (writeCommand(fd, pn532_packetbuffer, 3, NULL, 0))
 		return 0;
 
-    // read data packet
-    if (readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer), timeout) < 0) {
-        return 0x0;
-    }
+	// read data packet
+	if (readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer),
+			timeout) < 0) {
+		return 0x0;
+	}
 
-    // check some basic stuff
-    /* ISO14443A card response should be in the following format:
+	// check some basic stuff
+	/* ISO14443A card response should be in the following format:
 
-      byte            Description
-      -------------   ------------------------------------------
-      b0              Tags Found
-      b1              Tag Number (only one used in this example)
-      b2..3           SENS_RES
-      b4              SEL_RES
-      b5              NFCID Length
-      b6..NFCIDLen    NFCID
-    */
+	 byte            Description
+	 -------------   ------------------------------------------
+	 b0              Tags Found
+	 b1              Tag Number (only one used in this example)
+	 b2..3           SENS_RES
+	 b4              SEL_RES
+	 b5              NFCID Length
+	 b6..NFCIDLen    NFCID
+	 */
 
-    if (pn532_packetbuffer[0] != 1)
-        return 0;
+	if (pn532_packetbuffer[0] != 1)
+		return 0;
 
-    uint16_t sens_res = pn532_packetbuffer[2];
-    sens_res <<= 8;
-    sens_res |= pn532_packetbuffer[3];
+	uint16_t sens_res = pn532_packetbuffer[2];
+	sens_res <<= 8;
+	sens_res |= pn532_packetbuffer[3];
 
+	/* Card appears to be Mifare Classic */
+	*uidLength = pn532_packetbuffer[5];
 
-    /* Card appears to be Mifare Classic */
-    *uidLength = pn532_packetbuffer[5];
+	for (uint8_t i = 0; i < pn532_packetbuffer[5]; i++) {
+		uid[i] = pn532_packetbuffer[6 + i];
+	}
 
-    for (uint8_t i = 0; i < pn532_packetbuffer[5]; i++) {
-        uid[i] = pn532_packetbuffer[6 + i];
-    }
-
-    return 1;
+	return 1;
 }
 
 /***** Mifare Classic Functions ******/
 
 /**************************************************************************/
 /*!
-      Indicates whether the specified block number is the first block
-      in the sector (block 0 relative to the current sector)
-*/
+ Indicates whether the specified block number is the first block
+ in the sector (block 0 relative to the current sector)
+ */
 /**************************************************************************/
-uint8_t mifareclassic_IsFirstBlock (uint32_t uiBlock)
-{
-    // Test if we are in the small or big sectors
-    if (uiBlock < 128)
-        return ((uiBlock) % 4 == 0);
-    else
-        return ((uiBlock) % 16 == 0);
+uint8_t mifareclassic_IsFirstBlock(uint32_t uiBlock) {
+	// Test if we are in the small or big sectors
+	if (uiBlock < 128)
+		return ((uiBlock) % 4 == 0);
+	else
+		return ((uiBlock) % 16 == 0);
 }
 
 /**************************************************************************/
 /*!
-      Indicates whether the specified block number is the sector trailer
-*/
+ Indicates whether the specified block number is the sector trailer
+ */
 /**************************************************************************/
-uint8_t mifareclassic_IsTrailerBlock (uint32_t uiBlock)
-{
-    // Test if we are in the small or big sectors
-    if (uiBlock < 128)
-        return ((uiBlock + 1) % 4 == 0);
-    else
-        return ((uiBlock + 1) % 16 == 0);
+uint8_t mifareclassic_IsTrailerBlock(uint32_t uiBlock) {
+	// Test if we are in the small or big sectors
+	if (uiBlock < 128)
+		return ((uiBlock + 1) % 4 == 0);
+	else
+		return ((uiBlock + 1) % 16 == 0);
 }
-
 
 /**************************************************************************/
 /*!
-    Tries to authenticate a block of memory on a MIFARE card using the
-    INDATAEXCHANGE command.  See section 7.3.8 of the PN532 User Manual
-    for more information on sending MIFARE and other commands.
+ Tries to authenticate a block of memory on a MIFARE card using the
+ INDATAEXCHANGE command.  See section 7.3.8 of the PN532 User Manual
+ for more information on sending MIFARE and other commands.
 
-    @param  uid           Pointer to a byte array containing the card UID
-    @param  uidLen        The length (in bytes) of the card's UID (Should
-                          be 4 for MIFARE Classic)
-    @param  blockNumber   The block number to authenticate.  (0..63 for
-                          1KB cards, and 0..255 for 4KB cards).
-    @param  keyNumber     Which key type to use during authentication
-                          (0 = MIFARE_CMD_AUTH_A, 1 = MIFARE_CMD_AUTH_B)
-    @param  keyData       Pointer to a byte array containing the 6 bytes
-                          key value
+ @param  uid           Pointer to a byte array containing the card UID
+ @param  uidLen        The length (in bytes) of the card's UID (Should
+ be 4 for MIFARE Classic)
+ @param  blockNumber   The block number to authenticate.  (0..63 for
+ 1KB cards, and 0..255 for 4KB cards).
+ @param  keyNumber     Which key type to use during authentication
+ (0 = MIFARE_CMD_AUTH_A, 1 = MIFARE_CMD_AUTH_B)
+ @param  keyData       Pointer to a byte array containing the 6 bytes
+ key value
 
-    @returns 1 if everything executed properly, 0 for an error
-*/
+ @returns 1 if everything executed properly, 0 for an error
+ */
 /**************************************************************************/
-uint8_t mifareclassic_AuthenticateBlock (int fd, uint8_t *uid, uint8_t uidLen, uint32_t blockNumber, uint8_t keyNumber, uint8_t *keyData)
-{
-    uint8_t i;
-    uint8_t pn532_packetbuffer[64];
+uint8_t mifareclassic_AuthenticateBlock(int fd, uint8_t *uid, uint8_t uidLen,
+		uint32_t blockNumber, uint8_t keyNumber, uint8_t *keyData) {
+	uint8_t i;
+	uint8_t pn532_packetbuffer[64];
 
-    uint8_t _uid[7];  // ISO14443A uid
+	uint8_t _uid[7];  // ISO14443A uid
 	uint8_t _uidLen;  // uid len
 	uint8_t _key[6];  // Mifare Classic key
 
-    // Hang on to the key and uid data
-    memcpy (_key, keyData, 6);
-    memcpy (_uid, uid, uidLen);
-    _uidLen = uidLen;
+	// Hang on to the key and uid data
+	memcpy(_key, keyData, 6);
+	memcpy(_uid, uid, uidLen);
+	_uidLen = uidLen;
 
-    // Prepare the authentication command //
-    pn532_packetbuffer[0] = PN532_COMMAND_INDATAEXCHANGE;   /* Data Exchange Header */
-    pn532_packetbuffer[1] = 1;                              /* Max card numbers */
-    pn532_packetbuffer[2] = (keyNumber) ? MIFARE_CMD_AUTH_B : MIFARE_CMD_AUTH_A;
-    pn532_packetbuffer[3] = blockNumber;                    /* Block Number (1K = 0..63, 4K = 0..255 */
-    memcpy (pn532_packetbuffer + 4, _key, 6);
-    for (i = 0; i < _uidLen; i++) {
-        pn532_packetbuffer[10 + i] = _uid[i];              /* 4 bytes card ID */
-    }
+	// Prepare the authentication command //
+	pn532_packetbuffer[0] = PN532_COMMAND_INDATAEXCHANGE; /* Data Exchange Header */
+	pn532_packetbuffer[1] = 1; /* Max card numbers */
+	pn532_packetbuffer[2] = (keyNumber) ? MIFARE_CMD_AUTH_B : MIFARE_CMD_AUTH_A;
+	pn532_packetbuffer[3] = blockNumber; /* Block Number (1K = 0..63, 4K = 0..255 */
+	memcpy(pn532_packetbuffer + 4, _key, 6);
+	for (i = 0; i < _uidLen; i++) {
+		pn532_packetbuffer[10 + i] = _uid[i]; /* 4 bytes card ID */
+	}
 
+	if (writeCommand(fd, pn532_packetbuffer, 10 + _uidLen, NULL, 0))
+		return 0;
 
-    if (writeCommand(fd, pn532_packetbuffer, 10 + _uidLen, NULL, 0))
-        return 0;
+	// Read the response packet
+	readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer), 1000);
 
-    // Read the response packet
-    readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer), 1000);
+	// Check if the response is valid and we are authenticated???
+	// for an auth success it should be bytes 5-7: 0xD5 0x41 0x00
+	// Mifare auth error is technically byte 7: 0x14 but anything other and 0x00 is not good
+	if (pn532_packetbuffer[0] != 0x00) {
+		return 0;
+	}
 
-    // Check if the response is valid and we are authenticated???
-    // for an auth success it should be bytes 5-7: 0xD5 0x41 0x00
-    // Mifare auth error is technically byte 7: 0x14 but anything other and 0x00 is not good
-    if (pn532_packetbuffer[0] != 0x00) {
-        return 0;
-    }
-
-    return 1;
-}
-
-
-/**************************************************************************/
-/*!
-    Tries to read an entire 16-bytes data block at the specified block
-    address.
-
-    @param  blockNumber   The block number to authenticate.  (0..63 for
-                          1KB cards, and 0..255 for 4KB cards).
-    @param  data          Pointer to the byte array that will hold the
-                          retrieved data (if any)
-
-    @returns 1 if everything executed properly, 0 for an error
-*/
-/**************************************************************************/
-uint8_t mifareclassic_ReadDataBlock (int fd, uint8_t blockNumber, uint8_t *data)
-{
-	uint8_t pn532_packetbuffer[64];
-
-    /* Prepare the command */
-    pn532_packetbuffer[0] = PN532_COMMAND_INDATAEXCHANGE;
-    pn532_packetbuffer[1] = 1;                      /* Card number */
-    pn532_packetbuffer[2] = MIFARE_CMD_READ;        /* Mifare Read command = 0x30 */
-    pn532_packetbuffer[3] = blockNumber;            /* Block Number (0..63 for 1K, 0..255 for 4K) */
-
-    /* Send the command */
-    if (writeCommand(fd, pn532_packetbuffer, 4, NULL, 0)) {
-        return 0;
-    }
-
-    /* Read the response packet */
-    readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer), 1000);
-
-    /* If byte 8 isn't 0x00 we probably have an error */
-    if (pn532_packetbuffer[0] != 0x00) {
-        return 0;
-    }
-
-    /* Copy the 16 data bytes to the output buffer        */
-    /* Block content starts at byte 9 of a valid response */
-    memcpy (data, pn532_packetbuffer + 1, 16);
-
-    return 1;
+	return 1;
 }
 
 /**************************************************************************/
 /*!
-    Tries to write an entire 16-bytes data block at the specified block
-    address.
+ Tries to read an entire 16-bytes data block at the specified block
+ address.
 
-    @param  blockNumber   The block number to authenticate.  (0..63 for
-                          1KB cards, and 0..255 for 4KB cards).
-    @param  data          The byte array that contains the data to write.
+ @param  blockNumber   The block number to authenticate.  (0..63 for
+ 1KB cards, and 0..255 for 4KB cards).
+ @param  data          Pointer to the byte array that will hold the
+ retrieved data (if any)
 
-    @returns 1 if everything executed properly, 0 for an error
-*/
+ @returns 1 if everything executed properly, 0 for an error
+ */
 /**************************************************************************/
-uint8_t mifareclassic_WriteDataBlock (int fd, uint8_t blockNumber, uint8_t *data)
-{
+uint8_t mifareclassic_ReadDataBlock(int fd, uint8_t blockNumber, uint8_t *data) {
 	uint8_t pn532_packetbuffer[64];
 
-    /* Prepare the first command */
-    pn532_packetbuffer[0] = PN532_COMMAND_INDATAEXCHANGE;
-    pn532_packetbuffer[1] = 1;                      /* Card number */
-    pn532_packetbuffer[2] = MIFARE_CMD_WRITE;       /* Mifare Write command = 0xA0 */
-    pn532_packetbuffer[3] = blockNumber;            /* Block Number (0..63 for 1K, 0..255 for 4K) */
-    memcpy (pn532_packetbuffer + 4, data, 16);        /* Data Payload */
+	/* Prepare the command */
+	pn532_packetbuffer[0] = PN532_COMMAND_INDATAEXCHANGE;
+	pn532_packetbuffer[1] = 1; /* Card number */
+	pn532_packetbuffer[2] = MIFARE_CMD_READ; /* Mifare Read command = 0x30 */
+	pn532_packetbuffer[3] = blockNumber; /* Block Number (0..63 for 1K, 0..255 for 4K) */
 
-    /* Send the command */
-    if (writeCommand(fd, pn532_packetbuffer, 20, NULL, 0)) {
-        return 0;
-    }
+	/* Send the command */
+	if (writeCommand(fd, pn532_packetbuffer, 4, NULL, 0)) {
+		return 0;
+	}
 
-    /* Read the response packet */
-    return (0 < readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer), 1000));
+	/* Read the response packet */
+	readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer), 1000);
+
+	/* If byte 8 isn't 0x00 we probably have an error */
+	if (pn532_packetbuffer[0] != 0x00) {
+		return 0;
+	}
+
+	/* Copy the 16 data bytes to the output buffer        */
+	/* Block content starts at byte 9 of a valid response */
+	memcpy(data, pn532_packetbuffer + 1, 16);
+
+	return 1;
 }
 
+/**************************************************************************/
+/*!
+ Tries to write an entire 16-bytes data block at the specified block
+ address.
 
-int init(){
+ @param  blockNumber   The block number to authenticate.  (0..63 for
+ 1KB cards, and 0..255 for 4KB cards).
+ @param  data          The byte array that contains the data to write.
+
+ @returns 1 if everything executed properly, 0 for an error
+ */
+/**************************************************************************/
+uint8_t mifareclassic_WriteDataBlock(int fd, uint8_t blockNumber, uint8_t *data) {
+	uint8_t pn532_packetbuffer[64];
+
+	/* Prepare the first command */
+	pn532_packetbuffer[0] = PN532_COMMAND_INDATAEXCHANGE;
+	pn532_packetbuffer[1] = 1; /* Card number */
+	pn532_packetbuffer[2] = MIFARE_CMD_WRITE; /* Mifare Write command = 0xA0 */
+	pn532_packetbuffer[3] = blockNumber; /* Block Number (0..63 for 1K, 0..255 for 4K) */
+	memcpy(pn532_packetbuffer + 4, data, 16); /* Data Payload */
+
+	/* Send the command */
+	if (writeCommand(fd, pn532_packetbuffer, 20, NULL, 0)) {
+		return 0;
+	}
+
+	/* Read the response packet */
+	return (0
+			< readResponse(fd, pn532_packetbuffer, sizeof(pn532_packetbuffer),
+					1000));
+}
+
+/**
+ * Initializes the I2C bus and the GPIO Interrupt controller
+ * returns a file descriptor if successful, otherwise it returns -1
+ */
+int init() {
 	int fd;
 	command = 0;
 	if ((fd = open("/dev/i2c-1", O_RDWR)) < 0) {
@@ -712,19 +743,50 @@ int init(){
 	printf("Opened the bus\n");
 #endif
 
-	if (ioctl(fd,I2C_SLAVE_FORCE ,PN532_I2C_ADDRESS) < 0 ) {
+	if (ioctl(fd, I2C_SLAVE_FORCE, PN532_I2C_ADDRESS) < 0) {
 		printf("Failed to acquire bus access and/or talk to slave.\n");
 		/* ERROR HANDLING; you can check errno to see what went wrong */
 		return -1;
 	}
 #ifdef RFID_DEBUG
-	printf("Opened device \n");
+	printf("Opened i2c device\n");
 #endif
+
+	irq_fd = findDeviceByNameAndAddr(GPIO_NAME, GPIO_RFID_ADDRESS);
+	if (irq_fd < 0) {
+#ifdef RFID_DEBUG
+		printf("Could not open GPIO_INTR device\n");
+#endif
+		return -1;
+	}
+
+	irq_ptr = mmap(NULL, GPIO_MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED,
+			irq_fd, 0);
+	if (irq_ptr == NULL) {
+#ifdef RFID_DEBUG
+		printf("Could not mmap irq_ptr\n");
+#endif
+		return -1;
+	}
+
+	*((unsigned *) (irq_ptr + GPIO_TRI_OFFSET)) = 0xffffffff; //all inputs
+	*((unsigned *) (irq_ptr + GPIO_GLOBAL_IRQ)) = 0x80000000; //global enable interrupt
+	*((unsigned *) (irq_ptr + GPIO_IRQ_CONTROL)) = 0x00000001; //enable interrupt on channel 1
+	int irq_enable = 1;
+
+	write(irq_fd, (void *) &irq_enable, sizeof(int));
+
+#ifdef RFID_DEBUG
+	printf("Setup the irq gpio\n");
+#endif
+
 	return fd;
 }
-
-
+/**
+ * Returns a file descriptor if successful, otherwise it returns -1
+ */
 int initRFID() {
+	disable_irq=0;
 	int fd = init();
 	if (!fd) {
 		printf("Error opening device");
@@ -750,6 +812,18 @@ int initRFID() {
 
 	return fd;
 
+}
+/**
+ * Closes the opened file descriptors and unmaps memory
+ */
+void closeRFID(int fd) {
+	disable_irq=1;
+	if (fd > 0)
+		close(fd);
+	if (irq_ptr != NULL)
+		munmap(irq_ptr, GPIO_MAP_SIZE);
+	if (irq_fd > 0)
+		close(irq_fd);
 }
 
 #endif

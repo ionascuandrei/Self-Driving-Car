@@ -1,7 +1,7 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
-// Date        : Fri Apr  5 20:08:32 2019
+// Date        : Thu Apr 18 14:38:46 2019
 // Host        : catabit-UX430UAR running 64-bit Ubuntu 16.04.6 LTS
 // Command     : write_verilog -force -mode funcsim -rename_top design_1_xlconcat_0_0 -prefix
 //               design_1_xlconcat_0_0_ design_1_xlconcat_0_0_sim_netlist.v
@@ -16,12 +16,20 @@
 (* NotValidForBitStream *)
 module design_1_xlconcat_0_0
    (In0,
+    In1,
+    In2,
     dout);
   input [0:0]In0;
-  output [0:0]dout;
+  input [0:0]In1;
+  input [0:0]In2;
+  output [2:0]dout;
 
   wire [0:0]In0;
+  wire [0:0]In1;
+  wire [0:0]In2;
 
+  assign dout[2] = In2;
+  assign dout[1] = In1;
   assign dout[0] = In0;
 endmodule
 `ifndef GLBL

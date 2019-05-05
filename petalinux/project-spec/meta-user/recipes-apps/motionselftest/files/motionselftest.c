@@ -1,3 +1,8 @@
+/**
+ * This application is a self-test routine for the
+ * devices /dev/motors and /dev/servo and can be used
+ * as a refference for their use modes.
+ */
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>

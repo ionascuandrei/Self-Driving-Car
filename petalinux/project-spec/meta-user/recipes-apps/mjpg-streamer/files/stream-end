@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "Sending SIGINT(2) to mjpg-streamer"
+kill -2 `pidof mjpg-streamer`

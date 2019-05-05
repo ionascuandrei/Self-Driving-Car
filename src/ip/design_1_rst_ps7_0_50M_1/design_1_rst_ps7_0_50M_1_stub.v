@@ -1,7 +1,7 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2017.4 (lin64) Build 2086221 Fri Dec 15 20:54:30 MST 2017
-// Date        : Mon Mar 11 17:04:13 2019
+// Date        : Thu Apr 11 12:27:14 2019
 // Host        : catabit-UX430UAR running 64-bit Ubuntu 16.04.6 LTS
 // Command     : write_verilog -force -mode synth_stub -rename_top design_1_rst_ps7_0_50M_1 -prefix
 //               design_1_rst_ps7_0_50M_1_ design_1_rst_ps7_0_50M_1_stub.v

@@ -20,6 +20,7 @@ struct Node {
 struct cardQueue {
 	struct Node *head;
 	struct Node *last;
+	uint32_t lastUID;
 };
 
 /**
@@ -28,7 +29,7 @@ struct cardQueue {
 int insertCard(struct cardQueue *q, struct card *card) {
 #ifdef CHECKDUPLICATES
 	if (q->last != NULL){
-		if (card->UID == q->last->card->UID){
+		if (card->UID == q->lastUID){
 #ifdef RFID_DEBUG
 			printf("##### DUPLICATE\n");
 #endif
@@ -43,13 +44,18 @@ int insertCard(struct cardQueue *q, struct card *card) {
 	if (q->head == NULL) {
 		q->head = newnode;
 		q->last = newnode;
+		q->lastUID = newnode->card->UID;
 		return 1;
 	}
 	q->last->next = newnode;
 	q->last = newnode;
+	q->lastUID = newnode->card->UID;
 	return 1;
 }
 
+/**
+ * Gets the top card in the queue
+ */
 struct card *getCard(struct cardQueue *q) {
 	if (q->head == NULL)
 		return NULL;
@@ -57,15 +63,23 @@ struct card *getCard(struct cardQueue *q) {
 	return q->head->card;
 }
 
+/**
+ * Gets the top card in the queue and removes it
+ */
 struct card *popCard(struct cardQueue *q) {
 	if (q->head == NULL)
 		return NULL;
 
 	struct Node *result = q->head;
 	q->head = q->head->next;
+	if (q->head == NULL)
+		q->lastUID = 0;
 	return result->card;
 }
 
+/**
+ * Creates a new cardQueue object
+ */
 void createCardQueue(struct cardQueue **q) {
 	if ((*q) != NULL)
 		return;
@@ -73,8 +87,12 @@ void createCardQueue(struct cardQueue **q) {
 	(*q) = malloc(sizeof(struct cardQueue));
 	(*q)->head = NULL;
 	(*q)->last = NULL;
+	(*q)->lastUID = 0;
 }
 
+/**
+ * Helper function used in freeing memory
+ */
 static void freeNodes(struct Node *node){
 	if (!node)
 		return;
@@ -87,12 +105,16 @@ static void freeNodes(struct Node *node){
 	free(node);
 }
 
+/**
+ * Frees the allocated meemory for the cardQueue
+ */
 void freeCardQueue(struct cardQueue *q){
 	freeNodes(q->head);
 	q->head=NULL;
 	q->last=NULL;
 }
 
+// DEBUG FUNCTIONS
 
 void printcard(struct card card) {
 	printf("Card UID: %d, type: %d\n", card.UID, card.type);

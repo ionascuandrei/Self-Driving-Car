@@ -1,0 +1,3 @@
+#!/bin/sh
+mjpg-streamer -i '/usr/bin/mjpg-modules/input_file.so -d 0 -f /etc -n mjpg-stream.jpg' -o '/usr/bin/mjpg-modules/output_http.so -w ./www/' &
+echo "mjpg-streamer started as a background task. Please use 'stream-end' to close it."
